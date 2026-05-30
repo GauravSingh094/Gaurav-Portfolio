@@ -215,12 +215,11 @@ export default function AIAssistant() {
 
         <button
           onClick={() => setIsOpen(true)}
-          className="w-16 h-16 rounded-full bg-[#0c0c11]/85 border border-cyan-500/35 backdrop-blur-md flex flex-col items-center justify-center cursor-pointer shadow-[0_0_30px_rgba(6,182,212,0.25)] hover:border-cyan-400 hover:scale-105 active:scale-95 transition-all duration-300 group"
+          className="w-16 h-16 rounded-full bg-[#0c0c11]/85 border border-cyan-500/35 backdrop-blur-md flex flex-col items-center justify-center cursor-pointer shadow-[0_0_30px_rgba(6,182,212,0.25)] hover:border-cyan-400 hover:scale-105 active:scale-95 transition-all duration-300 group overflow-hidden"
         >
           {/* Subtle heartbeat pulse effect */}
           <span className="absolute inset-0 rounded-full border border-cyan-500/25 animate-ping opacity-60 pointer-events-none" />
-          <Bot className="text-cyan-400 group-hover:scale-110 transition-transform duration-300 animate-pulse" size={24} />
-          <span className="text-[8px] font-mono text-cyan-300 tracking-wider uppercase leading-none mt-1 group-hover:text-white transition-colors">AI</span>
+          <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
         </button>
       </div>
 
@@ -245,8 +244,8 @@ export default function AIAssistant() {
               {/* Chat Panel Header */}
               <div className="relative z-10 px-6 py-5 border-b border-neutral-900 bg-neutral-950/40 flex items-center justify-between flex-shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-cyan-950/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                    <Bot size={20} className="animate-spin" style={{ animationDuration: '4s' }} />
+                  <div className="w-10 h-10 rounded-full border border-cyan-500/30 overflow-hidden flex-shrink-0">
+                    <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
                   </div>
                   <div>
                     <h4 className="text-white text-xs font-mono font-black uppercase tracking-wider leading-none">DIGITAL_TWIN // GAURAV</h4>
@@ -269,8 +268,8 @@ export default function AIAssistant() {
                     <div key={index} className="space-y-3">
                       <div className={`flex items-start gap-3 ${isBot ? 'justify-start' : 'justify-end'}`}>
                         {isBot && (
-                          <div className="w-7 h-7 rounded-full bg-neutral-900 border border-cyan-500/25 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0">
-                            <Bot size={13} />
+                          <div className="w-7 h-7 rounded-full border border-cyan-500/25 overflow-hidden flex-shrink-0">
+                            <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
                           </div>
                         )}
                         <div className={`max-w-[80%] rounded-2xl px-4.5 py-3.5 text-xs leading-relaxed whitespace-pre-wrap ${
@@ -327,8 +326,8 @@ export default function AIAssistant() {
                 {/* Typing Loader animation */}
                 {isTyping && (
                   <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-full bg-neutral-900 border border-cyan-500/25 flex items-center justify-center text-cyan-400 text-xs">
-                      <Bot size={13} />
+                    <div className="w-7 h-7 rounded-full border border-cyan-500/25 overflow-hidden flex-shrink-0">
+                      <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
                     </div>
                     <div className="bg-neutral-950/80 border border-neutral-900 rounded-2xl px-5 py-3.5 flex gap-1 items-center">
                       <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
