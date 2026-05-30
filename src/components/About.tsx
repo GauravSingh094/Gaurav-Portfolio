@@ -28,10 +28,10 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-800 tracking-tighter uppercase leading-none"
+              className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white/30 to-neutral-800/10 tracking-tighter uppercase leading-none"
             >
               GAURAV<br />
-              <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>SINGH</span>
+              <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)' }}>SINGH</span>
             </motion.h2>
           </div>
 
@@ -52,9 +52,8 @@ export default function About() {
 
               {/* Status Badge */}
               <div className="flex items-center gap-2.5 bg-neutral-950/80 border border-neutral-900 px-4 py-2 rounded-full w-fit mb-10">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+                <span className="relative flex h-2 w-2">
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500/60"></span>
                 </span>
                 <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-semibold">
                   SYS_STATUS // ACTIVE DEV INQUIRIES

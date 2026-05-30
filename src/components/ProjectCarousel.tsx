@@ -1,10 +1,26 @@
 'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Github, ExternalLink } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { Github, ExternalLink } from 'lucide-react';
 
 export default function ProjectCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  // Storing tilt coordinates for interactive 3D effect
+  const [tilt1, setTilt1] = useState({ x: 0, y: 0 });
+  const [tilt2, setTilt2] = useState({ x: 0, y: 0 });
+  const [tilt3, setTilt3] = useState({ x: 0, y: 0 });
+  const [tilt4, setTilt4] = useState({ x: 0, y: 0 });
+  const [tilt5, setTilt5] = useState({ x: 0, y: 0 });
+
+  const tilts = [tilt1, tilt2, tilt3, tilt4, tilt5];
+  const setTilts = [setTilt1, setTilt2, setTilt3, setTilt4, setTilt5];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const projects = [
     {
@@ -13,11 +29,14 @@ export default function ProjectCarousel() {
       stack: "Next.js, Node.js, WebSockets, Monaco Editor, Docker, TypeScript",
       desc: "A real-time multiplayer code dueling platform where developers race to solve programmatic challenges. Built with Monaco Editor synchronization, sandboxed Docker compilation containers, dynamic matchmaking, and real-time Elo-based lobbies.",
       highlights: [
-        "Interactive collaborative code editor powered by integrated Monaco Editor suites",
-        "Bidirectional low-latency room communication using custom Socket.io protocols",
-        "Secure remote execution of code blocks inside isolated Docker build microservices",
-        "Elo rating matching queues, live leaderboards, and instant spectator modes"
+        "Monaco Editor sync powered by integrated dual suites",
+        "Low-latency Room Sync using custom Socket.io protocols",
+        "Sandboxed Execution inside isolated Docker compile environments",
+        "Elo rating queues, live leaderboards, and instant spectator systems"
       ],
+      glow: "rgba(6, 182, 212, 0.06)", // Cyan
+      badge: "rgba(6, 182, 212, 0.2)",
+      textColor: "text-cyan-400",
       github: "https://github.com/GauravSingh094/Syntax-Showdown",
       live: ""
     },
@@ -27,11 +46,14 @@ export default function ProjectCarousel() {
       stack: "React.js, JavaScript, Tailwind CSS, EmailJS, React Icons, Netlify, Vercel",
       desc: "A premium hospitality booking web application designed for Kingsukh Guest House. It provides a fluid, responsive client-facing catalog, interactive map navigations, elegant room selectors, and automated EmailJS inquiry templates that drive reservations.",
       highlights: [
-        "Interactive reservation inquiries using integrated secure EmailJS mailing APIs",
-        "Fluid cross-device responsiveness optimizing visual hierarchy on mobile and desktop",
-        "Strategic local search engine discoverability and automated metadata mapping",
-        "Vibrant visual room portfolios, interactive locations, and direct-connect social channels"
+        "Reservation inquires using secure EmailJS mailing APIs",
+        "Fluid cross-device composition optimizing visual hierarchy",
+        "Strategic local discoverability and metadata indexing systems",
+        "Visual room catalogs, map navigation, and direct social channels"
       ],
+      glow: "rgba(245, 158, 11, 0.06)", // Amber
+      badge: "rgba(245, 158, 11, 0.2)",
+      textColor: "text-amber-400",
       github: "https://github.com/GauravSingh094/kingsukh-guesthouse-website",
       live: "https://kingsukh-guesthouse-website.vercel.app/"
     },
@@ -41,11 +63,14 @@ export default function ProjectCarousel() {
       stack: "Next.js, Firebase, TypeScript, Tailwind CSS",
       desc: "Scalable quiz platform designed for high participation, secure quiz flow, live leaderboard updates, and admin-level control.",
       highlights: [
-        "High-performance architecture supporting concurrent real-time participants",
-        "Real-time scoreboard syncing with Firebase real-time database layers",
-        "Robust tab-switching anti-cheat triggers and custom session validation",
-        "Granular administrative controls for live question release and pacing"
+        "High-performance architecture supporting concurrent participants",
+        "Real-time scoreboard syncing with Firebase database layers",
+        "Anti-cheat triggers and custom session validation hooks",
+        "Administrative controls for live question release pacing"
       ],
+      glow: "rgba(20, 184, 166, 0.06)", // Teal
+      badge: "rgba(20, 184, 166, 0.2)",
+      textColor: "text-teal-400",
       github: "https://github.com/GauravSingh094",
       live: ""
     },
@@ -55,11 +80,14 @@ export default function ProjectCarousel() {
       stack: "Spring Boot, Spring MVC, Spring Data JPA, Thymeleaf, MySQL, Maven",
       desc: "Full-stack Java application for managing pet clinic workflows including owners, veterinarians, appointments, and data persistence.",
       highlights: [
-        "Layered Enterprise MVC architecture separating data, controllers, and pages",
-        "JPA/Hibernate ORM integration with high-efficiency custom MySQL queries",
-        "Structured server-side UI rendering using modern semantic layout frames",
-        "Extensive Maven dependencies setup with complete database integration testing"
+        "Layered Enterprise MVC architecture separating clean scopes",
+        "JPA/Hibernate integration with high-efficiency SQL mappings",
+        "Structured server-side UI rendering with semantic elements",
+        "Extensive Maven dependencies setup with complete testing structures"
       ],
+      glow: "rgba(16, 185, 129, 0.06)", // Emerald
+      badge: "rgba(16, 185, 129, 0.2)",
+      textColor: "text-emerald-400",
       github: "https://github.com/GauravSingh094",
       live: ""
     },
@@ -69,177 +97,337 @@ export default function ProjectCarousel() {
       stack: "Flutter, Dart, Firebase, Machine Learning, YouTube API",
       desc: "Emotion-based music player application that personalizes the listening experience by detecting the user’s mood and recommending songs accordingly.",
       highlights: [
-        "Intelligent real-time facial expression tracking for emotion detection",
-        "Personalized music curation based on mood detection metrics",
-        "Seamless streaming integration with official public YouTube audio APIs",
-        "Vibrant cross-platform design providing premium fluid micro-interactions"
+        "Facial expression analysis for emotion detection models",
+        "Personalized music curation based on mood tracking matrices",
+        "Streaming integration with public YouTube audio APIs",
+        "Fluid cross-platform design offering responsive styling grids"
       ],
+      glow: "rgba(99, 102, 241, 0.06)", // Indigo
+      badge: "rgba(99, 102, 241, 0.2)",
+      textColor: "text-indigo-400",
       github: "https://github.com/GauravSingh094",
       live: ""
     }
   ];
 
-  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % projects.length);
-  const prevSlide = () => setCurrentIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const idx = Math.min(projects.length - 1, Math.floor(latest * projects.length));
+    setActiveIndex(idx);
+  });
+
+  // Calculate distinct scroll-linked transforms for desktop stacked look statically at top-level to comply with Rules of Hooks
+  // We clamp all input ranges strictly within [0.0, 1.0] to prevent Web Animations API offset exceptions
+  const opacity0 = useTransform(scrollYProgress, [0.0, 0.02, 0.18, 0.2], [0, 1, 1, 0]);
+  const scale0 = useTransform(scrollYProgress, [0.0, 0.02, 0.18, 0.2], [0.92, 1, 1, 0.95]);
+  const y0 = useTransform(scrollYProgress, [0.0, 0.02, 0.18, 0.2], [150, 0, 0, -40]);
+
+  const opacity1 = useTransform(scrollYProgress, [0.12, 0.2, 0.38, 0.4], [0, 1, 1, 0]);
+  const scale1 = useTransform(scrollYProgress, [0.12, 0.2, 0.38, 0.4], [0.92, 1, 1, 0.95]);
+  const y1 = useTransform(scrollYProgress, [0.12, 0.2, 0.38, 0.4], [150, 0, 0, -40]);
+
+  const opacity2 = useTransform(scrollYProgress, [0.32, 0.4, 0.58, 0.6], [0, 1, 1, 0]);
+  const scale2 = useTransform(scrollYProgress, [0.32, 0.4, 0.58, 0.6], [0.92, 1, 1, 0.95]);
+  const y2 = useTransform(scrollYProgress, [0.32, 0.4, 0.58, 0.6], [150, 0, 0, -40]);
+
+  const opacity3 = useTransform(scrollYProgress, [0.52, 0.6, 0.78, 0.8], [0, 1, 1, 0]);
+  const scale3 = useTransform(scrollYProgress, [0.52, 0.6, 0.78, 0.8], [0.92, 1, 1, 0.95]);
+  const y3 = useTransform(scrollYProgress, [0.52, 0.6, 0.78, 0.8], [150, 0, 0, -40]);
+
+  const opacity4 = useTransform(scrollYProgress, [0.72, 0.8, 1.0, 1.0], [0, 1, 1, 1]);
+  const scale4 = useTransform(scrollYProgress, [0.72, 0.8, 1.0, 1.0], [0.92, 1, 1, 1]);
+  const y4 = useTransform(scrollYProgress, [0.72, 0.8, 1.0, 1.0], [150, 0, 0, 0]);
+
+  const cardAnimations = [
+    { opacity: opacity0, scale: scale0, y: y0 },
+    { opacity: opacity1, scale: scale1, y: y1 },
+    { opacity: opacity2, scale: scale2, y: y2 },
+    { opacity: opacity3, scale: scale3, y: y3 },
+    { opacity: opacity4, scale: scale4, y: y4 }
+  ];
+
+  const handleMouseMove = (index: number, e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const y = e.clientY - box.top;
+    const px = x / box.width - 0.5;
+    const py = y / box.height - 0.5;
+    
+    setTilts[index]({ x: px * 10, y: -py * 10 });
+  };
+
+  const handleMouseLeave = (index: number) => {
+    setTilts[index]({ x: 0, y: 0 });
+  };
 
   return (
-    <section id="work" className="relative z-20 bg-[#0a0a0a] py-40 px-6 md:px-12 lg:px-24 overflow-hidden border-t border-neutral-900 border-dashed">
-      <div className="max-w-screen-2xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-neutral-800 pb-12 mb-16 gap-8 md:gap-0"
-        >
-          <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-800 tracking-tighter uppercase leading-none">
-            My Work
-          </h2>
-          <div className="flex gap-4">
-            <button onClick={prevSlide} className="w-16 h-16 rounded-full border border-neutral-700 flex items-center justify-center text-white hover:bg-cyan-400 hover:text-[#0a0a0a] hover:border-cyan-400 transition-all cursor-hover group">
-              <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
-            </button>
-            <button onClick={nextSlide} className="w-16 h-16 rounded-full border border-neutral-700 flex items-center justify-center text-white hover:bg-cyan-400 hover:text-[#0a0a0a] hover:border-cyan-400 transition-all cursor-hover group">
-              <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </motion.div>
-        
-        <div className="relative min-h-[650px] flex items-center">
+    <section 
+      id="work" 
+      ref={containerRef}
+      className="relative z-20 bg-[#050507] w-full min-h-[500vh] overflow-visible border-t border-neutral-900 border-dashed"
+    >
+      {/* 1. Desktop Stacked Scroll Cinematic Experience */}
+      {mounted && (
+        <div className="sticky top-0 h-screen w-full hidden lg:flex items-center justify-center overflow-hidden">
           
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={currentIndex}
-              initial={{ opacity: 0, filter: 'blur(10px)', scale: 0.95 }}
-              animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
-              exit={{ opacity: 0, filter: 'blur(10px)', scale: 1.05 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 w-full"
-            >
-              {/* Left Content */}
-              <div className="lg:col-span-5 flex flex-col justify-center">
-                <span className="text-8xl font-black text-neutral-800 mb-8 font-mono tracking-tighter leading-none select-none">
-                  {(currentIndex + 1).toString().padStart(2, '0')}
-                </span>
-                
-                <p className="text-cyan-400 font-mono tracking-widest uppercase text-sm mb-4">
-                  {projects[currentIndex].category}
-                </p>
-                
-                <h3 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight uppercase leading-none">
-                  {projects[currentIndex].title}
-                </h3>
-                
-                <p className="text-neutral-400 text-xl font-light leading-relaxed mb-8">
-                  {projects[currentIndex].desc}
-                </p>
+          {/* Global Ambient Glow System */}
+          <div 
+            className="absolute inset-0 transition-colors duration-1000 pointer-events-none z-0" 
+            style={{
+              background: `radial-gradient(circle at 70% 30%, ${projects[activeIndex].glow}, transparent 65%)`
+            }}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.003)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.003)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none z-0" />
 
-                {/* Professional Links CTAs */}
-                <div className="flex flex-wrap gap-4 mb-10">
-                  {projects[currentIndex].live && (
-                    <a
-                      href={projects[currentIndex].live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-6 py-3 rounded-full bg-cyan-400 text-[#0a0a0a] font-mono text-sm font-bold tracking-wider hover:bg-white hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all flex items-center gap-2 group/btn cursor-hover"
+          <div className="w-full max-w-screen-2xl mx-auto px-12 lg:px-24 grid grid-cols-12 gap-16 relative z-10 items-center h-full">
+            
+            {/* Left Column: Vertical Scene Indicator HUD */}
+            <div className="col-span-3 flex flex-col gap-5 justify-center h-fit border-r border-neutral-900/60 pr-10">
+              <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-4 block">
+                [ INDEX ARCHIVE ]
+              </span>
+              <div className="space-y-4">
+                {projects.map((proj, pIdx) => {
+                  const isActive = pIdx === activeIndex;
+                  return (
+                    <div 
+                      key={proj.title}
+                      className={`flex items-center gap-4 transition-all duration-500 ${
+                        isActive ? 'translate-x-2' : 'opacity-25'
+                      }`}
                     >
-                      <span>Live Preview</span>
-                      <ExternalLink size={16} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                    </a>
-                  )}
-                  {projects[currentIndex].github && (
-                    <a
-                      href={projects[currentIndex].github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-6 py-3 rounded-full bg-transparent border border-neutral-700 text-white font-mono text-sm font-bold tracking-wider hover:border-cyan-400 hover:text-cyan-400 hover:shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-all flex items-center gap-2 group/btn cursor-hover"
-                    >
-                      <Github size={16} />
-                      <span>Source Code</span>
-                    </a>
-                  )}
-                </div>
+                      <span className={`font-mono text-xs ${isActive ? proj.textColor : 'text-neutral-500'}`}>
+                        {(pIdx + 1).toString().padStart(2, '0')}
+                      </span>
+                      <span className={`font-mono text-xs uppercase tracking-widest transition-colors font-bold ${
+                        isActive ? 'text-white' : 'text-neutral-500'
+                      }`}>
+                        {proj.title}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right Column: Stacked Project Canvas Frame */}
+            <div className="col-span-9 h-[70vh] relative flex items-center justify-center">
+              {projects.map((project, index) => {
+                const { opacity, scale, y } = cardAnimations[index];
+                const tilt = tilts[index];
                 
-                <div className="pt-8 border-t border-neutral-800 border-dashed">
-                  <h4 className="text-neutral-500 font-mono text-xs mb-4 uppercase tracking-widest">Tools & Features</h4>
-                  <p className="text-cyan-200/80 font-mono text-sm leading-relaxed">
-                    {projects[currentIndex].stack}
-                  </p>
-                </div>
-              </div>
+                return (
+                  <motion.div
+                    key={project.title}
+                    style={{ 
+                      opacity, 
+                      scale, 
+                      y, 
+                      zIndex: 10 + index,
+                      pointerEvents: activeIndex === index ? 'auto' : 'none'
+                    }}
+                    className="absolute inset-0 grid grid-cols-12 gap-12 w-full items-center"
+                  >
+                    {/* Left Panel: Project Info details */}
+                    <div className="col-span-5 flex flex-col justify-center">
+                      <p className={`font-mono tracking-widest uppercase text-xs mb-3 font-semibold ${project.textColor}`}>
+                        {project.category}
+                      </p>
+                      <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
+                        {project.title}
+                      </h3>
+                      <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-light max-w-sm">
+                        {project.desc}
+                      </p>
 
-              {/* Right Visual/Placeholder with strong editorial border */}
-              <div className="lg:col-span-7 relative overflow-hidden bg-[#0c0c0c]/90 border border-neutral-800 rounded-lg h-[450px] lg:h-[650px] group flex flex-col justify-between p-8 md:p-12 transition-all duration-500 hover:border-cyan-500/30">
-                 {/* Premium Background Grid & Spotlights */}
-                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(34,211,238,0.06),transparent_60%)] pointer-events-none" />
-                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" />
-                 
-                 {/* Top Bar (Browser/Terminal Mockup Header) */}
-                 <div className="flex justify-between items-center w-full pb-6 border-b border-neutral-800/80 z-10">
-                   <div className="flex gap-2">
-                     <span className="w-3 h-3 rounded-full bg-neutral-800 group-hover:bg-red-500/60 transition-colors" />
-                     <span className="w-3 h-3 rounded-full bg-neutral-800 group-hover:bg-yellow-500/60 transition-colors" />
-                     <span className="w-3 h-3 rounded-full bg-neutral-800 group-hover:bg-green-500/60 transition-colors" />
-                   </div>
-                   <div className="text-[10px] font-mono text-neutral-600 group-hover:text-cyan-500/60 tracking-widest uppercase transition-colors">
-                     SECURE CONTAINER // {projects[currentIndex].title.replace(/\s+/g, "_").toUpperCase()}_NODE
-                   </div>
-                 </div>
+                      <div className="flex flex-wrap gap-3 mb-8">
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-5 py-2.5 rounded-xl bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.35)] transition-all flex items-center gap-2 cursor-hover"
+                          >
+                            <span>Live Preview</span>
+                          </a>
+                        )}
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-5 py-2.5 rounded-xl bg-transparent border border-neutral-800 text-neutral-300 font-mono text-[11px] font-bold tracking-widest uppercase hover:border-cyan-500/30 hover:text-white transition-all flex items-center gap-2 cursor-hover"
+                          >
+                            <Github size={13} />
+                            <span>Source Code</span>
+                          </a>
+                        )}
+                      </div>
 
-                 {/* Middle Layout showing highlights elegantly */}
-                 <div className="flex-1 flex flex-col justify-center py-8 z-10">
-                   <h4 className="text-xs font-mono text-cyan-400/60 tracking-[0.25em] uppercase mb-6 font-semibold">
-                     // Key Capabilities
-                   </h4>
-                   <div className="space-y-4">
-                     {projects[currentIndex].highlights.map((highlight, idx) => (
-                       <motion.div 
-                         key={idx}
-                         initial={{ opacity: 0, x: 20 }}
-                         animate={{ opacity: 1, x: 0 }}
-                         transition={{ delay: idx * 0.1 }}
-                         className="flex items-start gap-4 group/item"
-                       >
-                         <span className="font-mono text-cyan-400 mt-1 text-xs select-none">[{idx + 1}]</span>
-                         <p className="text-neutral-300 group-hover/item:text-white font-light text-base lg:text-lg transition-colors leading-relaxed">
-                           {highlight}
-                         </p>
-                       </motion.div>
-                     ))}
-                   </div>
-                 </div>
+                      <div className="pt-6 border-t border-neutral-900 border-dashed">
+                        <h4 className="text-neutral-600 font-mono text-[10px] mb-3 uppercase tracking-widest font-semibold">Engine Technologies</h4>
+                        <p className="text-neutral-400 font-mono text-[11px] leading-relaxed">
+                          {project.stack}
+                        </p>
+                      </div>
+                    </div>
 
-                 {/* Bottom Bar containing metadata */}
-                 <div className="flex justify-between items-end w-full pt-6 border-t border-neutral-800/80 z-10 text-[10px] font-mono text-neutral-600">
-                   <div>
-                     STATUS: <span className="text-emerald-500 animate-pulse font-semibold">DEPLOYED</span>
-                   </div>
-                   <div>
-                     RENDER_INDEX: 00{currentIndex + 1}
-                   </div>
-                 </div>
+                    {/* Right Panel: Premium Interactive Device Viewport */}
+                    <div className="col-span-7 h-full flex items-center justify-center">
+                      <div
+                        onMouseMove={(e) => handleMouseMove(index, e)}
+                        onMouseLeave={() => handleMouseLeave(index)}
+                        style={{
+                          transform: `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
+                          transition: 'transform 0.15s ease-out, border-color 0.5s',
+                          boxShadow: `0 25px 60px -15px rgba(0,0,0,0.9), 0 0 30px -10px ${project.glow}`
+                        }}
+                        className="w-full h-[85%] bg-[#0c0c11]/85 border border-white/5 rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group hover:border-cyan-500/20"
+                      >
+                        {/* Static Grid & Accent Spotlight */}
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(34,211,238,0.02),transparent_60%)] pointer-events-none" />
 
-                 {/* Corner Accent Glows */}
-                 <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-neutral-800 group-hover:border-cyan-400/50 transition-colors duration-500" />
-                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-neutral-800 group-hover:border-cyan-400/50 transition-colors duration-500" />
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                        {/* Visual Mock-Container Header */}
+                        <div className="flex justify-between items-center w-full pb-4 border-b border-neutral-900 z-10">
+                          <div className="flex gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
+                          </div>
+                          <div className="text-[9px] font-mono text-neutral-600 tracking-widest uppercase font-semibold">
+                            SECURE_NODE // {project.title.replace(/\s+/g, "_").toUpperCase()}
+                          </div>
+                        </div>
 
-          {/* Dot Indicators */}
-          <div className="absolute top-0 left-0 lg:left-[-40px] h-full hidden lg:flex flex-col justify-center gap-4">
-            {projects.map((_, i) => (
-              <button 
-                key={i} 
-                onClick={() => setCurrentIndex(i)}
-                className={`w-1 transition-all duration-500 ${i === currentIndex ? 'h-16 bg-cyan-400' : 'h-4 bg-neutral-800 hover:bg-neutral-600 cursor-hover'}`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
+                        {/* Highlights Capabilities list */}
+                        <div className="flex-1 flex flex-col justify-center py-6 z-10">
+                          <h4 className="text-[10px] font-mono text-neutral-600 tracking-[0.25em] uppercase mb-5 font-bold">
+                            // CORE OPERATIONS
+                          </h4>
+                          <div className="space-y-3.5">
+                            {project.highlights.map((highlight, hIdx) => (
+                              <div key={hIdx} className="flex items-start gap-3 group/item">
+                                <span className={`font-mono text-[10px] mt-1 select-none font-bold ${project.textColor}`}>
+                                  [0{hIdx + 1}]
+                                </span>
+                                <p className="text-neutral-300 text-sm font-light leading-relaxed group-hover/item:text-white transition-colors">
+                                  {highlight}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Visual Mock-Container Footer */}
+                        <div className="flex justify-between items-end w-full pt-4 border-t border-neutral-900 z-10 text-[9px] font-mono text-neutral-600 font-semibold">
+                          <div>
+                            STATUS: <span className="text-emerald-500 tracking-wider">COMPILED</span>
+                          </div>
+                          <div>
+                            RENDER_GRID // 0{index + 1}
+                          </div>
+                        </div>
+
+                        {/* Accent Corners */}
+                        <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-neutral-950 group-hover:border-cyan-500/30 transition-colors duration-500" />
+                        <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-neutral-950 group-hover:border-cyan-500/30 transition-colors duration-500" />
+                      </div>
+                    </div>
+
+                  </motion.div>
+                );
+              })}
+            </div>
+
           </div>
-          
         </div>
+      )}
+
+      {/* 2. Tablet & Mobile Storytelling Vertical Fallback */}
+      <div className="w-full py-24 px-6 md:px-12 lg:hidden flex flex-col gap-20 max-w-3xl mx-auto z-10 relative">
+        <div className="border-b border-neutral-900 pb-10 mb-6">
+          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-4 block">
+            [ SECURE INDEX ARCHIVE ]
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-800 tracking-tighter uppercase leading-none">
+            Selected Works
+          </h2>
+        </div>
+
+        {projects.map((project, idx) => (
+          <div 
+            key={project.title}
+            className="flex flex-col gap-8 border border-white/5 bg-[#0c0c11]/40 rounded-2xl p-6 md:p-10 relative overflow-hidden"
+            style={{
+              boxShadow: `0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px ${project.glow}`
+            }}
+          >
+            <div className="flex justify-between items-start border-b border-neutral-900 pb-4">
+              <p className={`font-mono tracking-widest uppercase text-[10px] font-semibold ${project.textColor}`}>
+                {project.category}
+              </p>
+              <span className="font-mono text-xs text-neutral-600 font-bold">
+                0{idx + 1}
+              </span>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-tight">
+                {project.title}
+              </h3>
+              <p className="text-neutral-400 text-base font-light leading-relaxed mb-6">
+                {project.desc}
+              </p>
+
+              {/* Mobile details capabilities */}
+              <div className="space-y-2 mb-6 pl-2 border-l border-neutral-800">
+                {project.highlights.map((highlight, hIdx) => (
+                  <p key={hIdx} className="text-neutral-400 text-xs font-light">
+                    • {highlight}
+                  </p>
+                ))}
+              </div>
+
+              <div className="flex gap-4">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-lg bg-cyan-400 text-black font-mono text-[10px] font-bold tracking-wider uppercase hover:bg-white transition-colors"
+                  >
+                    Live Preview
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-lg bg-transparent border border-neutral-800 text-neutral-300 font-mono text-[10px] font-bold tracking-wider uppercase hover:text-white transition-colors"
+                  >
+                    GitHub
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-neutral-900">
+              <span className="text-neutral-600 font-mono text-[9px] uppercase tracking-wider block mb-2">Engine Stack</span>
+              <p className="text-neutral-400 font-mono text-xs leading-relaxed">
+                {project.stack}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
+
     </section>
   );
 }

@@ -26,7 +26,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <footer id="contact" className="relative z-20 bg-[#060606] pt-32 pb-16 px-6 md:px-12 lg:px-24 border-t border-neutral-900 overflow-hidden select-none">
+    <footer id="contact" className="relative z-20 bg-[#060606] pt-40 pb-16 px-6 md:px-12 lg:px-24 border-t border-neutral-900 overflow-hidden select-none">
       {/* Visual Accent Glows */}
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-950/10 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-neutral-900/40 rounded-full blur-[120px] pointer-events-none z-0" />
@@ -140,7 +140,7 @@ export default function Contact() {
             <div className="bg-neutral-950/80 border border-neutral-900 p-6 rounded-xl flex justify-between items-center z-10">
               <div className="flex flex-col">
                 <span className="text-[10px] font-mono text-neutral-600 uppercase tracking-widest">Local Terminal Time</span>
-                <span className="text-lg font-mono text-cyan-400 tracking-tight mt-1 tabular-nums">
+                <span className="text-lg font-mono text-neutral-400 tracking-tight mt-1 tabular-nums">
                   {mounted ? timeString : '00:00:00 IST'}
                 </span>
               </div>

@@ -1,6 +1,5 @@
 'use client';
 import { motion } from 'framer-motion';
-import { GraduationCap, School, Calendar, MapPin } from 'lucide-react';
 
 export default function Education() {
   const education = [
@@ -88,22 +87,13 @@ export default function Education() {
 
               {/* Upper Section Header */}
               <div className="flex justify-between items-start mb-8 border-b border-neutral-900 pb-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3.5 rounded-2xl bg-neutral-950/80 border border-neutral-800/80 text-neutral-500 group-hover:text-cyan-400 group-hover:border-cyan-500/20 transition-all duration-300">
-                    <GraduationCap size={22} strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-widest block mb-1">
-                      [ LEVEL 0{3 - i} ]
-                    </span>
-                    <span className="font-mono text-xs text-cyan-400 font-semibold tracking-wider">
-                      {item.code}
-                    </span>
-                  </div>
+                <div>
+                  <span className="font-mono text-xs text-cyan-400 font-semibold tracking-wider">
+                    {item.code}
+                  </span>
                 </div>
                 <div className="flex flex-col items-end">
                   <span className="font-mono text-xs text-neutral-400 flex items-center gap-1.5 font-medium bg-neutral-950/50 border border-neutral-900 px-3 py-1 rounded-full">
-                    <Calendar size={12} className="text-cyan-500" />
                     {item.year}
                   </span>
                 </div>
@@ -114,9 +104,8 @@ export default function Education() {
                 <h3 className="text-2xl font-bold text-white mb-3 tracking-tight group-hover:text-cyan-400 transition-colors uppercase leading-tight">
                   {item.degree}
                 </h3>
-                <p className="text-neutral-400 font-sans text-base leading-relaxed flex items-start gap-2">
-                  <School size={16} className="text-neutral-500 mt-1 shrink-0" />
-                  <span>{item.institution}</span>
+                <p className="text-neutral-400 font-sans text-base leading-relaxed">
+                  {item.institution}
                 </p>
               </div>
 
@@ -133,10 +122,8 @@ export default function Education() {
               {/* Location Footer Accent */}
               <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-[10px] font-mono text-neutral-600 uppercase tracking-widest">
                 <span className="flex items-center gap-1">
-                  <MapPin size={10} className="text-neutral-700 group-hover:text-cyan-500 transition-colors" />
                   {item.location}
                 </span>
-                <span>VERIFIED</span>
               </div>
 
               {/* Corner accents */}

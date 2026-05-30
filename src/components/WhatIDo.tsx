@@ -31,7 +31,7 @@ export default function WhatIDo() {
   };
 
   return (
-    <section id="what-i-do" className="relative z-20 bg-[#0a0a0a] py-32 px-6 md:px-12 lg:px-24 border-t border-neutral-900 border-dashed overflow-hidden">
+    <section id="what-i-do" className="relative z-20 bg-[#0a0a0a] py-40 px-6 md:px-12 lg:px-24 border-t border-neutral-900 border-dashed overflow-hidden">
       {/* Background glowing gradients */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-950/10 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-blue-950/15 rounded-full blur-[100px] pointer-events-none z-0" />
