@@ -18,7 +18,6 @@ import VibeCoding from '@/components/VibeCoding';
 import Certifications from '@/components/Certifications';
 import Achievements from '@/components/Achievements';
 import Education from '@/components/Education';
-import ResumeJourney from '@/components/ResumeJourney';
 import Contact from '@/components/Contact';
 import Loader from '@/components/Loader';
 
@@ -58,7 +57,6 @@ export default function Home() {
                 <Certifications />
                 <Achievements />
                 <Education />
-                <ResumeJourney />
                 <Contact />
               </main>
             </SmoothScroll>
