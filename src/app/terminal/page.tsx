@@ -52,7 +52,7 @@ export default function TerminalPage() {
       '  - Spring PetClinic : Relational enterprise database service using JPA scopes.'
     ],
     resume: () => {
-      window.open('https://drive.google.com/file/d/1zxa1Co29lOq7zD1bm-5sdHRpOVuzmimH/view?usp=drivesdk', '_blank');
+      window.open('/Gaurav_Resume.pdf', '_blank');
       return ['Retrieving verified secure resume archive...', 'Action executed successfully in background browser tab.'];
     },
     contact: () => [

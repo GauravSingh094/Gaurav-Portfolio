@@ -58,12 +58,12 @@ export default function ResumeJourney() {
     setMagnifierPos({ x: mX, y: mY, bgX, bgY });
   };
 
-  const driveUrl = "https://drive.google.com/file/d/1zxa1Co29lOq7zD1bm-5sdHRpOVuzmimH/view?usp=drivesdk";
+  const resumeUrl = "/Gaurav_Resume.pdf";
 
   // Floating career highlights tags list
   const highlights = [
     "B.Tech Computer Science",
-    "Software Development Intern",
+    "Web Development Intern",
     "Flutter Developer",
     "Full Stack Developer",
     "AI Systems Builder",
@@ -125,13 +125,13 @@ export default function ResumeJourney() {
         {/* 60/40 Responsive Split Layout */}
         <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-start">
           
-          {/* LEFT SIDE (60% split): Compelling Narrative, Highlight tags, CTA buttons */}
+          {/* LEFT SIDE (54% split): Compelling Narrative, Highlight tags, CTA buttons */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full md:w-[58%] space-y-8"
+            className="w-full md:w-[54%] space-y-8"
           >
             {/* Opening statement */}
             <div className="space-y-4">
@@ -208,69 +208,49 @@ export default function ResumeJourney() {
             </div>
 
             {/* Pinned conversion Call To Actions & Recruiter drawer buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch w-full">
               {/* Recruiter Focus Mode overlay toggle */}
               <button 
                 onClick={() => setIsDrawerOpen(true)}
-                className="group relative bg-[#0c0c11]/85 hover:bg-[#0c0c11] border border-white/10 hover:border-cyan-500/30 text-white font-mono font-bold text-xs tracking-widest uppercase py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl cursor-pointer"
+                className="group relative bg-[#0c0c11]/85 hover:bg-[#0c0c11] border border-white/10 hover:border-cyan-500/30 text-white font-mono font-bold text-xs tracking-widest uppercase py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl cursor-pointer flex-1"
               >
                 <HelpCircle size={15} className="text-cyan-400" />
                 <span>Why Hire Gaurav?</span>
                 <ChevronRight size={12} className="text-neutral-500 group-hover:translate-x-0.5 transition-transform" />
               </button>
 
-              <div className="flex items-center gap-3 justify-center">
-                <a 
-                  href={driveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
-                  title="View PDF Resume"
-                >
-                  <FileText size={16} />
-                </a>
+              <a 
+                href={resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group bg-[#0c0c11]/85 hover:bg-[#0c0c11] border border-white/10 hover:border-cyan-500/30 text-white font-mono font-bold text-xs tracking-widest uppercase py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl cursor-pointer flex-1 text-center"
+                title="View PDF Resume"
+              >
+                <FileText size={15} className="text-cyan-400" />
+                <span>View Resume</span>
+              </a>
 
-                <a 
-                  href={driveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
-                  title="Download Resume"
-                >
-                  <Download size={16} />
-                </a>
-
-                <a 
-                  href="https://linkedin.com/in/gaurav-singh-276944292"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
-                  title="LinkedIn profile"
-                >
-                  <Linkedin size={16} />
-                </a>
-
-                <a 
-                  href="https://github.com/GauravSingh094"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
-                  title="GitHub profile"
-                >
-                  <Github size={16} />
-                </a>
-              </div>
+              <a 
+                href={resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group bg-[#0c0c11]/85 hover:bg-[#0c0c11] border border-white/10 hover:border-teal-500/30 text-white font-mono font-bold text-xs tracking-widest uppercase py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl cursor-pointer flex-1 text-center"
+                title="Download Resume"
+              >
+                <Download size={15} className="text-teal-400" />
+                <span>Download CV</span>
+              </a>
             </div>
 
           </motion.div>
 
-          {/* RIGHT SIDE (40% split): Interactive Resume Preview with Magnifier & 3D Tilt */}
+          {/* RIGHT SIDE (42% split): Interactive Resume Preview with Magnifier & 3D Tilt */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 30 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full md:w-[38%] flex flex-col items-center justify-center relative"
+            className="w-full md:w-[42%] flex flex-col items-center justify-center relative"
           >
             {/* Ambient neon spot core behind the frame */}
             <div className="absolute w-[220px] h-[220px] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.06),transparent_70%)] blur-[25px] pointer-events-none -z-10" />
@@ -295,7 +275,7 @@ export default function ResumeJourney() {
               style={{
                 perspective: 1200,
               }}
-              className="w-full max-w-sm cursor-crosshair relative"
+              className="w-full max-w-md cursor-crosshair relative"
             >
               <motion.div
                 animate={{
@@ -407,7 +387,7 @@ export default function ResumeJourney() {
               {/* Drawer footer */}
               <div className="pt-6 border-t border-white/5 space-y-4">
                 <a 
-                  href={driveUrl}
+                  href={resumeUrl}
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => setIsDrawerOpen(false)}

@@ -26,7 +26,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
     { name: 'Navigate: Resume Timeline', type: 'nav', target: '#resume', icon: Hash, desc: 'Scroll to cinematic career journey' },
     { name: 'Navigate: Contact Direct', type: 'nav', target: '#contact', icon: Hash, desc: 'Scroll to message board' },
     { name: 'Interactive CLI Terminal', type: 'link', target: '/terminal', icon: Terminal, desc: 'Open full-screen developer shell' },
-    { name: 'Secure Resume Archive', type: 'link', target: 'https://drive.google.com/file/d/1zxa1Co29lOq7zD1bm-5sdHRpOVuzmimH/view?usp=drivesdk', icon: FileText, desc: 'View verified resume PDF' },
+    { name: 'Secure Resume Archive', type: 'link', target: '/Gaurav_Resume.pdf', icon: FileText, desc: 'View verified resume PDF' },
     { name: 'Outbound: GitHub Profile', type: 'link', target: 'https://github.com/GauravSingh094', icon: Github, desc: 'Browse verified source repositories' },
     { name: 'Outbound: LinkedIn Network', type: 'link', target: 'https://linkedin.com/in/gaurav-singh-276944292', icon: Linkedin, desc: 'Connect on professional network' },
   ];
