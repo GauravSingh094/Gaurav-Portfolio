@@ -335,7 +335,7 @@ export default function AIAssistant() {
         >
           <div className="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
             <img 
-              src="/images/profile.png" 
+              src="/images/bot-avatar.png" 
               alt="Gaurav Singh" 
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" 
             />
@@ -402,7 +402,7 @@ export default function AIAssistant() {
 
                 <div className="flex items-center gap-3">
                   <div className="relative w-9 h-9 rounded-full border border-cyan-500/35 overflow-hidden flex-shrink-0 bg-neutral-900">
-                    <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
+                    <img src="/images/bot-avatar.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
                     <span className="absolute bottom-0 right-0 w-2 h-2 bg-emerald-500 rounded-full border border-[#0a0a0a]" />
                   </div>
                   <div>
@@ -533,7 +533,7 @@ export default function AIAssistant() {
                           <div className={`flex items-start gap-3 ${isBot ? 'justify-start' : 'justify-end'}`}>
                             {isBot ? (
                               <div className="w-7 h-7 rounded-full border border-cyan-500/25 overflow-hidden flex-shrink-0 bg-neutral-900">
-                                <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
+                                <img src="/images/bot-avatar.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
                               </div>
                             ) : (
                               /* visitor user avatar initials badge */
@@ -643,7 +643,7 @@ export default function AIAssistant() {
                         className="flex items-start gap-3"
                       >
                         <div className="w-7 h-7 rounded-full border border-cyan-500/25 overflow-hidden flex-shrink-0 bg-neutral-900">
-                          <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
+                          <img src="/images/bot-avatar.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale" />
                         </div>
                         {/* Glowing cyan three-dot typing indicator */}
                         <div className="flex gap-1.5 items-center px-4 py-3 rounded-2xl bg-neutral-900/50 border border-white/5 border-l-2 border-l-cyan-500 max-w-[80px]">
