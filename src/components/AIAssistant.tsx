@@ -271,6 +271,20 @@ export default function AIAssistant() {
     handleSend(undefined, prompt.query);
   };
 
+  const handleCategoryClick = (cat: string) => {
+    let query = "";
+    if (cat === "Projects") query = "Show me your featured projects";
+    else if (cat === "Skills") query = "What technical skills and backend technologies do you use?";
+    else if (cat === "Experience") query = "Tell me about your professional development experience";
+    else if (cat === "Resume") query = "Tell me about your resume summary";
+    else if (cat === "Education") query = "Tell me about your educational background";
+    else if (cat === "AI Engineering") query = "Tell me about your AI engineering capabilities and LangGraph experience";
+    
+    if (query) {
+      handleSend(undefined, query);
+    }
+  };
+
   const welcomeCategories = ["Projects", "Skills", "Experience", "Resume", "Education", "AI Engineering"];
   const emptyStateQuestions = [
     { label: "Tell me about AI Debate Arena", query: "Tell me about your flagship project AI Debate Arena" },
@@ -353,9 +367,14 @@ export default function AIAssistant() {
             {/* Click-away backdrop overlay with glass blur fade-in */}
             <motion.div 
               initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-              animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
+              animate={{ 
+                opacity: isCollapsed ? 0 : 1, 
+                backdropFilter: isCollapsed ? "blur(0px)" : "blur(4px)",
+                pointerEvents: isCollapsed ? "none" : "auto"
+              }}
               exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-              className="absolute inset-0 bg-black/40 pointer-events-auto cursor-pointer"
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 bg-black/40 cursor-pointer"
               onClick={() => setIsOpen(false)}
             />
 
@@ -484,15 +503,18 @@ export default function AIAssistant() {
                           <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest">// Suggested Categories</span>
                           <div className="flex flex-wrap gap-1.5">
                             {welcomeCategories.map((cat, index) => (
-                              <motion.span 
+                              <motion.button 
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                                 transition={{ delay: index * 0.04 }}
                                 key={cat} 
-                                className="text-[9px] font-mono border border-white/5 bg-white/[0.01] text-neutral-400 px-2.5 py-1 rounded-full cursor-default"
+                                onClick={() => handleCategoryClick(cat)}
+                                className="text-[9px] font-mono border border-white/5 bg-white/[0.01] text-neutral-400 hover:text-cyan-300 hover:border-cyan-500/30 hover:bg-cyan-500/5 px-2.5 py-1 rounded-full cursor-pointer transition-colors duration-300"
                               >
                                 {cat}
-                              </motion.span>
+                              </motion.button>
                             ))}
                           </div>
                         </div>
