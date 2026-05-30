@@ -7,7 +7,7 @@ import { FileText, Download, ExternalLink, Linkedin, Github, GraduationCap, Brie
 export default function ResumeJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Track mouse coordinates for subtle card parallax tilt
+  // Track mouse coordinates for card parallax tilt
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
 
@@ -24,49 +24,63 @@ export default function ResumeJourney() {
     offset: ["start start", "end end"]
   });
 
-  // Storytelling scroll progress thresholds
-  // 0.0 - 0.20: Step 1 (Intro cinematic text)
-  // 0.20 - 0.40: Step 2 (MacBook slides and fades in)
-  // 0.40 - 0.50: Step 3A (Highlight: Education)
-  // 0.50 - 0.60: Step 3B (Highlight: Internship)
-  // 0.60 - 0.70: Step 3C (Highlight: Projects)
-  // 0.70 - 0.80: Step 3D (Highlight: Skills)
-  // 0.80 - 0.92: Step 4 (Cinematic exit text)
-  // 0.92 - 1.00: Step 5 (CTAs and download buttons)
+  // Storytelling scroll progress mapping
+  // 0.00 - 0.15: Stage 1 (Intro Text, Laptop is subtle)
+  // 0.15 - 0.28: Stage 2 (Laptop scales up and becomes bright)
+  // 0.28 - 0.42: Stage 3 (Education glows, floating text 1)
+  // 0.42 - 0.54: Stage 4 (Projects glows, floating text 2)
+  // 0.54 - 0.66: Stage 5 (Internship glows, floating text 3)
+  // 0.66 - 0.78: Stage 6 (Skills glows, floating text particles)
+  // 0.78 - 0.90: Stage 7 (Final cinematic message)
+  // 0.90 - 1.00: Stage 8 (CTA controls)
 
   // Map scroll progress to visibility and transforms
   const text1Opacity = useTransform(scrollYProgress, [0, 0.12, 0.18], [1, 1, 0]);
   const text1Scale = useTransform(scrollYProgress, [0, 0.12, 0.18], [1, 1.05, 0.95]);
 
-  const laptopOpacity = useTransform(scrollYProgress, [0.16, 0.24, 0.80, 0.86], [0, 1, 1, 0]);
-  const laptopScale = useTransform(scrollYProgress, [0.16, 0.24, 0.80, 0.86], [0.8, 1, 1, 0.85]);
-  const laptopY = useTransform(scrollYProgress, [0.16, 0.24], [50, 0]);
+  // Laptop visibility and hero scale transitions
+  // Starts subtle, scales forward to become the dominant visual hero
+  const laptopOpacity = useTransform(scrollYProgress, [0.08, 0.18, 0.82, 0.88], [0.15, 1, 1, 0]);
+  const laptopScale = useTransform(scrollYProgress, [0.08, 0.18, 0.82, 0.88], [0.75, 1.15, 1.15, 0.85]);
+  const laptopY = useTransform(scrollYProgress, [0.08, 0.18], [40, 0]);
 
-  // Highlight steps mapping
+  // Active highlighted areas inside the resume sheet
   const activeStep = useTransform(scrollYProgress, (progress) => {
-    if (progress < 0.22) return 'none';
-    if (progress >= 0.22 && progress < 0.44) return 'intro';
-    if (progress >= 0.44 && progress < 0.54) return 'education';
-    if (progress >= 0.54 && progress < 0.64) return 'internship';
-    if (progress >= 0.64 && progress < 0.74) return 'projects';
-    if (progress >= 0.74 && progress < 0.84) return 'skills';
+    if (progress < 0.26) return 'intro';
+    if (progress >= 0.26 && progress < 0.42) return 'education';
+    if (progress >= 0.42 && progress < 0.54) return 'projects';
+    if (progress >= 0.54 && progress < 0.66) return 'internship';
+    if (progress >= 0.66 && progress < 0.78) return 'skills';
     return 'exit';
   });
 
-  // Floating reveals tracking state
-  const [currentSection, setCurrentSection] = useState('none');
+  const [currentSection, setCurrentSection] = useState('intro');
   useEffect(() => {
     return activeStep.onChange((v) => {
       setCurrentSection(v);
     });
   }, [activeStep]);
 
-  // Connectors and Keynotes transforms
-  const text2Opacity = useTransform(scrollYProgress, [0.82, 0.88, 0.94], [0, 1, 0]);
-  const text2Scale = useTransform(scrollYProgress, [0.82, 0.88, 0.94], [0.95, 1, 1.05]);
+  // Floating reveals transforms (Pure typography reveals, absolutely zero cards/boxes)
+  const educationOpacity = useTransform(scrollYProgress, [0.26, 0.30, 0.38, 0.42], [0, 1, 1, 0]);
+  const educationY = useTransform(scrollYProgress, [0.26, 0.30], [20, 0]);
 
-  const ctaOpacity = useTransform(scrollYProgress, [0.91, 0.96], [0, 1]);
-  const ctaScale = useTransform(scrollYProgress, [0.91, 0.96], [0.96, 1]);
+  const projectsOpacity = useTransform(scrollYProgress, [0.42, 0.46, 0.50, 0.54], [0, 1, 1, 0]);
+  const projectsY = useTransform(scrollYProgress, [0.42, 0.46], [20, 0]);
+
+  const internshipOpacity = useTransform(scrollYProgress, [0.54, 0.58, 0.62, 0.66], [0, 1, 1, 0]);
+  const internshipY = useTransform(scrollYProgress, [0.54, 0.58], [20, 0]);
+
+  const skillsOpacity = useTransform(scrollYProgress, [0.66, 0.70, 0.74, 0.78], [0, 1, 1, 0]);
+  const skillsY = useTransform(scrollYProgress, [0.66, 0.70], [20, 0]);
+
+  // Exit Cinematic Message transforms
+  const text2Opacity = useTransform(scrollYProgress, [0.80, 0.86, 0.91], [0, 1, 0]);
+  const text2Scale = useTransform(scrollYProgress, [0.80, 0.86, 0.91], [0.96, 1, 1.04]);
+
+  // Final Action Center transforms
+  const ctaOpacity = useTransform(scrollYProgress, [0.90, 0.95], [0, 1]);
+  const ctaScale = useTransform(scrollYProgress, [0.90, 0.95], [0.96, 1]);
 
   const driveUrl = "https://drive.google.com/file/d/1zxa1Co29lOq7zD1bm-5sdHRpOVuzmimH/view?usp=drivesdk";
 
@@ -79,11 +93,41 @@ export default function ResumeJourney() {
       onMouseLeave={() => { setHovered(false); setMousePos({ x: 0, y: 0 }); }}
       className="relative z-20 bg-[#050507] w-full min-h-[450vh] select-none overflow-hidden"
     >
-      {/* Background ambient mesh */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(6,182,212,0.03),transparent_60%)] pointer-events-none z-0" />
+      {/* Dynamic Keyframe Animations for Screen glows & scanline effect */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .scanline-active {
+          position: relative;
+          overflow: hidden;
+        }
+        .scanline-active::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background: linear-gradient(to right, transparent, rgba(34,211,238,0.5), transparent);
+          animation: scan 1.8s linear infinite;
+        }
+        .glow-active {
+          box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
+          border-color: rgba(34, 211, 238, 0.35) !important;
+          animation: subtlePulse 2.5s infinite ease-in-out;
+        }
+        @keyframes scan {
+          0% { top: 0%; }
+          100% { top: 100%; }
+        }
+        @keyframes subtlePulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.006); }
+        }
+      `}} />
+
+      {/* Background ambient mesh spotlights */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(6,182,212,0.03),transparent_55%)] pointer-events-none z-0" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.003)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.003)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none z-0" />
 
-      {/* Floating starry dust */}
+      {/* Drifting star elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         {[...Array(15)].map((_, i) => (
           <div
@@ -98,27 +142,26 @@ export default function ResumeJourney() {
         ))}
       </div>
 
-      {/* Sticky locked canvas layer */}
+      {/* Sticky storyteller locking container */}
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden z-10 px-6">
         
-        {/* Step 1: Entry text */}
+        {/* Stage 1: Reduced size, clean intro text */}
         <motion.div
           style={{ opacity: text1Opacity, scale: text1Scale }}
-          className="absolute text-center max-w-4xl z-20 pointer-events-none"
+          className="absolute text-center max-w-2xl z-20 pointer-events-none"
         >
-          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-6 block">
+          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-4 block">
             [ SYSTEM JOURNAL ]
           </span>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-white uppercase mb-8">
-            MORE THAN A RESUME<br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.2)' }}>IT'S MY JOURNEY</span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-none text-white uppercase mb-5">
+            MORE THAN A RESUME
           </h2>
-          <p className="text-neutral-500 font-mono text-xs uppercase tracking-widest animate-pulse">
-            // Scroll down to begin the story
+          <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest animate-pulse">
+            // Scroll to begin journey
           </p>
         </motion.div>
 
-        {/* MacBook Centerpiece Frame */}
+        {/* MacBook Centerpiece Showcase Frame */}
         <motion.div
           style={{ 
             opacity: laptopOpacity, 
@@ -126,54 +169,54 @@ export default function ResumeJourney() {
             y: laptopY,
             perspective: 1200
           }}
-          className="relative w-full max-w-4xl aspect-[1.6/1] flex flex-col items-center z-15 pointer-events-none"
+          className="relative w-full max-w-3xl aspect-[1.6/1] flex flex-col items-center z-15 pointer-events-none"
         >
-          {/* Laptop 3D container */}
+          {/* Laptop 3D interactive tilting container */}
           <div 
             className="relative w-full h-[85%] rounded-t-3xl transition-transform duration-500 ease-out"
             style={{
-              transform: `rotateX(${-3 + mousePos.y * -8}deg) rotateY(${mousePos.x * 12}deg)`,
+              transform: `rotateX(${-2.5 + mousePos.y * -6}deg) rotateY(${mousePos.x * 10}deg)`,
               transformStyle: 'preserve-3d'
             }}
           >
-            {/* Screen Lid border & shadow */}
-            <div className="absolute inset-0 bg-[#1d1d1f] rounded-2xl border-[4px] border-[#2d2d30] shadow-2xl overflow-hidden flex flex-col justify-between p-2">
+            {/* Screen border shell */}
+            <div className="absolute inset-0 bg-[#1d1d1f] rounded-2xl border-[4.5px] border-[#2d2d30] shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between p-2">
               
-              {/* Glossy screen screen reflection cover */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.015] to-white/[0.04] pointer-events-none z-10" />
+              {/* Glossy screen glass reflection */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.02] to-white/[0.05] pointer-events-none z-10" />
 
-              {/* Screen Camera Notch */}
+              {/* Camera Hinge Notch */}
               <div className="absolute top-1 left-1/2 -translate-x-1/2 w-28 h-4 bg-black rounded-b-xl z-20 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-900/60" />
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-950/60" />
               </div>
 
-              {/* Actual resume page mockup panel */}
+              {/* Real Resume Mockup Sheet */}
               <div className="relative w-full h-full bg-[#0a0a0d] rounded-xl overflow-hidden p-6 md:p-8 flex flex-col justify-between border border-white/5 z-0">
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.003)_1px,transparent_1px)] bg-[size:100%_15px] pointer-events-none" />
 
-                {/* Mockup Resume structure */}
-                <div className="w-full space-y-5 overflow-hidden pr-2">
+                {/* Resume layout items */}
+                <div className="w-full space-y-4 md:space-y-5 overflow-hidden pr-2">
                   
                   {/* Resume Header */}
                   <div className="flex justify-between items-end border-b border-neutral-900 pb-3">
                     <div>
-                      <h4 className="text-xl md:text-2xl font-black text-white tracking-tight uppercase leading-none">GAURAV SINGH</h4>
-                      <p className="text-[8px] font-mono text-cyan-400 uppercase tracking-widest mt-1">Systems & Web Engineer</p>
+                      <h4 className="text-xl font-black text-white tracking-tight uppercase leading-none">GAURAV SINGH</h4>
+                      <p className="text-[7.5px] font-mono text-cyan-400 uppercase tracking-widest mt-1">Systems & Web Engineer</p>
                     </div>
                     <span className="font-mono text-[7px] text-neutral-600">SYS_V2.06_DEPLOY</span>
                   </div>
 
-                  {/* Highlight: Education */}
+                  {/* Section: Education */}
                   <div 
                     className={`p-3 rounded-xl border transition-all duration-500 ${
                       currentSection === 'education' 
-                        ? 'bg-cyan-500/[0.03] border-cyan-500/35 shadow-[0_0_20px_rgba(6,182,212,0.1)]' 
-                        : 'border-transparent opacity-45'
+                        ? 'glow-active scanline-active bg-cyan-500/[0.02]' 
+                        : 'border-transparent opacity-35'
                     }`}
                   >
                     <div className="flex items-center gap-2 mb-1.5">
-                      <GraduationCap size={12} className="text-cyan-400" />
-                      <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">Education Dossier</span>
+                      <GraduationCap size={11} className="text-cyan-400" />
+                      <span className="text-[8px] font-mono font-bold text-white uppercase tracking-wider">Education Dossier</span>
                     </div>
                     <div className="space-y-1 pl-4 border-l border-neutral-800">
                       <div className="flex justify-between text-[8px] font-bold text-neutral-300">
@@ -184,17 +227,17 @@ export default function ResumeJourney() {
                     </div>
                   </div>
 
-                  {/* Highlight: Internship */}
+                  {/* Section: Internship */}
                   <div 
                     className={`p-3 rounded-xl border transition-all duration-500 ${
                       currentSection === 'internship' 
-                        ? 'bg-cyan-500/[0.03] border-cyan-500/35 shadow-[0_0_20px_rgba(6,182,212,0.1)]' 
-                        : 'border-transparent opacity-45'
+                        ? 'glow-active scanline-active bg-cyan-500/[0.02]' 
+                        : 'border-transparent opacity-35'
                     }`}
                   >
                     <div className="flex items-center gap-2 mb-1.5">
-                      <Briefcase size={12} className="text-cyan-400" />
-                      <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">Work Internship Experience</span>
+                      <Briefcase size={11} className="text-cyan-400" />
+                      <span className="text-[8px] font-mono font-bold text-white uppercase tracking-wider">Work Internship Experience</span>
                     </div>
                     <div className="space-y-1 pl-4 border-l border-neutral-800">
                       <div className="flex justify-between text-[8px] font-bold text-neutral-300">
@@ -205,17 +248,17 @@ export default function ResumeJourney() {
                     </div>
                   </div>
 
-                  {/* Highlight: Projects */}
+                  {/* Section: Projects */}
                   <div 
                     className={`p-3 rounded-xl border transition-all duration-500 ${
                       currentSection === 'projects' 
-                        ? 'bg-cyan-500/[0.03] border-cyan-500/35 shadow-[0_0_20px_rgba(6,182,212,0.1)]' 
-                        : 'border-transparent opacity-45'
+                        ? 'glow-active scanline-active bg-cyan-500/[0.02]' 
+                        : 'border-transparent opacity-35'
                     }`}
                   >
                     <div className="flex items-center gap-2 mb-1.5">
-                      <Code size={12} className="text-cyan-400" />
-                      <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">Engineering Initiatives</span>
+                      <Code size={11} className="text-cyan-400" />
+                      <span className="text-[8px] font-mono font-bold text-white uppercase tracking-wider">Engineering Initiatives</span>
                     </div>
                     <div className="space-y-1.5 pl-4 border-l border-neutral-800">
                       <div className="flex justify-between text-[8px] font-bold text-neutral-300">
@@ -226,21 +269,21 @@ export default function ResumeJourney() {
                     </div>
                   </div>
 
-                  {/* Highlight: Skills */}
+                  {/* Section: Skills */}
                   <div 
                     className={`p-3 rounded-xl border transition-all duration-500 ${
                       currentSection === 'skills' 
-                        ? 'bg-cyan-500/[0.03] border-cyan-500/35 shadow-[0_0_20px_rgba(6,182,212,0.1)]' 
-                        : 'border-transparent opacity-45'
+                        ? 'glow-active scanline-active bg-cyan-500/[0.02]' 
+                        : 'border-transparent opacity-35'
                     }`}
                   >
                     <div className="flex items-center gap-2 mb-1.5">
-                      <Award size={12} className="text-cyan-400" />
-                      <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">Technical Capability Matrix</span>
+                      <Award size={11} className="text-cyan-400" />
+                      <span className="text-[8px] font-mono font-bold text-white uppercase tracking-wider">Technical Capability Matrix</span>
                     </div>
                     <div className="pl-4 border-l border-neutral-800 flex flex-wrap gap-1.5">
                       {['Flutter', 'React.js', 'Next.js', 'Spring Boot', 'Java', 'MySQL', 'MongoDB'].map((skill) => (
-                        <span key={skill} className="text-[6px] font-mono bg-neutral-900 border border-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded">
+                        <span key={skill} className="text-[5.5px] font-mono bg-neutral-900 border border-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded">
                           {skill}
                         </span>
                       ))}
@@ -260,93 +303,91 @@ export default function ResumeJourney() {
             </div>
           </div>
 
-          {/* Realistic Keyboard Laptop Base tilt projection */}
+          {/* Realistic Keyboard base */}
           <div 
             className="w-[106%] h-[8px] bg-gradient-to-r from-[#202022] via-[#48484a] to-[#202022] rounded-t-sm shadow-2xl relative z-10"
             style={{
-              transform: `rotateX(${65 + mousePos.y * -4}deg) translateY(-8px) translateZ(10px)`,
+              transform: `rotateX(${65 + mousePos.y * -3}deg) translateY(-8px) translateZ(10px)`,
               transformOrigin: 'bottom center',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.9)'
+              boxShadow: '0 15px 45px rgba(0,0,0,0.9)'
             }}
           >
-            {/* Display thin sleek lip notch */}
+            {/* Sleeping lip notch */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-[2px] bg-black/60 rounded-b" />
           </div>
 
-          {/* Interactive Floating Keynotes around laptop - Apple-keynote style */}
+          {/* Floating Keynote achievements reveals - Elegant floating typography, zero cards/boxes */}
           <AnimatePresence>
             {currentSection === 'education' && (
               <motion.div
-                initial={{ opacity: 0, x: -50, scale: 0.95 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: -30, scale: 0.95 }}
-                className="absolute left-[-260px] top-[15%] w-[240px] pointer-events-none hidden xl:block"
+                style={{ opacity: educationOpacity, y: educationY }}
+                className="absolute left-[-220px] top-[20%] w-[200px] pointer-events-none hidden xl:block text-left"
               >
-                <div className="bg-[#0c0c11]/85 border border-cyan-500/20 backdrop-blur-md p-6 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.8)]">
-                  <div className="flex items-center gap-2 mb-2 font-mono text-[9px] text-cyan-400">
-                    <span>// CREDENTIAL</span>
-                  </div>
-                  <h5 className="text-white text-base font-bold uppercase mb-1">First-Class Distinction</h5>
-                  <p className="text-neutral-500 text-xs font-light leading-relaxed">
-                    Maintained high standards across AKTU ghaziabad computer science syllabus.
-                  </p>
+                <div className="font-mono text-[9px] text-cyan-400 tracking-[0.25em] mb-1.5">
+                  // ACADEMIC DECREE
                 </div>
-              </motion.div>
-            )}
-
-            {currentSection === 'internship' && (
-              <motion.div
-                initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 30, scale: 0.95 }}
-                className="absolute right-[-260px] top-[25%] w-[240px] pointer-events-none hidden xl:block"
-              >
-                <div className="bg-[#0c0c11]/85 border border-cyan-500/20 backdrop-blur-md p-6 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.8)]">
-                  <div className="flex items-center gap-2 mb-2 font-mono text-[9px] text-cyan-400">
-                    <span>// SHIPPED CODE</span>
-                  </div>
-                  <h5 className="text-white text-base font-bold uppercase mb-1">Industry Experience</h5>
-                  <p className="text-neutral-500 text-xs font-light leading-relaxed">
-                    Shipped clean interface components, responsive layout modules, and system testing.
-                  </p>
-                </div>
+                <h5 className="text-white text-lg font-black uppercase leading-tight mb-2">
+                  B.Tech Computer Science
+                </h5>
+                <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-wider">
+                  2022–2026 // NITRA / AKTU
+                </p>
               </motion.div>
             )}
 
             {currentSection === 'projects' && (
               <motion.div
-                initial={{ opacity: 0, x: -50, scale: 0.95 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: -30, scale: 0.95 }}
-                className="absolute left-[-260px] top-[40%] w-[240px] pointer-events-none hidden xl:block"
+                style={{ opacity: projectsOpacity, y: projectsY }}
+                className="absolute right-[-220px] top-[30%] w-[200px] pointer-events-none hidden xl:block text-right"
               >
-                <div className="bg-[#0c0c11]/85 border border-cyan-500/20 backdrop-blur-md p-6 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.8)]">
-                  <div className="flex items-center gap-2 mb-2 font-mono text-[9px] text-cyan-400">
-                    <span>// BUILDS</span>
-                  </div>
-                  <h5 className="text-white text-base font-bold uppercase mb-1">15+ Projects Built</h5>
-                  <p className="text-neutral-500 text-xs font-light leading-relaxed">
-                    Designed and launched high-performance tools covering real-time systems and ML interfaces.
-                  </p>
+                <div className="font-mono text-[9px] text-cyan-400 tracking-[0.25em] mb-1.5">
+                  // ENGINEERING BUILDS
                 </div>
+                <h5 className="text-white text-lg font-black uppercase leading-tight mb-2">
+                  15+ Projects Built
+                </h5>
+                <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-wider">
+                  Emotion recommenders & high-concurrency quizzes
+                </p>
+              </motion.div>
+            )}
+
+            {currentSection === 'internship' && (
+              <motion.div
+                style={{ opacity: internshipOpacity, y: internshipY }}
+                className="absolute left-[-220px] top-[40%] w-[200px] pointer-events-none hidden xl:block text-left"
+              >
+                <div className="font-mono text-[9px] text-cyan-400 tracking-[0.25em] mb-1.5">
+                  // EXPERTISE SHIPPED
+                </div>
+                <h5 className="text-white text-lg font-black uppercase leading-tight mb-2">
+                  Industry Experience
+                </h5>
+                <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-wider">
+                  Web Developer Intern at InnoByte Services
+                </p>
               </motion.div>
             )}
 
             {currentSection === 'skills' && (
               <motion.div
-                initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 30, scale: 0.95 }}
-                className="absolute right-[-260px] top-[50%] w-[240px] pointer-events-none hidden xl:block"
+                style={{ opacity: skillsOpacity, y: skillsY }}
+                className="absolute right-[-220px] top-[20%] w-[200px] pointer-events-none hidden xl:block text-right space-y-2.5"
               >
-                <div className="bg-[#0c0c11]/85 border border-cyan-500/20 backdrop-blur-md p-6 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.8)]">
-                  <div className="flex items-center gap-2 mb-2 font-mono text-[9px] text-cyan-400">
-                    <span>// MATRIX</span>
-                  </div>
-                  <h5 className="text-white text-base font-bold uppercase mb-1">Full-Stack Capability</h5>
-                  <p className="text-neutral-500 text-xs font-light leading-relaxed">
-                    Engineered modular applications using Spring Boot Java backends and React frontends.
-                  </p>
+                <div className="font-mono text-[9px] text-cyan-400 tracking-[0.25em] mb-1.5">
+                  // TECH CAPABILITIES
+                </div>
+                <div className="text-xl font-black text-white uppercase tracking-tight leading-none">
+                  Flutter
+                </div>
+                <div className="text-xl font-black text-[#58a6ff] uppercase tracking-tight leading-none">
+                  Spring Boot
+                </div>
+                <div className="text-xl font-black text-teal-400 uppercase tracking-tight leading-none">
+                  React
+                </div>
+                <div className="text-xl font-black text-cyan-400 uppercase tracking-tight leading-none">
+                  AI Systems
                 </div>
               </motion.div>
             )}
@@ -354,26 +395,26 @@ export default function ResumeJourney() {
 
         </motion.div>
 
-        {/* Step 4: Exit cinematic message */}
+        {/* Step 7: Final exit cinematic message */}
         <motion.div
           style={{ opacity: text2Opacity, scale: text2Scale }}
-          className="absolute text-center max-w-4xl z-20 pointer-events-none"
+          className="absolute text-center max-w-3xl z-20 pointer-events-none"
         >
-          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-6 block">
+          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-4 block">
             [ SYSTEM SUMMARY ]
           </span>
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none text-white uppercase mb-8">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-none text-white uppercase">
             THIS RESUME OPENS DOORS<br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.2)' }}>THE PROJECTS CREATE IMPACT</span>
+            <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>THE PROJECTS CREATE IMPACT</span>
           </h2>
         </motion.div>
 
-        {/* Step 5: Final minimal Actions Hub */}
+        {/* Step 8: Final Actions Hub */}
         <motion.div
           style={{ opacity: ctaOpacity, scale: ctaScale }}
           className="absolute flex flex-col items-center max-w-2xl z-25 pointer-events-auto"
         >
-          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-6 block">
+          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-5 block">
             [ SECURE ACTIONS ARCHIVE ]
           </span>
           
