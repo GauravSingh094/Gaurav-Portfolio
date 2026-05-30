@@ -1,6 +1,6 @@
-# Creative Developer Portfolio — High-End 3D Constellation Experience
+# Creative Developer Portfolio — High-End Personal Brand Ecosystem
 
-A state-of-the-art personal developer portfolio website designed with scrollytelling, interactive 3D constellation systems, tactile mouse-tracking glass card overlays, and high-inertia physics simulations.
+A state-of-the-art personal developer portfolio website designed as an interactive professional platform. It features immersive scrollytelling, interactive 3D constellation systems, tactile mouse-tracking glass card overlays, an integrated AI Digital Twin, and an interactive developer terminal.
 
 ---
 
@@ -12,22 +12,24 @@ A state-of-the-art personal developer portfolio website designed with scrollytel
 * **Cinematic Reassembly**: Leaving the section wrapper instantly deactivates repulsion, prompting the spring equations (`stiffness = 0.06`, `damping = 0.82`) to smoothly drift all displaced nodes back to their exact home coordinates without snapping.
 * **Monospaced Role Tooltips**: Every sphere features a glassmorphic hover card showing both its brand title and active workflow role.
 
-### 2. Futuristic Intelligence Statistics Panels
-* **Frosted Glassmorphism**: Cards use frosted dark acrylic bases (`bg-[#0c0c11]/85`, `backdrop-blur-xl`, and `border border-white/5`) with custom inner reflections and deep shadows.
-* **Dynamic Color-Coded Radial Glows**: Custom spotlights glow behind the glass boundary when hovered (Cyan for Languages, Purple-Cyan for Frameworks, Blue for Databases, Teal/Green for Tools and AI Agents).
-* **Animated Icon Cores**: Embeds high-fidelity vector cores rotating organically (nested spinning Code Orbs, floating layered stacks, pulsing server cylinders, spinning crosshair AI assistants, and rotating interlocking gears).
-* **Scroll-Triggered Counter**: Statistics animate dynamically from `0` to final values using scroll-triggered `IntersectionObserver` counters.
-* **Base Energy Waves & Micro Dust**: Base borders house a continuous glowing horizontal wave, paired with floating micro-particles drifting in the background.
+### 2. Conversational RAG AI Digital Twin
+* **Grounded LLM Routing**: Features a full-scale AI Assistant panel integrated with Next.js route handlers and the Google Gemini API (`gemini-2.5-flash`).
+* **On-Device Keyword RAG Engine**: Scans user query parameters dynamically and injects corresponding portfolio context structures (SoulSync, Mindrift, Spring PetClinic, and King Sukh Guest House) to ensure hallucination-free professional answers.
+* **Recruiter Action Pathways**: Houses suggested descoper-chips providing recruiters with fast answers to Gaurav's skills, qualifications, and background.
 
-### 3. Tactile Services & Agency Footer Redesign
+### 3. Developer CLI Terminal & Command Palette
+* **Full-Screen CLI Console (`/terminal`)**: An interactive command-line interface supporting commands like `help`, `about`, `skills`, `projects`, `resume`, `contact`, and `clear`.
+* **Frosted Command Palette (`⌘+K` / `Ctrl+K`)**: Frost-styled global navigation hub enabling instant layout redirections and quick external URL navigation.
+
+### 4. Optimized Resume Experience 2.0
+* **Interactive Grayscale-to-Color 3D Card**: An interactive 3D tilted card of Gaurav's resume with a responsive custom magnifier glass lens that follows cursor movements.
+* **Enlarged Responsive Split Layout**: Card dimension set to a massive `max-w-xl` (576px) container within a responsive `md:w-[45%]` (Left) and `md:w-[50%]` (Right) split grid.
+* **Direct Browser Save Download**: Premium icon-only glass CTA cards (`w-14 h-14` size) configured with standard `download` parameters to trigger direct browser file saves.
+
+### 5. Tactical Services & Agency Contact Section
 * **3D Card Hover Tilts**: Service panels tilt up to 12 degrees along relative X and Y mouse axes with custom cursor spotlight highlights.
-* **India Standard Time Clock (IST)**: Displays a real-time digital clock (GMT+5:30) with hydration-safe mounts.
-* **Emerald Pulse Status Badge**: High-contrast indicator signaling active availability status for internships.
-* **CSS Kinetic Link Rollers**: Rolling typography text animations where social and email links slide vertically on hover to reveal duplicate colored assets.
-
-### 4. Gated Loader & Projects Carousel HUD
-* **Gated Pacing**: Progress bar completes in ~1.1 seconds. Halts at "Welcome" prompting for manual click, triggering an expanding black circle transition.
-* **Work Carousel terminal HUD**: Interactive developer terminal showing secure node containers, live deployment states, and automated key capabilities panels.
+* **Local Terminal Time (IST)**: Displays a real-time digital clock in India Standard Time (GMT+5:30) with hydration-safe mounts, formatted in a readable 12-hour AM/PM format.
+* **Availability Status HUD**: High-contrast indicator badge signaling active availability for internships and developer collaborations.
 
 ---
 
@@ -61,7 +63,7 @@ A state-of-the-art personal developer portfolio website designed with scrollytel
    ```bash
    npm run dev
    ```
-   *The application will boot up at `http://localhost:3000` (or `http://localhost:3001` if port 3000 is occupied).*
+   *The application will boot up at `http://localhost:3000`.*
 
 4. **Verify TypeScript & Build**:
    ```bash
@@ -74,18 +76,29 @@ A state-of-the-art personal developer portfolio website designed with scrollytel
 ## 📁 Project Structure
 
 ```text
-├── public/                 # Static vector SVG brand assets
+├── public/                 # Static vector brand icons & resume PDF archive
+│   ├── Gaurav_Resume.pdf   # Direct high-speed download resume asset
+│   └── images/             # Static mockups and interactive preview images
 ├── src/
-│   ├── app/                # Main Next.js routes & global styling config
-│   │   ├── globals.css     # Tailwind CSS base theme settings
+│   ├── app/                # Next.js routes, layouts & global config
+│   │   ├── api/chat/       # Conversational AI assistant route handler
+│   │   ├── terminal/       # CLI developer command terminal page
+│   │   ├── globals.css     # Base CSS configuration
 │   │   ├── layout.tsx      # Core root layout container
-│   │   └── page.tsx        # Main portfolio scrollytelling index
-│   └── components/         # Premium custom interactive components
-│       ├── Loader.tsx      # Snappy gating progress page
-│       ├── ProjectCarousel.tsx # Work slider with terminal capabilities
-│       ├── TechStack.tsx   # 3D interactive tech constellation & stats
-│       ├── VibeCoding.tsx  # 3D AI-platform constellation & stats
-│       ├── WhatIDo.tsx     # 3D hover services grid
-│       ├── Contact.tsx     # Studio footer, IST Clock, and kinetic roller links
-│       └── CustomCursor.tsx # Cursor spotlight tracking layer
+│   │   └── page.tsx        # Main portfolio index page
+│   ├── components/         # Premium custom interactive UI components
+│   │   ├── AIAssistant.tsx # Floating interactive AI Digital Twin
+│   │   ├── CommandPalette.tsx # Frost glass navigation overlay
+│   │   ├── CustomCursor.tsx # Cursor spotlight tracking layer
+│   │   ├── Loader.tsx      # Gating progress loader page
+│   │   ├── ProjectCarousel.tsx # Work slider with terminal capabilities
+│   │   ├── ResumeJourney.tsx # Grayscale magnifier card and high-speed CTAs
+│   │   ├── TechStack.tsx   # 3D interactive tech constellation & stats
+│   │   ├── VibeCoding.tsx  # 3D AI-platform constellation & stats
+│   │   ├── WhatIDo.tsx     # 3D hover services grid
+│   │   └── Contact.tsx     # Footer, 12-hour IST Clock, availability HUD
+│   ├── hooks/
+│   │   └── useAnalytics.ts # Custom user telemetry hooks
+│   └── lib/
+│       └── portfolio-context.ts # RAG data catalog store
 ```
