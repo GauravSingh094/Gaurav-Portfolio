@@ -1,483 +1,428 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { FileText, Download, ExternalLink, Linkedin, Github, GraduationCap, Briefcase, Code, Award, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FileText, Download, ExternalLink, Linkedin, Github, Award, Sparkles, CheckCircle2, X, ChevronRight, HelpCircle } from 'lucide-react';
 
 export default function ResumeJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Track mouse coordinates for subtle card parallax tilt
+  const resumeRef = useRef<HTMLDivElement>(null);
+
+  // States
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const box = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - box.left) / box.width - 0.5;
-    const y = (e.clientY - box.top) / box.height - 0.5;
-    setMousePos({ x, y });
+  // Magnifier States
+  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0, bgX: 0, bgY: 0 });
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [resumeDimensions, setResumeDimensions] = useState({ width: 0, height: 0 });
+
+  // Mobile Tap-To-Zoom States
+  const [isZoomedMobile, setIsZoomedMobile] = useState(false);
+
+  // Responsive device checks
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Update resume dimensions on hover or load
+  const updateResumeDimensions = () => {
+    if (resumeRef.current) {
+      const rect = resumeRef.current.getBoundingClientRect();
+      setResumeDimensions({ width: rect.width, height: rect.height });
+    }
   };
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!resumeRef.current) return;
+    const box = resumeRef.current.getBoundingClientRect();
+    
+    // Tilt calculations
+    const xTilt = (e.clientX - box.left) / box.width - 0.5;
+    const yTilt = (e.clientY - box.top) / box.height - 0.5;
+    setMousePos({ x: xTilt, y: yTilt });
 
-  // Storytelling scroll progress thresholds
-  // 0.00 - 0.18: Stage 1 (Intro Text, laptop/image subtle)
-  // 0.18 - 0.30: Stage 2 (Split Screen emerges, resume & image become bright)
-  // 0.30 - 0.43: Stage 3 (Education glows, floating text 1, image glow intensifies)
-  // 0.43 - 0.56: Stage 4 (Projects glows, floating text 2, particles increase)
-  // 0.56 - 0.69: Stage 5 (Internship glows, floating text 3, rings spin)
-  // 0.69 - 0.82: Stage 6 (Skills glows, floating technology particles)
-  // 0.82 - 0.92: Stage 7 (Resume fades, image centers, final message)
-  // 0.92 - 1.00: Stage 8 (CTA controls)
-
-  // Map scroll progress to visibility and transforms
-  const text1Opacity = useTransform(scrollYProgress, [0, 0.12, 0.18], [1, 1, 0]);
-  const text1Scale = useTransform(scrollYProgress, [0, 0.12, 0.18], [1, 1.05, 0.95]);
-
-  // Split-layout elements visibility mapping
-  const resumeOpacity = useTransform(scrollYProgress, [0.12, 0.18, 0.82, 0.88], [0.10, 1, 1, 0.15]);
-  const resumeScale = useTransform(scrollYProgress, [0.12, 0.18, 0.82, 0.88], [0.75, 1, 1, 0.90]);
-  const resumeX = useTransform(scrollYProgress, [0.12, 0.18, 0.82, 0.88], [-50, 0, 0, -30]);
-
-  const imageOpacity = useTransform(scrollYProgress, [0.12, 0.18, 0.90, 0.95], [0.10, 1, 1, 0]);
-  const imageScale = useTransform(scrollYProgress, [0.12, 0.18, 0.82, 0.88], [0.75, 1, 1, 1.15]);
-  const imageX = useTransform(scrollYProgress, [0.12, 0.18, 0.82, 0.88], [50, 0, 0, -180]); // Centers dynamically on final scene
-
-  // Highlight step status
-  const activeStep = useTransform(scrollYProgress, (progress) => {
-    if (progress < 0.28) return 'intro';
-    if (progress >= 0.28 && progress < 0.43) return 'education';
-    if (progress >= 0.43 && progress < 0.56) return 'projects';
-    if (progress >= 0.56 && progress < 0.69) return 'internship';
-    if (progress >= 0.69 && progress < 0.82) return 'skills';
-    return 'exit';
-  });
-
-  const [currentSection, setCurrentSection] = useState('intro');
-  useEffect(() => {
-    return activeStep.onChange((v) => {
-      setCurrentSection(v);
-    });
-  }, [activeStep]);
-
-  // Personal image reactions triggers (Glow & particles scale based on milestone reveals)
-  const imageGlow = useTransform(
-    scrollYProgress,
-    [0.18, 0.30, 0.43, 0.56, 0.69, 0.82],
-    [
-      '0 0 30px rgba(6,182,212,0.2)', // Stage 2
-      '0 0 45px rgba(6,182,212,0.35)', // Stage 3 (Edu)
-      '0 0 55px rgba(6,182,212,0.45)', // Stage 4 (Proj)
-      '0 0 65px rgba(6,182,212,0.50)', // Stage 5 (Intern)
-      '0 0 80px rgba(6,182,212,0.65)', // Stage 6 (Skills - Peak)
-      '0 0 40px rgba(6,182,212,0.3)', // Stage 7 (Exit)
-    ]
-  );
-
-  const ringSpeed = useTransform(scrollYProgress, [0.18, 0.30, 0.56, 0.69, 0.82], [30, 20, 15, 8, 25]);
-
-  // Floating text highlights transforms (Zero cards/boxes, pure Apple keynote typography)
-  const educationOpacity = useTransform(scrollYProgress, [0.28, 0.32, 0.39, 0.43], [0, 1, 1, 0]);
-  const educationY = useTransform(scrollYProgress, [0.28, 0.32], [20, 0]);
-
-  const projectsOpacity = useTransform(scrollYProgress, [0.43, 0.47, 0.52, 0.56], [0, 1, 1, 0]);
-  const projectsY = useTransform(scrollYProgress, [0.43, 0.47], [20, 0]);
-
-  const internshipOpacity = useTransform(scrollYProgress, [0.56, 0.60, 0.65, 0.69], [0, 1, 1, 0]);
-  const internshipY = useTransform(scrollYProgress, [0.56, 0.60], [20, 0]);
-
-  const skillsOpacity = useTransform(scrollYProgress, [0.69, 0.73, 0.78, 0.82], [0, 1, 1, 0]);
-  const skillsY = useTransform(scrollYProgress, [0.69, 0.73], [20, 0]);
-
-  // Exit Cinematic Message transforms
-  const text2Opacity = useTransform(scrollYProgress, [0.82, 0.87, 0.92], [0, 1, 0]);
-  const text2Scale = useTransform(scrollYProgress, [0.82, 0.87, 0.92], [0.96, 1, 1.04]);
-
-  // Final Action Center transforms
-  const ctaOpacity = useTransform(scrollYProgress, [0.91, 0.96], [0, 1]);
-  const ctaScale = useTransform(scrollYProgress, [0.91, 0.96], [0.96, 1]);
+    // Magnifier coordinates
+    const mX = e.clientX - box.left;
+    const mY = e.clientY - box.top;
+    const bgX = (mX / box.width) * 100;
+    const bgY = (mY / box.height) * 100;
+    setMagnifierPos({ x: mX, y: mY, bgX, bgY });
+  };
 
   const driveUrl = "https://drive.google.com/file/d/1zxa1Co29lOq7zD1bm-5sdHRpOVuzmimH/view?usp=drivesdk";
+
+  // Floating career highlights tags list
+  const highlights = [
+    "B.Tech Computer Science",
+    "Software Development Intern",
+    "Flutter Developer",
+    "Full Stack Developer",
+    "AI Systems Builder",
+    "Spring Boot Developer",
+    "Real World Projects"
+  ];
+
+  // Recruiter side drawer pitch summaries items
+  const recruiterHighlights = [
+    { title: "AI Development Experience", desc: "Expertise engineering LLM pipelines, RAG frameworks, LangGraph competitive state machines, and Gemini integrations." },
+    { title: "Flutter Expertise", desc: "Engineered responsive, highly optimized cross-platform native iOS & Android applications with emotion tracking facials." },
+    { title: "Full Stack Development", desc: "Solid grasp of modular layouts driving sub-10ms latency state synchronizations across real-time multiplayer systems." },
+    { title: "Backend Architecture", desc: "Specialization in enterprise Java Spring Boot backends, transaction limits, lazy queries, JPA boundaries, and REST APIs." },
+    { title: "Production Deployments", desc: "Proven record shipping actual functional codebases, static catalog optimizations, and localized SEO setups." }
+  ];
+
+  // AI assistant remote trigger questions list
+  const digitalTwinQuestions = [
+    { label: "Explain Gaurav's experience", query: "Explain Gaurav's professional experience and internship background." },
+    { label: "Summarize his resume", query: "Can you provide a quick bulleted summary of Gaurav's resume credentials?" },
+    { label: "Show strongest projects", query: "Show me Gaurav's strongest software engineering projects." },
+    { label: "Why hire Gaurav?", query: "Why should a recruiter hire Gaurav? What is his unique value proposition?" },
+    { label: "View backend experience", query: "Describe Gaurav's Java Spring Boot and backend engineering experience." }
+  ];
+
+  // Dispatch custom event to trigger chatbot panel automatically
+  const handleAIQuery = (query: string) => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('open-digital-twin', { detail: { query } }));
+    }
+  };
 
   return (
     <section 
       id="resume"
       ref={containerRef} 
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setHovered(false); setMousePos({ x: 0, y: 0 }); }}
-      className="relative z-20 bg-[#050507] w-full min-h-[450vh] select-none overflow-hidden"
+      className="relative z-20 bg-[#050507] w-full py-24 md:py-32 overflow-hidden"
     >
-      {/* Keyframes Animations for resume scanlines & glowing border reflections */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .scanline-active {
-          position: relative;
-          overflow: hidden;
-        }
-        .scanline-active::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          width: 100%;
-          height: 4px;
-          background: linear-gradient(to right, transparent, var(--scanline-color, rgba(34,211,238,0.5)), transparent);
-          animation: scan 1.8s linear infinite;
-        }
-        .glow-active {
-          box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
-          border-color: rgba(34, 211, 238, 0.35) !important;
-          animation: subtlePulse 2.5s infinite ease-in-out;
-        }
-        @keyframes scan {
-          0% { top: 0%; }
-          100% { top: 100%; }
-        }
-        @keyframes subtlePulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.008); }
-        }
-        @keyframes rotateRing {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}} />
+      {/* Visual background overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(6,182,212,0.025),transparent_55%)] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.002)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.002)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
 
-      {/* Ambient spotlights background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(6,182,212,0.03),transparent_55%)] pointer-events-none z-0" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.003)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.003)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none z-0" />
-
-      {/* Floating starry elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-[1.5px] h-[1.5px] rounded-full bg-cyan-400/15 animate-pulse"
-            style={{
-              left: `${5 + i * 5}%`,
-              top: `${10 + (i % 4) * 20}%`,
-              animationDuration: `${2.5 + (i % 3) * 1.2}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Sticky storyteller locking container */}
-      <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden z-10 px-6">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-16">
         
-        {/* Stage 1: Reduced size clean intro text */}
-        <motion.div
-          style={{ opacity: text1Opacity, scale: text1Scale }}
-          className="absolute text-center max-w-2xl z-20 pointer-events-none"
-        >
-          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-4 block">
-            [ SYSTEM JOURNAL ]
+        {/* Section Header Title matching Hero/Projects layout */}
+        <div className="relative">
+          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-3 block">
+            [ PROFESSIONAL JOURNEY ]
           </span>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-none text-white uppercase mb-5">
-            MORE THAN A RESUME
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white uppercase leading-none relative z-10">
+            RESUME
           </h2>
-          <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest animate-pulse">
-            // Scroll to begin journey
-          </p>
-        </motion.div>
+          <span className="absolute -left-4 -top-8 text-[6rem] md:text-[8rem] font-black text-white/[0.015] select-none pointer-events-none uppercase tracking-widest font-sans z-0 hidden sm:block">
+            JOURNEY
+          </span>
+          <div className="w-16 h-1 bg-gradient-to-r from-cyan-500 to-teal-500 rounded mt-4" />
+        </div>
 
-        {/* Cinematic Split Canvas Composition */}
-        <div className="relative w-full max-w-5xl h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16">
+        {/* 60/40 Responsive Split Layout */}
+        <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-start">
           
-          {/* Left Column: Tilted 3D Glass Resume Preview */}
-          <motion.div
-            style={{ 
-              opacity: resumeOpacity, 
-              scale: resumeScale,
-              x: resumeX,
-              perspective: 1200
-            }}
-            className="w-full md:w-[48%] h-full flex flex-col justify-center items-center pointer-events-none relative z-10"
+          {/* LEFT SIDE (60% split): Compelling Narrative, Highlight tags, CTA buttons */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full md:w-[58%] space-y-8"
           >
-            {/* Tilted 3D resume document capsule */}
-            <div 
-              className="w-full max-w-sm aspect-[1/1.35] bg-[#0c0c11]/90 border border-white/5 rounded-3xl p-6 md:p-8 relative overflow-hidden transition-transform duration-500 ease-out shadow-2xl flex flex-col justify-between"
-              style={{
-                transform: `rotateX(${-3 + mousePos.y * -8}deg) rotateY(${mousePos.x * 12}deg)`,
-                transformStyle: 'preserve-3d',
-                borderColor: hovered ? 'rgba(34, 211, 238, 0.25)' : 'rgba(255, 255, 255, 0.05)',
-                boxShadow: '0 25px 60px rgba(0,0,0,0.8)'
-              }}
-            >
-              {/* Screen gloss reflections */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.015] to-white/[0.04] pointer-events-none z-10" />
-              
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.003)_1px,transparent_1px)] bg-[size:100%_15px] pointer-events-none z-0" />
-
-              {/* Resume structure */}
-              <div className="w-full space-y-4 overflow-hidden pr-1">
-                
-                {/* Resume Header */}
-                <div className="flex justify-between items-end border-b border-neutral-900 pb-2.5">
-                  <div>
-                    <h4 className="text-lg font-black text-white tracking-tight uppercase leading-none font-sans">GAURAV SINGH</h4>
-                    <p className="text-[7px] font-mono text-cyan-400 uppercase tracking-widest mt-0.5">Systems & Web Engineer</p>
-                  </div>
-                  <span className="font-mono text-[6px] text-neutral-600">SYS_V2.06_DEPLOY</span>
-                </div>
-
-                {/* Highlight: Education */}
-                <div 
-                  className={`p-2.5 rounded-xl border transition-all duration-500 ${
-                    currentSection === 'education' 
-                      ? 'scanline-active' 
-                      : 'border-transparent opacity-25'
-                  }`}
-                  style={currentSection === 'education' ? {
-                    boxShadow: '0 0 25px rgba(245, 158, 11, 0.25)',
-                    borderColor: 'rgba(245, 158, 11, 0.35)',
-                    backgroundColor: 'rgba(245, 158, 11, 0.02)',
-                    animation: 'subtlePulse 2.5s infinite ease-in-out',
-                    '--scanline-color': 'rgba(245, 158, 11, 0.6)'
-                  } as any : {}}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <GraduationCap size={10} className="text-cyan-400" />
-                    <span className="text-[7.5px] font-mono font-bold text-white uppercase tracking-wider">Education Dossier</span>
-                  </div>
-                  <div className="space-y-0.5 pl-3 border-l border-neutral-800">
-                    <div className="flex justify-between text-[7.5px] font-bold text-neutral-300">
-                      <span>B.Tech in Computer Science (NITRA / AKTU)</span>
-                      <span className="font-mono text-cyan-500">2022 – 2026</span>
-                    </div>
-                    <p className="text-[6.5px] text-neutral-500 font-sans">Ghaziabad, UP // Computer Science & Systems</p>
-                  </div>
-                </div>
-
-                {/* Highlight: Internship */}
-                <div 
-                  className={`p-2.5 rounded-xl border transition-all duration-500 ${
-                    currentSection === 'internship' 
-                      ? 'scanline-active' 
-                      : 'border-transparent opacity-25'
-                  }`}
-                  style={currentSection === 'internship' ? {
-                    boxShadow: '0 0 25px rgba(16, 185, 129, 0.25)',
-                    borderColor: 'rgba(16, 185, 129, 0.35)',
-                    backgroundColor: 'rgba(16, 185, 129, 0.02)',
-                    animation: 'subtlePulse 2.5s infinite ease-in-out',
-                    '--scanline-color': 'rgba(16, 185, 129, 0.6)'
-                  } as any : {}}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Briefcase size={10} className="text-cyan-400" />
-                    <span className="text-[7.5px] font-mono font-bold text-white uppercase tracking-wider">Work Internship Experience</span>
-                  </div>
-                  <div className="space-y-0.5 pl-3 border-l border-neutral-800">
-                    <div className="flex justify-between text-[7.5px] font-bold text-neutral-300">
-                      <span>Web Developer Intern (InnoByte Services)</span>
-                      <span className="font-mono text-cyan-500">2025</span>
-                    </div>
-                    <p className="text-[6.5px] text-neutral-500 font-sans">Remote // Shipped Responsive Web Modules & Code Refactorings</p>
-                  </div>
-                </div>
-
-                {/* Highlight: Projects */}
-                <div 
-                  className={`p-2.5 rounded-xl border transition-all duration-500 ${
-                    currentSection === 'projects' 
-                      ? 'scanline-active' 
-                      : 'border-transparent opacity-25'
-                  }`}
-                  style={currentSection === 'projects' ? {
-                    boxShadow: '0 0 25px rgba(20, 184, 166, 0.25)',
-                    borderColor: 'rgba(20, 184, 166, 0.35)',
-                    backgroundColor: 'rgba(20, 184, 166, 0.02)',
-                    animation: 'subtlePulse 2.5s infinite ease-in-out',
-                    '--scanline-color': 'rgba(20, 184, 166, 0.6)'
-                  } as any : {}}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Code size={10} className="text-cyan-400" />
-                    <span className="text-[7.5px] font-mono font-bold text-white uppercase tracking-wider">Engineering Initiatives</span>
-                  </div>
-                  <div className="space-y-1 pl-3 border-l border-neutral-800">
-                    <div className="flex justify-between text-[7.5px] font-bold text-neutral-300 font-sans">
-                      <span>AI Music Player & Quiz Platform</span>
-                      <span className="font-mono text-cyan-500 font-semibold">Active</span>
-                    </div>
-                    <p className="text-[6.5px] text-neutral-500 font-sans">Built emotion recommendation algorithms & quiz leaderboards.</p>
-                  </div>
-                </div>
-
-                {/* Highlight: Skills */}
-                <div 
-                  className={`p-2.5 rounded-xl border transition-all duration-500 ${
-                    currentSection === 'skills' 
-                      ? 'scanline-active' 
-                      : 'border-transparent opacity-25'
-                  }`}
-                  style={currentSection === 'skills' ? {
-                    boxShadow: '0 0 25px rgba(99, 102, 241, 0.25)',
-                    borderColor: 'rgba(99, 102, 241, 0.35)',
-                    backgroundColor: 'rgba(99, 102, 241, 0.02)',
-                    animation: 'subtlePulse 2.5s infinite ease-in-out',
-                    '--scanline-color': 'rgba(99, 102, 241, 0.6)'
-                  } as any : {}}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Award size={10} className="text-cyan-400" />
-                    <span className="text-[7.5px] font-mono font-bold text-white uppercase tracking-wider">Technical Capability Matrix</span>
-                  </div>
-                  <div className="pl-3 border-l border-neutral-800 flex flex-wrap gap-1">
-                    {['Flutter', 'React.js', 'Next.js', 'Spring Boot', 'Java', 'MySQL', 'MongoDB'].map((skill) => (
-                      <span key={skill} className="text-[5.5px] font-mono bg-neutral-900 border border-neutral-800 text-neutral-400 px-1 py-0.5 rounded">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Resume Bottom */}
-              <div className="border-t border-neutral-900 pt-2 flex justify-between items-center text-[6px] font-mono text-neutral-600">
-                <span>DEPLOYED // READY</span>
-                <span>VERIFIED ORIGINAL</span>
-              </div>
-
+            {/* Opening statement */}
+            <div className="space-y-4">
+              <span className="font-mono text-[10px] text-cyan-300 uppercase tracking-widest block font-bold">// THE STORY</span>
+              <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight leading-snug">
+                ENGINEERING REAL PRODUCTS BY BRIDGING LOGIC & INTELLIGENCE
+              </h3>
+              <p className="text-neutral-400 text-sm leading-relaxed font-light">
+                As a Full-Stack Web and Cross-Platform Developer, I specialize in architecting fast mobile applications using <span className="text-cyan-300 font-semibold">Flutter</span> and robust backends powered by <span className="text-teal-400 font-semibold">Java Spring Boot</span>. With a deep passion for <span className="text-cyan-400 font-semibold">AI Engineering</span>, I build production-level software modules grounded in security, transaction safety, and sub-10ms state synchronizations. I view my code not just as logic, but as scalable solutions designed to solve real user friction.
+              </p>
             </div>
+
+            {/* Elegant glass career highlight tags */}
+            <div className="space-y-3">
+              <span className="font-mono text-[9px] text-neutral-500 uppercase tracking-widest block">// Career Milestones</span>
+              <div className="flex flex-wrap gap-2.5">
+                {highlights.map((tag) => (
+                  <motion.div 
+                    whileHover={{ scale: 1.05, borderColor: "rgba(6, 182, 212, 0.3)", boxShadow: "0 0 12px rgba(6, 182, 212, 0.15)" }}
+                    key={tag}
+                    className="font-mono text-[10px] text-neutral-300 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-xl cursor-default transition-all duration-300"
+                  >
+                    {tag}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Recruiter hiring pitch block */}
+            <div className="bg-gradient-to-r from-neutral-900/60 to-neutral-950/60 border border-white/5 rounded-2xl p-6 relative overflow-hidden group shadow-lg">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(6,182,212,0.04),transparent_65%)]" />
+              <div className="relative z-10 space-y-4">
+                <span className="font-mono text-[9px] text-cyan-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                  <Sparkles size={11} className="text-cyan-400 animate-pulse" />
+                  RECRUITER VALUE PROPOSITION
+                </span>
+                <h4 className="text-white text-sm font-bold uppercase tracking-tight">WHY GAURAV IS WORTH AN INTERVIEW:</h4>
+                <ul className="space-y-3.5 text-xs text-neutral-400 font-light pl-1">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 size={13} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span><strong>Building scalable software products</strong>: Fully modular systems designed for performance, rapid integration, and responsive state handling.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 size={13} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span><strong>Creating AI-powered ecosystems</strong>: Hands-on experience grounding agents, configuring LangGraph state maps, and safely deploying Gemini frameworks.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 size={13} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span><strong>Developing production-ready applications</strong>: Enterprise backend setups implementing structured database query loops, JPA parameters, and lazy fetching layers.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Conversational AI Integration suggested questions */}
+            <div className="space-y-3.5">
+              <span className="font-mono text-[9px] text-neutral-500 uppercase tracking-widest block">// Digital Twin Actions</span>
+              <div className="bg-[#0c0c11]/40 border border-white/5 rounded-2xl p-5 space-y-3">
+                <p className="text-[11px] text-neutral-400 leading-relaxed font-light">
+                  Have my conversational AI Digital Twin answer any resume, certification, or capability questions immediately:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {digitalTwinQuestions.map((q) => (
+                    <button
+                      key={q.label}
+                      onClick={() => handleAIQuery(q.query)}
+                      className="font-mono text-[9.5px] text-cyan-400 bg-cyan-950/20 border border-cyan-500/20 hover:border-cyan-400 hover:bg-cyan-500/5 px-3 py-1.5 rounded-full cursor-pointer transition-all duration-300 active:scale-95 shadow-[0_0_10px_rgba(6,182,212,0.03)]"
+                    >
+                      {q.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Pinned conversion Call To Actions & Recruiter drawer buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+              {/* Recruiter Focus Mode overlay toggle */}
+              <button 
+                onClick={() => setIsDrawerOpen(true)}
+                className="group relative bg-[#0c0c11]/85 hover:bg-[#0c0c11] border border-white/10 hover:border-cyan-500/30 text-white font-mono font-bold text-xs tracking-widest uppercase py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl cursor-pointer"
+              >
+                <HelpCircle size={15} className="text-cyan-400" />
+                <span>Why Hire Gaurav?</span>
+                <ChevronRight size={12} className="text-neutral-500 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+
+              <div className="flex items-center gap-3 justify-center">
+                <a 
+                  href={driveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
+                  title="View PDF Resume"
+                >
+                  <FileText size={16} />
+                </a>
+
+                <a 
+                  href={driveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
+                  title="Download Resume"
+                >
+                  <Download size={16} />
+                </a>
+
+                <a 
+                  href="https://linkedin.com/in/gaurav-singh-276944292"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
+                  title="LinkedIn profile"
+                >
+                  <Linkedin size={16} />
+                </a>
+
+                <a 
+                  href="https://github.com/GauravSingh094"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 flex items-center justify-center transition-all cursor-pointer"
+                  title="GitHub profile"
+                >
+                  <Github size={16} />
+                </a>
+              </div>
+            </div>
+
           </motion.div>
 
-          {/* Right Column: Animated Personal Image with Neural rings */}
-          <motion.div
-            style={{ 
-              opacity: imageOpacity, 
-              scale: imageScale,
-              x: imageX,
-              perspective: 1200
-            }}
-            className="w-full md:w-[48%] h-full flex flex-col justify-center items-center pointer-events-none relative z-10"
+          {/* RIGHT SIDE (40% split): Interactive Resume Preview with Magnifier & 3D Tilt */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full md:w-[38%] flex flex-col items-center justify-center relative"
           >
-            {/* Background elements (Neural rings, energy circles, grid) */}
-            <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-              
-              {/* Outer Neural circle ring */}
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[360px] h-[360px] md:w-[440px] md:h-[440px] border border-cyan-500/10 rounded-full flex items-center justify-center"
+            {/* Ambient neon spot core behind the frame */}
+            <div className="absolute w-[220px] h-[220px] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.06),transparent_70%)] blur-[25px] pointer-events-none -z-10" />
+
+            {/* Desktop interaction frame container */}
+            <div 
+              ref={resumeRef}
+              onMouseEnter={() => {
+                setShowMagnifier(true);
+                updateResumeDimensions();
+              }}
+              onMouseLeave={() => {
+                setShowMagnifier(false);
+                setMousePos({ x: 0, y: 0 });
+              }}
+              onMouseMove={handleMouseMove}
+              onClick={() => {
+                if (isMobile) {
+                  setIsZoomedMobile(prev => !prev);
+                }
+              }}
+              style={{
+                perspective: 1200,
+              }}
+              className="w-full max-w-sm cursor-crosshair relative"
+            >
+              <motion.div
+                animate={{
+                  rotateX: isMobile ? 0 : (mousePos.y * -6),
+                  rotateY: isMobile ? 0 : (mousePos.x * 8),
+                  scale: isZoomedMobile ? 1.4 : 1
+                }}
+                transition={{ type: "spring", damping: 30, stiffness: 200 }}
+                className="w-full aspect-[1/1.38] bg-[#0d0d12]/98 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_60px_rgba(6,182,212,0.15)] hover:border-cyan-500/20 transition-shadow duration-300"
               >
-                <div className="absolute top-0 w-2 h-2 rounded-full bg-cyan-400/40 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
-                <div className="absolute bottom-0 w-2 h-2 rounded-full bg-cyan-400/40 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+                {/* Reflection specular layout overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.01] to-white/[0.04] pointer-events-none z-10" />
+
+                {/* Actual resume image loaded */}
+                <img 
+                  src="/images/resume-preview.png" 
+                  alt="Gaurav Singh Resume Preview" 
+                  className="w-full h-full object-cover grayscale select-none"
+                  loading="lazy"
+                />
+
+                {/* Mobile tap-to-zoom help banner */}
+                {isMobile && (
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/5 text-[9px] font-mono text-cyan-400 uppercase tracking-widest pointer-events-none select-none z-20 shadow-md">
+                    {isZoomedMobile ? "Tap to Zoom Out" : "Tap to Inspect Details"}
+                  </div>
+                )}
               </motion.div>
 
-              {/* Inner tech energy ring */}
-              <motion.div 
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[280px] h-[280px] md:w-[340px] md:h-[340px] border border-cyan-500/5 border-dashed rounded-full"
-              />
-
-              {/* Cyan ambient spotlight core */}
-              <div className="absolute w-[200px] h-[200px] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1),transparent_70%)] blur-[20px] pointer-events-none" />
+              {/* Magnifier glass visual overlay (Desktop only, low latency background-position) */}
+              {!isMobile && showMagnifier && (
+                <div 
+                  className="w-44 h-44 rounded-full border-2 border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.35)] absolute pointer-events-none z-30 overflow-hidden"
+                  style={{
+                    left: `${magnifierPos.x - 88}px`,
+                    top: `${magnifierPos.y - 88}px`,
+                    backgroundImage: "url('/images/resume-preview.png')",
+                    backgroundPosition: `${magnifierPos.bgX}% ${magnifierPos.bgY}%`,
+                    backgroundSize: `${resumeDimensions.width * 2.2}px ${resumeDimensions.height * 2.2}px`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundColor: '#fff'
+                  }}
+                />
+              )}
             </div>
-
-            {/* Float profile image card */}
-            <motion.div
-              animate={{
-                y: [0, -8, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              style={{ 
-                boxShadow: imageGlow,
-                transform: `rotateX(${mousePos.y * 10}deg) rotateY(${mousePos.x * -14}deg)`
-              }}
-              className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-cyan-500/25 overflow-hidden relative z-10 transition-all duration-300 shadow-[0_0_30px_rgba(6,182,212,0.2)]"
-            >
-              {/* Profile Image */}
-              <img 
-                src="/images/profile.png" 
-                alt="Gaurav Singh"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-              />
-              
-              {/* Cyan dynamic edge glow overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/15 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-0 rounded-full border-[1.5px] border-cyan-400/20 pointer-events-none" />
-            </motion.div>
           </motion.div>
 
         </div>
-
-
-        {/* Step 7: Final exit cinematic message */}
-        <motion.div
-          style={{ opacity: text2Opacity, scale: text2Scale }}
-          className="absolute text-center max-w-3xl z-20 pointer-events-none"
-        >
-          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-4 block">
-            [ SYSTEM SUMMARY ]
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-none text-white uppercase">
-            THIS RESUME GOT ME NOTICED<br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>THE PROJECTS MADE ME UNFORGETTABLE</span>
-          </h2>
-        </motion.div>
-
-        {/* Step 8: Final Actions Hub CTA */}
-        <motion.div
-          style={{ opacity: ctaOpacity, scale: ctaScale }}
-          className="absolute flex flex-col items-center max-w-2xl z-25 pointer-events-auto"
-        >
-          <span className="font-mono text-[9px] text-cyan-400 tracking-[0.45em] uppercase mb-5 block">
-            [ SECURE ACTIONS ARCHIVE ]
-          </span>
-          
-          <h3 className="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase mb-8 text-center leading-none">
-            Ready to Deploy
-          </h3>
-
-          <div className="flex flex-col sm:flex-row gap-5 w-full justify-center">
-            {/* View CV direct drive view */}
-            <a 
-              href={driveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative bg-[#0c0c11]/85 hover:bg-[#0c0c11] border border-white/5 hover:border-cyan-500/30 text-white font-mono font-bold text-xs tracking-widest uppercase py-4.5 px-8 rounded-2xl flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl cursor-hover"
-            >
-              <FileText size={15} className="text-cyan-400" />
-              <span>View Resume</span>
-              <ExternalLink size={12} className="text-neutral-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
-
-            {/* Direct Drive download action */}
-            <a 
-              href={driveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-black font-mono font-bold text-xs tracking-widest uppercase py-4.5 px-8 rounded-2xl flex items-center justify-center gap-2.5 transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] cursor-hover"
-            >
-              <Download size={15} strokeWidth={2.5} />
-              <span>Download CV</span>
-            </a>
-          </div>
-
-          <div className="flex gap-6 mt-10 text-neutral-500 font-mono text-[10px] uppercase tracking-wider">
-            <a href="https://linkedin.com/in/gaurav-singh-276944292" target="_blank" rel="noreferrer" className="hover:text-white transition-colors cursor-hover flex items-center gap-1">
-              <Linkedin size={12} />
-              <span>LinkedIn</span>
-            </a>
-            <a href="https://github.com/GauravSingh094" target="_blank" rel="noreferrer" className="hover:text-white transition-colors cursor-hover flex items-center gap-1">
-              <Github size={12} />
-              <span>GitHub</span>
-            </a>
-          </div>
-        </motion.div>
-
       </div>
+
+      {/* Recruiter Focus Mode Left Side Drawer overlay */}
+      <AnimatePresence>
+        {isDrawerOpen && (
+          <div className="fixed inset-0 z-[9990] flex pointer-events-auto">
+            
+            {/* Backdrop blurring clickaway */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer pointer-events-auto"
+              onClick={() => setIsDrawerOpen(false)}
+            />
+
+            {/* Left side drawer card */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 26, stiffness: 220 }}
+              className="relative z-10 w-full sm:w-[420px] h-screen bg-[#07070a]/98 border-r border-white/10 p-8 flex flex-col justify-between overflow-y-auto select-text shadow-[15px_0_50px_rgba(0,0,0,0.8)]"
+            >
+              <div className="space-y-8">
+                {/* Header */}
+                <div className="flex justify-between items-center pb-5 border-b border-white/5">
+                  <div className="flex items-center gap-2">
+                    <Sparkles size={16} className="text-cyan-400 animate-pulse" />
+                    <h4 className="text-white text-sm font-mono font-bold uppercase tracking-wider">Hiring Recruiter Dossier</h4>
+                  </div>
+                  <button 
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="text-neutral-500 hover:text-white transition-colors p-1 rounded hover:bg-white/5 cursor-pointer"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                {/* Pitch cards list */}
+                <div className="space-y-6">
+                  <div>
+                    <span className="font-mono text-[9px] text-cyan-400 uppercase tracking-widest block font-bold">// THE FIT</span>
+                    <h5 className="text-white text-base font-black uppercase tracking-tight mt-1">Why Hire Gaurav Singh?</h5>
+                    <p className="text-neutral-400 text-xs font-light leading-relaxed mt-2">
+                      An interview with Gaurav guarantees a developer who focuses heavily on product quality, enterprise structure, and AI-enabled development tools. Here is the concise profile synopsis:
+                    </p>
+                  </div>
+
+                  <div className="space-y-5">
+                    {recruiterHighlights.map((hl) => (
+                      <div key={hl.title} className="space-y-1 pl-3 border-l-2 border-l-cyan-500/50">
+                        <h6 className="text-white text-xs font-mono font-bold uppercase tracking-wider">{hl.title}</h6>
+                        <p className="text-neutral-400 text-[11px] leading-relaxed font-light">{hl.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Drawer footer */}
+              <div className="pt-6 border-t border-white/5 space-y-4">
+                <a 
+                  href={driveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="w-full bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-black font-mono font-bold text-xs tracking-widest uppercase py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.15)] cursor-pointer"
+                >
+                  <Download size={14} strokeWidth={2.5} />
+                  <span>Download CV Archive</span>
+                </a>
+                <p className="text-[8px] font-mono text-neutral-600 text-center uppercase tracking-widest">// systems fully active // gaurav singh 2026</p>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

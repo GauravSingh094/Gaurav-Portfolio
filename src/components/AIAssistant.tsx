@@ -91,6 +91,20 @@ export default function AIAssistant() {
     };
   }, [isOpen, isCollapsed, lenis]);
 
+  // Support remote control custom events to trigger digital twin questions
+  useEffect(() => {
+    const handleRemoteQuery = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setIsOpen(true);
+      setIsCollapsed(false);
+      if (customEvent.detail?.query) {
+        handleSend(undefined, customEvent.detail.query);
+      }
+    };
+    window.addEventListener('open-digital-twin', handleRemoteQuery);
+    return () => window.removeEventListener('open-digital-twin', handleRemoteQuery);
+  }, [messages]);
+
   // Mobile Swipe down gesture trigger
   const handleDragEnd = (event: any, info: any) => {
     if (isMobile && info.offset.y > 150) {
