@@ -8,202 +8,24 @@ import { Check } from 'lucide-react';
 import * as THREE from 'three';
 
 // ---------------------------------------------------------------------------
-// AI Platform Data - 13 Major AI Tools with Custom Hierarchical Sizes
+// AI Platform Data - 13 Major AI Tools with Detailed Contextual Metrics
 // ---------------------------------------------------------------------------
 
 const VIBE_SPHERES = [
-  { name: 'ChatGPT',         src: '/logos/chatgpt.svg',   subtitle: 'AI Assistant',           size: 'large' },
-  { name: 'Claude',          src: '/logos/claude.svg',    subtitle: 'Advanced Reasoning',     size: 'large' },
-  { name: 'Cursor',          src: '/logos/cursor.svg',    subtitle: 'IDE Companion',          size: 'large' },
-  { name: 'Gemini',          src: '/logos/gemini.svg',    subtitle: 'Multimodal Analysis',    size: 'medium' },
-  { name: 'GitHub Copilot',  src: '/logos/copilot.svg',   subtitle: 'In-Editor Assistant',    size: 'medium' },
-  { name: 'Windsurf',        src: '/logos/windsurf.svg',  subtitle: 'Accelerated Dev',        size: 'medium' },
-  { name: 'v0 by Vercel',    src: '/logos/v0.svg',        subtitle: 'Generative UI Design',   size: 'medium' },
-  { name: 'Bolt.new',        src: '/logos/bolt.svg',      subtitle: 'Instant Scaffolding',    size: 'small' },
-  { name: 'Lovable',         src: '/logos/lovable.svg',   subtitle: 'Rapid Prototyping',      size: 'small' },
-  { name: 'Replit AI',       src: '/logos/replit.svg',    subtitle: 'Quick hosting & dev',    size: 'small' },
-  { name: 'Ollama',          src: '/logos/ollama.svg',    subtitle: 'Local LLM Runtime',      size: 'small' },
-  { name: 'OpenRouter',      src: '/logos/openrouter.svg',subtitle: 'API Router',              size: 'small' },
-  { name: 'Perplexity',      src: '/logos/perplexity.svg',subtitle: 'Research Engine',        size: 'small' }
+  { name: 'ChatGPT',         src: '/logos/chatgpt.svg',   subtitle: 'AI Assistant',           size: 'large',  details: ['Prompt Engineering', 'Daily Workflow Tasks', 'High-speed Text Drafts'] },
+  { name: 'Claude',          src: '/logos/claude.svg',    subtitle: 'Advanced Reasoning',     size: 'large',  details: ['Architecture Planning', 'Technical Research Labs', 'Complex Reasoning Models'] },
+  { name: 'Cursor',          src: '/logos/cursor.svg',    subtitle: 'IDE Companion',          size: 'large',  details: ['AI Coding Assistant', 'Rapid Prototype Builds', 'Inline Refactor Flows'] },
+  { name: 'Gemini',          src: '/logos/gemini.svg',    subtitle: 'Multimodal Analysis',    size: 'medium', details: ['Multimodal Analysis', 'Token Engine Integrations', 'Codebase Summarizations'] },
+  { name: 'GitHub Copilot',  src: '/logos/copilot.svg',   subtitle: 'In-Editor Assistant',    size: 'medium', details: ['In-Editor Assistant', 'Contextual Autocompletes', 'Syntax Accelerations'] },
+  { name: 'Windsurf',        src: '/logos/windsurf.svg',  subtitle: 'Accelerated Dev',        size: 'medium', details: ['Accelerated Dev Environments', 'Agentic Workflows', 'Dynamic Scaffolding'] },
+  { name: 'v0 by Vercel',    src: '/logos/v0.svg',        subtitle: 'Generative UI Design',   size: 'medium', details: ['Generative UI Design', 'Tailwind Synthesis', 'Modular Component Mocks'] },
+  { name: 'Bolt.new',        src: '/logos/bolt.svg',      subtitle: 'Instant Scaffolding',    size: 'small',  details: ['Instant App Scaffolding', 'Full-Stack Prototypes', 'Browser Sandbox Runtimes'] },
+  { name: 'Lovable',         src: '/logos/lovable.svg',   subtitle: 'Rapid Prototyping',      size: 'small',  details: ['Rapid Prototyping', 'Interactive Synthesis', 'SaaS App Mockups'] },
+  { name: 'Replit AI',       src: '/logos/replit.svg',    subtitle: 'Quick hosting & dev',    size: 'small',  details: ['Quick Hosting & Sandbox', 'Collaborative Coding Hubs', 'Instant Web Deployments'] },
+  { name: 'Ollama',          src: '/logos/ollama.svg',    subtitle: 'Local LLM Runtime',      size: 'small',  details: ['Local LLM Runtimes', 'Offline Vector Models', 'Model Fine-Tune Tests'] },
+  { name: 'OpenRouter',      src: '/logos/openrouter.svg',subtitle: 'API Router',              size: 'small',  details: ['Unified API Routing', 'Router Balance Systems', 'Model Performance Routing'] },
+  { name: 'Perplexity',      src: '/logos/perplexity.svg',subtitle: 'Research Engine',        size: 'small',  details: ['Deep Research Engine', 'Factual Verification', 'Information Gathering'] }
 ];
-
-// ---------------------------------------------------------------------------
-// Animated Stat Counter Component
-// ---------------------------------------------------------------------------
-
-function AnimatedCounter({ value, duration = 1.2 }: { value: number; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const elementRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    let startTime: number | null = null;
-    let animationFrameId: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * value));
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animate);
-      }
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        animationFrameId = requestAnimationFrame(animate);
-        observer.disconnect();
-      }
-    }, { threshold: 0.1 });
-    
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-    
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [value, duration]);
-
-  return <span ref={elementRef} className="tabular-nums">{count.toString().padStart(2, '0')}+</span>;
-}
-
-// ---------------------------------------------------------------------------
-// Custom AI Vector Animated Icon Cores
-// ---------------------------------------------------------------------------
-
-const NeuralOrb = (
-  <svg className="w-10 h-10 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="12" cy="5" r="2" fill="currentColor" />
-    <circle cx="5" cy="18" r="2" fill="currentColor" />
-    <circle cx="19" cy="18" r="2" fill="currentColor" />
-    <line x1="12" y1="5" x2="5" y2="18" stroke="currentColor" strokeWidth="1" className="animate-pulse" />
-    <line x1="12" y1="5" x2="19" y2="18" stroke="currentColor" strokeWidth="1" />
-    <line x1="5" y1="18" x2="19" y2="18" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
-    <circle cx="12" cy="12" r="3.5" stroke="currentColor" className="animate-pulse" />
-  </svg>
-);
-
-const AiAssistant = (
-  <svg className="w-10 h-10 text-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="12" cy="12" r="8" stroke="currentColor" />
-    <path d="M12 2v2M12 20v2M2 12h2M20 12h2" stroke="currentColor" className="animate-[spin_6s_linear_infinite]" />
-    <circle cx="12" cy="12" r="2" fill="currentColor" className="animate-ping" style={{ animationDuration: '2s' }} />
-  </svg>
-);
-
-const EnvCube = (
-  <svg className="w-10 h-10 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.4)] animate-[spin_20s_linear_infinite]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" />
-    <path d="M2 17l10 5 10-5V7L12 12 2 7v10z" stroke="currentColor" />
-    <path d="M12 22V12" stroke="currentColor" />
-  </svg>
-);
-
-const AutoCore = (
-  <svg className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="12" cy="12" r="9" stroke="currentColor" />
-    <path d="M12 7v5l3 3" stroke="currentColor" />
-    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeDasharray="3 3" className="animate-[spin_8s_linear_infinite]" />
-  </svg>
-);
-
-// ---------------------------------------------------------------------------
-// Futuristic Intelligence StatCard Panel Redesign
-// ---------------------------------------------------------------------------
-
-interface StatCardProps {
-  label: string;
-  count: number;
-  description: string;
-  glowColor: string;
-  icon: React.ReactNode;
-}
-
-function StatCard({ label, count, description, glowColor, icon }: StatCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="relative bg-[#0c0c11]/85 border border-white/5 rounded-2xl p-6 overflow-hidden transition-all duration-500 hover:border-white/15 select-none"
-      style={{
-        boxShadow: isHovered 
-          ? `0 15px 35px rgba(0,0,0,0.8), 0 0 25px ${glowColor}25, inset 0 0 12px ${glowColor}20` 
-          : '0 8px 30px rgba(0,0,0,0.5)',
-        transform: isHovered ? 'scale(1.04) translateY(-4px)' : 'scale(1) translateY(0px)'
-      }}
-    >
-      {/* Background Soft Glow Spotlight */}
-      <div 
-        className="absolute inset-0 opacity-30 transition-opacity duration-500 pointer-events-none z-0" 
-        style={{
-          background: `radial-gradient(circle at 50% 20%, ${glowColor}20, transparent 65%)`
-        }}
-      />
-
-      {/* Floating micro particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-25 z-0">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-white animate-[particleFloat_4s_infinite_ease-in-out]"
-            style={{
-              left: `${15 + i * 22}%`,
-              top: `${30 + (i % 2) * 35}%`,
-              animationDelay: `${i * -0.7}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Top: Animated Icon Core */}
-      <div className="relative z-10 flex justify-between items-center mb-6">
-        <div className="flex items-center justify-center bg-white/[0.02] border border-white/[0.04] p-3.5 rounded-xl transition-all duration-500">
-          <div className={`transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}>
-            {icon}
-          </div>
-        </div>
-        <span className="font-mono text-[9px] text-neutral-600 tracking-widest uppercase">
-          SYS_MONITOR
-        </span>
-      </div>
-
-      {/* Middle: Large Animated Counter */}
-      <div className="relative z-10 mb-4">
-        <h4 className="text-4xl md:text-5xl font-black text-white font-mono tracking-tight flex items-baseline gap-1">
-          <AnimatedCounter value={count} />
-        </h4>
-      </div>
-
-      {/* Bottom: Short Description */}
-      <div className="relative z-10">
-        <div className="text-white font-mono text-[11px] uppercase tracking-widest font-semibold mb-1">
-          {label}
-        </div>
-        <p className="text-neutral-500 text-xs leading-relaxed font-light">
-          {description}
-        </p>
-      </div>
-
-      {/* Base Flowing Energy Wave */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 overflow-hidden pointer-events-none rounded-b-2xl">
-        <div 
-          className="w-[200%] h-full opacity-35 animate-[energyWave_3s_linear_infinite]"
-          style={{ 
-            background: `linear-gradient(90deg, transparent, ${glowColor}, transparent)`,
-            animationDuration: isHovered ? '1.5s' : '3s'
-          }}
-        />
-      </div>
-    </motion.div>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Ambient Drifting Dust Particles Background
@@ -276,7 +98,6 @@ function FloatingSphere({ item, index, activeHover, setActiveHover, isMouseActiv
     if (!ref.current) return;
     
     const time = state.clock.getElapsedTime();
-    const dt = Math.min(delta, 0.05);
 
     const floatX = Math.sin(time * 0.8 + index) * 0.08;
     const floatY = Math.cos(time * 0.6 + index * 1.3) * 0.08;
@@ -360,10 +181,17 @@ function FloatingSphere({ item, index, activeHover, setActiveHover, isMouseActiv
             />
           </div>
 
-          {/* Hover Tooltip display */}
-          <div className={`absolute -bottom-16 left-1/2 -translate-x-1/2 bg-black/90 border border-neutral-800 px-4 py-2 rounded-lg text-center backdrop-blur-md pointer-events-none transition-all duration-300 z-[100] min-w-[140px] ${isHovered ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'}`}>
-            <div className="text-white text-xs font-bold font-mono tracking-tight whitespace-nowrap">{item.name}</div>
-            <div className="text-[8px] font-mono uppercase tracking-widest mt-0.5 text-cyan-400">{item.subtitle}</div>
+          {/* Hover Tooltip display - Contextual detailed rows */}
+          <div className={`absolute -bottom-24 left-1/2 -translate-x-1/2 bg-black/95 border border-cyan-500/20 px-4 py-3 rounded-xl text-center backdrop-blur-md pointer-events-none transition-all duration-300 z-[100] min-w-[180px] shadow-[0_12px_32px_rgba(6,182,212,0.18)] ${isHovered ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'}`}>
+            <div className="text-white text-xs font-black font-mono tracking-wider whitespace-nowrap uppercase mb-1">{item.name}</div>
+            <div className="h-[1px] w-full bg-neutral-900 my-1.5" />
+            <div className="space-y-0.5">
+              {item.details.map((detail, dIdx) => (
+                <div key={dIdx} className="text-[9px] font-mono text-neutral-400 tracking-wide whitespace-nowrap">
+                  {detail}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Html>
@@ -404,22 +232,8 @@ export default function VibeCoding() {
   return (
     <section
       id="vibe-coding"
-      className="relative z-20 bg-[#050507] py-32 md:py-40 px-6 md:px-12 lg:px-24 border-t border-neutral-900 border-dashed overflow-hidden select-none"
+      className="relative z-20 bg-[#050507] py-40 md:py-48 px-6 md:px-12 lg:px-24 border-t border-neutral-900 border-dashed overflow-hidden select-none"
     >
-      {/* Local keyframe styles for intelligence panels */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes energyWave {
-          0% { transform: translateX(-50%); }
-          50% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes particleFloat {
-          0% { transform: translateY(0px) scale(0.8); opacity: 0.15; }
-          50% { transform: translateY(-12px) scale(1.1); opacity: 0.7; }
-          100% { transform: translateY(0px) scale(0.8); opacity: 0.15; }
-        }
-      `}} />
-
       {/* Background spotlights & meshes */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
@@ -471,7 +285,7 @@ export default function VibeCoding() {
             </motion.p>
 
             {/* Philosophy highlights checklist */}
-            <div className="space-y-4 mb-16">
+            <div className="space-y-4">
               {[
                 'Prompt Engineering',
                 'Rapid Prototyping',
@@ -551,38 +365,6 @@ export default function VibeCoding() {
             </div>
           </div>
 
-        </div>
-
-        {/* Bottom Statistics Panel - Frosted Intelligence Panels */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-20 pt-16 border-t border-neutral-900 border-dashed relative z-10">
-          <StatCard 
-            label="AI Models" 
-            count={5} 
-            description="Sophisticated large language models driving codebase insights." 
-            glowColor="#22d3ee" 
-            icon={NeuralOrb} 
-          />
-          <StatCard 
-            label="Copilots" 
-            count={4} 
-            description="Interactive pair-programming editors and IDE companions." 
-            glowColor="#c084fc" 
-            icon={AiAssistant} 
-          />
-          <StatCard 
-            label="Sandboxes" 
-            count={3} 
-            description="Cloud build sandboxes and instant prototype containers." 
-            glowColor="#3b82f6" 
-            icon={EnvCube} 
-          />
-          <StatCard 
-            label="Agents" 
-            count={6} 
-            description="Autonomous multi-agent systems performing execution cycles." 
-            glowColor="#34d399" 
-            icon={AutoCore} 
-          />
         </div>
 
       </div>

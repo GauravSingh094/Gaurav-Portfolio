@@ -8,204 +8,29 @@ import { Check } from 'lucide-react';
 import * as THREE from 'three';
 
 // ---------------------------------------------------------------------------
-// Skill Data - 18 Major Technologies with Custom Hierarchical Sizes
+// Skill Data - 18 Major Technologies with Detailed Sub-Metrics
 // ---------------------------------------------------------------------------
 
 const TECH_SPHERES = [
-  { name: 'Python',          src: '/logos/python.svg',      level: 'Advanced',   size: 'large' },
-  { name: 'Java',            src: '/logos/java.svg',        level: 'Advanced',   size: 'large' },
-  { name: 'Flutter',         src: '/logos/flutter.svg',     level: 'Expert',     size: 'large' },
-  { name: 'React.js',        src: '/logos/react.svg',       level: 'Advanced',   size: 'large' },
-  { name: 'Spring Boot',     src: '/logos/springboot.svg',  level: 'Advanced',   size: 'medium' },
-  { name: 'Node.js',         src: '/logos/nodejs.svg',      level: 'Advanced',   size: 'medium' },
-  { name: 'Next.js',         src: '/logos/nextjs.svg',      level: 'Advanced',   size: 'medium' },
-  { name: 'TypeScript',      src: '/logos/typescript.svg',  level: 'Advanced',   size: 'medium' },
-  { name: 'JavaScript',      src: '/logos/javascript.svg',  level: 'Expert',     size: 'medium' },
-  { name: 'Dart',            src: '/logos/dart.svg',        level: 'Proficient', size: 'medium' },
-  { name: 'Git',             src: '/logos/git.svg',         level: 'Expert',     size: 'small' },
-  { name: 'GitHub',          src: '/logos/github.svg',      level: 'Expert',     size: 'small' },
-  { name: 'Firebase',        src: '/logos/firebase.svg',    level: 'Advanced',   size: 'small' },
-  { name: 'MongoDB',         src: '/logos/mongodb.svg',     level: 'Proficient', size: 'small' },
-  { name: 'Tailwind CSS',    src: '/logos/tailwindcss.svg', level: 'Expert',     size: 'small' },
-  { name: 'MySQL',           src: '/logos/mysql.svg',       level: 'Advanced',   size: 'small' },
-  { name: 'Spring MVC',      src: '/logos/spring.svg',      level: 'Proficient', size: 'small' },
-  { name: 'Spring Data JPA', src: '/logos/spring.svg',      level: 'Advanced',   size: 'small' }
+  { name: 'Python',          src: '/logos/python.svg',      level: 'Advanced',   size: 'large',  details: ['Advanced Level', '10+ Projects Built', 'Backend & AI Development'] },
+  { name: 'Java',            src: '/logos/java.svg',        level: 'Advanced',   size: 'large',  details: ['Advanced Level', 'Enterprise Core Systems', 'Multi-Tier Microservices'] },
+  { name: 'Flutter',         src: '/logos/flutter.svg',     level: 'Expert',     size: 'large',  details: ['Expert Level', 'Production Shipments', 'Cross-Platform Architectures'] },
+  { name: 'React.js',        src: '/logos/react.svg',       level: 'Advanced',   size: 'large',  details: ['Advanced Level', 'Production Experience', 'High-Fidelity Web UI'] },
+  { name: 'Spring Boot',     src: '/logos/springboot.svg',  level: 'Advanced',   size: 'medium', details: ['Advanced Level', 'Robust REST APIs', 'Enterprise Core Servers'] },
+  { name: 'Node.js',         src: '/logos/nodejs.svg',      level: 'Advanced',   size: 'medium', details: ['Advanced Level', 'High-Speed API Nodes', 'Asynchronous Systems'] },
+  { name: 'Next.js',         src: '/logos/nextjs.svg',      level: 'Advanced',   size: 'medium', details: ['Advanced Level', 'Full-Stack SSR Sites', 'Highly Optimized SEO'] },
+  { name: 'TypeScript',      src: '/logos/typescript.svg',  level: 'Advanced',   size: 'medium', details: ['Advanced Level', 'Strict Interface Typings', 'Codebase Safety'] },
+  { name: 'JavaScript',      src: '/logos/javascript.svg',  level: 'Expert',     size: 'medium', details: ['Expert Level', 'Dynamic Dom Scripts', 'Core Web Interactions'] },
+  { name: 'Dart',            src: '/logos/dart.svg',        level: 'Proficient', size: 'medium', details: ['Proficient Level', 'Mobile Architecture Core', 'Reactive Structures'] },
+  { name: 'Git',             src: '/logos/git.svg',         level: 'Expert',     size: 'small',  details: ['Expert Level', 'Branch Workflows', 'Continuous Tracking'] },
+  { name: 'GitHub',          src: '/logos/github.svg',      level: 'Expert',     size: 'small',  details: ['Expert Level', 'Remote Repository Hubs', 'CI/CD Pipeline Actions'] },
+  { name: 'Firebase',        src: '/logos/firebase.svg',    level: 'Advanced',   size: 'small',  details: ['Advanced Level', 'Real-Time Database Hubs', 'Serverless Hosting'] },
+  { name: 'MongoDB',         src: '/logos/mongodb.svg',     level: 'Proficient', size: 'small',  details: ['Proficient Level', 'NoSQL Document Stores', 'Flexible JSON Datatypes'] },
+  { name: 'Tailwind CSS',    src: '/logos/tailwindcss.svg', level: 'Expert',     size: 'small',  details: ['Expert Level', 'Adaptive Styling Systems', 'Rapid Responsive Layouts'] },
+  { name: 'MySQL',           src: '/logos/mysql.svg',       level: 'Advanced',   size: 'small',  details: ['Advanced Level', 'Relational Schemas', 'Structured Query Optimization'] },
+  { name: 'Spring MVC',      src: '/logos/spring.svg',      level: 'Proficient', size: 'small',  details: ['Proficient Level', 'Web Controller Mappings', 'MVC Pipeline Flows'] },
+  { name: 'Spring Data JPA', src: '/logos/spring.svg',      level: 'Advanced',   size: 'small',  details: ['Advanced Level', 'SQL Persistence Mapping', 'Repository Abstraction Layers'] }
 ];
-
-// ---------------------------------------------------------------------------
-// Animated Stat Counter Component
-// ---------------------------------------------------------------------------
-
-function AnimatedCounter({ value, duration = 1.2 }: { value: number; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const elementRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    let startTime: number | null = null;
-    let animationFrameId: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * value));
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animate);
-      }
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        animationFrameId = requestAnimationFrame(animate);
-        observer.disconnect();
-      }
-    }, { threshold: 0.1 });
-    
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-    
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [value, duration]);
-
-  return <span ref={elementRef} className="tabular-nums">{count.toString().padStart(2, '0')}+</span>;
-}
-
-// ---------------------------------------------------------------------------
-// Custom Vector Animated Icon Cores
-// ---------------------------------------------------------------------------
-
-const CodeOrb = (
-  <svg className="w-10 h-10 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="12" cy="12" r="10" strokeDasharray="3 3" className="animate-[spin_12s_linear_infinite]" />
-    <circle cx="12" cy="12" r="6" stroke="currentColor" />
-    <circle cx="12" cy="12" r="2" fill="currentColor" className="animate-ping" style={{ animationDuration: '3s' }} />
-  </svg>
-);
-
-const LayerStack = (
-  <svg className="w-10 h-10 text-fuchsia-400 drop-shadow-[0_0_8px_rgba(240,79,240,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M4 17l8 4 8-4M4 12l8 4 8-4" stroke="currentColor" className="animate-pulse" style={{ animationDuration: '2s' }} />
-    <path d="M12 2L4 6l8 4 8-4-8-4z" stroke="currentColor" className="animate-[bounce_3s_infinite_ease-in-out]" />
-  </svg>
-);
-
-const DatabaseCore = (
-  <svg className="w-10 h-10 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <ellipse cx="12" cy="5" rx="9" ry="3" />
-    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-    <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
-    <circle cx="12" cy="12" r="1.5" fill="currentColor" className="animate-ping" style={{ animationDuration: '2.5s' }} />
-  </svg>
-);
-
-const ToolMatrix = (
-  <svg className="w-10 h-10 text-teal-400 drop-shadow-[0_0_8px_rgba(45,212,191,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" />
-    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" />
-    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" />
-    <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor" stroke="currentColor" className="animate-pulse" style={{ animationDuration: '1.5s' }} />
-  </svg>
-);
-
-// ---------------------------------------------------------------------------
-// Futuristic Intelligence StatCard Panel Redesign
-// ---------------------------------------------------------------------------
-
-interface StatCardProps {
-  label: string;
-  count: number;
-  description: string;
-  glowColor: string;
-  icon: React.ReactNode;
-}
-
-function StatCard({ label, count, description, glowColor, icon }: StatCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="relative bg-[#0c0c11]/85 border border-white/5 rounded-2xl p-6 overflow-hidden transition-all duration-500 hover:border-white/15 select-none"
-      style={{
-        boxShadow: isHovered 
-          ? `0 15px 35px rgba(0,0,0,0.8), 0 0 25px ${glowColor}25, inset 0 0 12px ${glowColor}20` 
-          : '0 8px 30px rgba(0,0,0,0.5)',
-        transform: isHovered ? 'scale(1.04) translateY(-4px)' : 'scale(1) translateY(0px)'
-      }}
-    >
-      {/* Background Soft Glow Spotlight */}
-      <div 
-        className="absolute inset-0 opacity-30 transition-opacity duration-500 pointer-events-none z-0" 
-        style={{
-          background: `radial-gradient(circle at 50% 20%, ${glowColor}20, transparent 65%)`
-        }}
-      />
-
-      {/* Floating micro particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-25 z-0">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-white animate-[particleFloat_4s_infinite_ease-in-out]"
-            style={{
-              left: `${15 + i * 22}%`,
-              top: `${30 + (i % 2) * 35}%`,
-              animationDelay: `${i * -0.7}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Top: Animated Icon Core */}
-      <div className="relative z-10 flex justify-between items-center mb-6">
-        <div className="flex items-center justify-center bg-white/[0.02] border border-white/[0.04] p-3.5 rounded-xl transition-all duration-500">
-          <div className={`transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}>
-            {icon}
-          </div>
-        </div>
-        <span className="font-mono text-[9px] text-neutral-600 tracking-widest uppercase">
-          SYS_MONITOR
-        </span>
-      </div>
-
-      {/* Middle: Large Animated Counter */}
-      <div className="relative z-10 mb-4">
-        <h4 className="text-4xl md:text-5xl font-black text-white font-mono tracking-tight flex items-baseline gap-1">
-          <AnimatedCounter value={count} />
-        </h4>
-      </div>
-
-      {/* Bottom: Short Description */}
-      <div className="relative z-10">
-        <div className="text-white font-mono text-[11px] uppercase tracking-widest font-semibold mb-1">
-          {label}
-        </div>
-        <p className="text-neutral-500 text-xs leading-relaxed font-light">
-          {description}
-        </p>
-      </div>
-
-      {/* Base Flowing Energy Wave */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 overflow-hidden pointer-events-none rounded-b-2xl">
-        <div 
-          className="w-[200%] h-full opacity-35 animate-[energyWave_3s_linear_infinite]"
-          style={{ 
-            background: `linear-gradient(90deg, transparent, ${glowColor}, transparent)`,
-            animationDuration: isHovered ? '1.5s' : '3s'
-          }}
-        />
-      </div>
-    </motion.div>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Ambient Drifting Dust Particles Background
@@ -278,7 +103,6 @@ function FloatingSphere({ item, index, activeHover, setActiveHover, isMouseActiv
     if (!ref.current) return;
     
     const time = state.clock.getElapsedTime();
-    const dt = Math.min(delta, 0.05);
 
     const floatX = Math.sin(time * 0.8 + index) * 0.08;
     const floatY = Math.cos(time * 0.6 + index * 1.3) * 0.08;
@@ -341,12 +165,6 @@ function FloatingSphere({ item, index, activeHover, setActiveHover, isMouseActiv
     small: 'w-12 h-12 md:w-16 md:h-16'
   }[item.size];
 
-  const levelColor = {
-    Expert: 'text-cyan-400',
-    Advanced: 'text-emerald-400',
-    Proficient: 'text-amber-400'
-  }[item.level as 'Expert' | 'Advanced' | 'Proficient'] || 'text-cyan-400';
-
   return (
     <mesh ref={ref}>
       <Html center distanceFactor={11} scale={1}>
@@ -368,10 +186,17 @@ function FloatingSphere({ item, index, activeHover, setActiveHover, isMouseActiv
             />
           </div>
 
-          {/* Hover Tooltip display */}
-          <div className={`absolute -bottom-16 left-1/2 -translate-x-1/2 bg-black/90 border border-neutral-800 px-4 py-2 rounded-lg text-center backdrop-blur-md pointer-events-none transition-all duration-300 z-[100] min-w-[120px] ${isHovered ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'}`}>
-            <div className="text-white text-xs font-bold font-mono tracking-tight whitespace-nowrap">{item.name}</div>
-            <div className={`text-[8px] font-mono uppercase tracking-widest mt-0.5 ${levelColor}`}>{item.level}</div>
+          {/* Hover Tooltip display - Contextual detailed rows */}
+          <div className={`absolute -bottom-24 left-1/2 -translate-x-1/2 bg-black/95 border border-cyan-500/20 px-4 py-3 rounded-xl text-center backdrop-blur-md pointer-events-none transition-all duration-300 z-[100] min-w-[180px] shadow-[0_12px_32px_rgba(6,182,212,0.18)] ${isHovered ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'}`}>
+            <div className="text-white text-xs font-black font-mono tracking-wider whitespace-nowrap uppercase mb-1">{item.name}</div>
+            <div className="h-[1px] w-full bg-neutral-900 my-1.5" />
+            <div className="space-y-0.5">
+              {item.details.map((detail, dIdx) => (
+                <div key={dIdx} className="text-[9px] font-mono text-neutral-400 tracking-wide whitespace-nowrap">
+                  {detail}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Html>
@@ -412,22 +237,8 @@ export default function TechStack() {
   return (
     <section
       id="tech-stack"
-      className="relative z-20 bg-[#050507] py-32 md:py-40 px-6 md:px-12 lg:px-24 border-t border-neutral-900 border-dashed overflow-hidden select-none"
+      className="relative z-20 bg-[#050507] py-40 md:py-48 px-6 md:px-12 lg:px-24 border-t border-neutral-900 border-dashed overflow-hidden select-none"
     >
-      {/* Local keyframe styles for intelligence panels */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes energyWave {
-          0% { transform: translateX(-50%); }
-          50% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes particleFloat {
-          0% { transform: translateY(0px) scale(0.8); opacity: 0.15; }
-          50% { transform: translateY(-12px) scale(1.1); opacity: 0.7; }
-          100% { transform: translateY(0px) scale(0.8); opacity: 0.15; }
-        }
-      `}} />
-
       {/* Background spotlights & meshes */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
@@ -479,7 +290,7 @@ export default function TechStack() {
             </motion.p>
 
             {/* Philosophy highlights checklist */}
-            <div className="space-y-4 mb-16">
+            <div className="space-y-4">
               {[
                 'Full-Stack Development',
                 'Mobile Engineering',
@@ -554,38 +365,6 @@ export default function TechStack() {
             </div>
           </div>
 
-        </div>
-
-        {/* Bottom Statistics Panel - Frosted Intelligence Panels */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-20 pt-16 border-t border-neutral-900 border-dashed relative z-10">
-          <StatCard 
-            label="Languages" 
-            count={6} 
-            description="Core programming languages powering multi-tier architectures." 
-            glowColor="#22d3ee" 
-            icon={CodeOrb} 
-          />
-          <StatCard 
-            label="Frameworks" 
-            count={8} 
-            description="High-efficiency server frameworks and dynamic UI libraries." 
-            glowColor="#e879f9" 
-            icon={LayerStack} 
-          />
-          <StatCard 
-            label="Databases" 
-            count={3} 
-            description="Robust persistence engines and secure layered data repositories." 
-            glowColor="#3b82f6" 
-            icon={DatabaseCore} 
-          />
-          <StatCard 
-            label="Tools & Others" 
-            count={5} 
-            description="Collaboration workflow tools, package wrappers, and dev systems." 
-            glowColor="#2dd4bf" 
-            icon={ToolMatrix} 
-          />
         </div>
 
       </div>
