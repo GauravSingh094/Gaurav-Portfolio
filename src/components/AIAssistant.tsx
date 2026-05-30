@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, Sparkles, Terminal, Code, Award, ExternalLink, ShieldCheck } from 'lucide-react';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { useLenis } from 'lenis/react';
 
 interface Message {
   sender: 'bot' | 'user';
@@ -20,6 +21,7 @@ interface Message {
 
 export default function AIAssistant() {
   const { trackEvent } = useAnalytics();
+  const lenis = useLenis();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -39,19 +41,28 @@ export default function AIAssistant() {
     ]);
   }, []);
 
-  // Track assistant open/close events
+  // Track assistant open/close events & control Lenis scrolling
   useEffect(() => {
     if (isOpen) {
       trackEvent({ action: 'assistant_opened', category: 'ai_assistant', label: 'Visitor opened digital twin panel' });
       document.body.style.overflow = 'hidden';
+      if (lenis) {
+        lenis.stop();
+      }
     } else {
       trackEvent({ action: 'assistant_closed', category: 'ai_assistant', label: 'Visitor closed digital twin panel' });
       document.body.style.overflow = '';
+      if (lenis) {
+        lenis.start();
+      }
     }
     return () => {
       document.body.style.overflow = '';
+      if (lenis) {
+        lenis.start();
+      }
     };
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   // Scroll to bottom on updates
   useEffect(() => {
@@ -194,19 +205,19 @@ export default function AIAssistant() {
 
   return (
     <>
-      {/* Floating launcher trigger - 64px, Glassmorphism, Pulse */}
+      {/* Infosys-style sticky vertical tab on the right edge */}
       <div 
-        className="fixed bottom-6 right-6 z-[9998] flex flex-col items-end"
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-[9998] flex flex-row items-center"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
         <AnimatePresence>
           {showTooltip && (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="mb-3 mr-2 bg-neutral-950/90 border border-cyan-500/20 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-mono text-cyan-300 uppercase tracking-widest pointer-events-none shadow-[0_0_20px_rgba(6,182,212,0.15)] whitespace-nowrap"
+              initial={{ opacity: 0, x: 10, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.95 }}
+              className="mr-3 bg-neutral-950/90 border border-cyan-500/20 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-mono text-cyan-300 uppercase tracking-widest pointer-events-none shadow-[0_0_20px_rgba(6,182,212,0.15)] whitespace-nowrap"
             >
               Ask me about Gaurav
             </motion.div>
@@ -215,27 +226,41 @@ export default function AIAssistant() {
 
         <button
           onClick={() => setIsOpen(true)}
-          className="w-16 h-16 rounded-full bg-[#0c0c11]/85 border border-cyan-500/35 backdrop-blur-md flex flex-col items-center justify-center cursor-pointer shadow-[0_0_30px_rgba(6,182,212,0.25)] hover:border-cyan-400 hover:scale-105 active:scale-95 transition-all duration-300 group overflow-hidden"
+          className="w-12 h-36 rounded-l-3xl bg-[#0c0c11]/90 border-y border-l border-cyan-500/35 backdrop-blur-md flex flex-col items-center justify-center gap-3 cursor-pointer shadow-[0_0_25px_rgba(6,182,212,0.25)] hover:border-cyan-400 hover:pl-2.5 transition-all duration-300 group overflow-hidden"
         >
-          {/* Subtle heartbeat pulse effect */}
-          <span className="absolute inset-0 rounded-full border border-cyan-500/25 animate-ping opacity-60 pointer-events-none" />
-          <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+          {/* Circular avatar wrapper with pulsing live dot */}
+          <div className="relative w-8 h-8 rounded-full border border-cyan-500/30 overflow-hidden flex-shrink-0">
+            <img src="/images/profile.png" alt="Gaurav Singh" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+            <span className="absolute bottom-0 right-0 w-2 h-2 bg-emerald-500 rounded-full border border-neutral-900 animate-pulse" />
+          </div>
+          {/* Vertical monospaced text */}
+          <div className="flex flex-col items-center justify-center gap-1 select-none">
+            <span className="text-[10px] font-mono text-cyan-300 tracking-widest uppercase font-black select-none" style={{ writingMode: 'vertical-rl' }}>
+              ASK AI
+            </span>
+          </div>
         </button>
       </div>
 
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-[9999] flex items-end md:items-stretch justify-end pointer-events-none select-none">
-            {/* Click-away backdrop overlay */}
-            <div className="absolute inset-0 pointer-events-auto cursor-pointer" onClick={() => setIsOpen(false)} />
+            {/* Click-away backdrop overlay with glass blur fade-in */}
+            <motion.div 
+              initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+              animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
+              exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+              className="absolute inset-0 bg-black/40 pointer-events-auto cursor-pointer"
+              onClick={() => setIsOpen(false)}
+            />
 
-            {/* Desktop side panel (420px) / Mobile Full-width sheet */}
+            {/* Desktop side panel (440px/480px) / Mobile Full-width sheet */}
             <motion.div
-              initial={{ opacity: 0, x: typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : 420, y: typeof window !== 'undefined' && window.innerWidth < 768 ? 500 : 0 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, x: typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : 420, y: typeof window !== 'undefined' && window.innerWidth < 768 ? 500 : 0 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full md:w-[420px] h-[85vh] md:h-screen bg-[#0c0c11]/95 border-t md:border-t-0 md:border-l border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col pointer-events-auto md:ml-auto md:my-0 mt-auto rounded-t-3xl md:rounded-t-none"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 220 }}
+              className="fixed right-0 top-0 bottom-0 w-full sm:w-[440px] md:w-[480px] h-screen bg-[#07070a]/98 border-l border-white/10 sm:rounded-l-[2.5rem] shadow-[-15px_0_50px_rgba(0,0,0,0.80)] flex flex-col pointer-events-auto select-text overflow-hidden"
             >
               {/* Screen grid visual overlays */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.06),transparent_65%)] pointer-events-none z-0" />
@@ -261,7 +286,11 @@ export default function AIAssistant() {
               </div>
 
               {/* Message Screen Buffer */}
-              <div className="relative z-10 flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin">
+              <div 
+                data-lenis-prevent 
+                className="relative z-10 flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin"
+                style={{ overscrollBehavior: 'contain' }}
+              >
                 {messages.map((msg, index) => {
                   const isBot = msg.sender === 'bot';
                   return (
