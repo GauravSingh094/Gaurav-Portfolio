@@ -7,29 +7,33 @@ A state-of-the-art personal developer portfolio website designed as an interacti
 ## 🌟 Visual Highlights & Interaction Architecture
 
 ### 1. Unified 3D Constellation Universe (R3F & Three.js)
-* **Stable Geometric Constellations**: Technologies and AI platforms are mapped to beautiful, stationary 3D golden spiral constellation grids layered symmetrically across depth ranges.
+* **Stable Geometric Constellations**: Technologies and AI platforms are mapped to beautiful, stationary 3D golden spiral constellation grids layered symmetrically across depth ranges in **Tech Stack** and **Vibe Coding** sections.
 * **Spring-Damper Physics Loop**: Deployed a custom high-inertia physical spring return engine inside the React Three Fiber `useFrame` render routine. Nearby spheres calculate cursor coordinates and accelerate away dynamically (magnetic repulsion) on hover.
 * **Cinematic Reassembly**: Leaving the section wrapper instantly deactivates repulsion, prompting the spring equations (`stiffness = 0.06`, `damping = 0.82`) to smoothly drift all displaced nodes back to their exact home coordinates without snapping.
 * **Monospaced Role Tooltips**: Every sphere features a glassmorphic hover card showing both its brand title and active workflow role.
 
 ### 2. Conversational RAG AI Digital Twin
 * **Grounded LLM Routing**: Features a full-scale AI Assistant panel integrated with Next.js route handlers and the Google Gemini API (`gemini-2.5-flash`).
-* **On-Device Keyword RAG Engine**: Scans user query parameters dynamically and injects corresponding portfolio context structures (SoulSync, Mindrift, Spring PetClinic, and King Sukh Guest House) to ensure hallucination-free professional answers.
-* **Recruiter Action Pathways**: Houses suggested descoper-chips providing recruiters with fast answers to Gaurav's skills, qualifications, and background.
+* **On-Device Keyword RAG Engine**: Scans user query parameters dynamically and injects corresponding portfolio context structures (Syntax Showdown, NyayMitra, Mindrift, and King Sukh Guest House) to ensure hallucination-free professional answers.
+* **Recruiter Action Pathways**: Houses suggested chips providing recruiters with fast answers regarding Gaurav's skills, credentials, certifications, and background.
 
 ### 3. Developer CLI Terminal & Command Palette
-* **Full-Screen CLI Console (`/terminal`)**: An interactive command-line interface supporting commands like `help`, `about`, `skills`, `projects`, `resume`, `contact`, and `clear`.
+* **Full-Screen CLI Console (`/terminal`)**: An interactive command-line interface supporting commands like `help`, `about`, `skills`, `projects`, `research`, `resume`, `contact`, and `clear`.
 * **Frosted Command Palette (`⌘+K` / `Ctrl+K`)**: Frost-styled global navigation hub enabling instant layout redirections and quick external URL navigation.
 
 ### 4. Optimized Resume Experience 2.0
-* **Interactive Grayscale-to-Color 3D Card**: An interactive 3D tilted card of Gaurav's resume with a responsive custom magnifier glass lens that follows cursor movements.
-* **Enlarged Responsive Split Layout**: Card dimension set to a massive `max-w-xl` (576px) container within a responsive `md:w-[45%]` (Left) and `md:w-[50%]` (Right) split grid.
-* **Direct Browser Save Download**: Premium icon-only glass CTA cards (`w-14 h-14` size) configured with standard `download` parameters to trigger direct browser file saves.
+* **Interactive 3D Card**: An interactive 3D tilted card of Gaurav's resume with a responsive custom magnifier glass lens that follows cursor movements.
+* **Page 1 / Page 2 Toggle**: Integrated clickable page switching tabs located outside the interaction container to toggle between Page 1 and Page 2 of the resume preview seamlessly.
+* **Direct Google Drive Access**: Pinned glass CTA cards configured to open/download the verified resume archive from Google Drive: `https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link`.
 
-### 5. Tactical Services & Agency Contact Section
-* **3D Card Hover Tilts**: Service panels tilt up to 12 degrees along relative X and Y mouse axes with custom cursor spotlight highlights.
-* **Local Terminal Time (IST)**: Displays a real-time digital clock in India Standard Time (GMT+5:30) with hydration-safe mounts, formatted in a readable 12-hour AM/PM format.
-* **Availability Status HUD**: High-contrast indicator badge signaling active availability for internships and developer collaborations.
+### 5. Sticky-Stacked Timeline Sections
+* **Selected Works Showcase (`#work`)**: A horizontal-stacked scroll storytelling viewport (`min-h-[500vh]`) tracking scroll depths to translate project cards.
+* **Academic Timeline (`#education`)**: Re-engineered vertical stacked scroll timeline (`min-h-[300vh]`) that transitions through academic milestones (B.Tech CSE, Intermediate, High School) sequentially with scroll-linked opacity, scale, and translation coordinates.
+* **Mobile Fallback**: Renders clean chronological vertical lists on mobile/tablet viewports to ensure high-fidelity reading experiences.
+
+### 6. Research & Publications Showcase
+* **Judicial Telemetry Paper**: Houses a dedicated glassmorphic layout detailing *NyayMitra: A Proposed GraphRAG Architecture for IPC-BNS Transition* presented at National Level Conference, HRIT University (Apr 2026).
+* Includes a direct call-to-action button linking to the publication file: `https://drive.google.com/file/d/1pjDSjjGYBP6ypI2n3-nnm3xEnQxiZxv_/view`.
 
 ---
 
@@ -50,8 +54,8 @@ A state-of-the-art personal developer portfolio website designed as an interacti
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/GauravSingh094/[repo-name].git
-   cd [repo-name]
+   git clone https://github.com/GauravSingh094/Gaurav-Portfolio.git
+   cd Gaurav-Portfolio
    ```
 
 2. **Install Dependencies**:
@@ -63,7 +67,7 @@ A state-of-the-art personal developer portfolio website designed as an interacti
    ```bash
    npm run dev
    ```
-   *The application will boot up at `http://localhost:3000`.*
+   *The application will boot up at `http://localhost:3000` or `http://localhost:3001`.*
 
 4. **Verify TypeScript & Build**:
    ```bash
@@ -76,13 +80,13 @@ A state-of-the-art personal developer portfolio website designed as an interacti
 ## 📁 Project Structure
 
 ```text
-├── public/                 # Static vector brand icons & resume PDF archive
-│   ├── Gaurav_Resume.pdf   # Direct high-speed download resume asset
-│   └── images/             # Static mockups and interactive preview images
+├── public/                 # Static vector brand icons & assets
+│   └── images/             # Static mockups, bot avatars, and page previews
 ├── src/
 │   ├── app/                # Next.js routes, layouts & global config
 │   │   ├── api/chat/       # Conversational AI assistant route handler
 │   │   ├── terminal/       # CLI developer command terminal page
+│   │   ├── log/            # Technical log index page
 │   │   ├── globals.css     # Base CSS configuration
 │   │   ├── layout.tsx      # Core root layout container
 │   │   └── page.tsx        # Main portfolio index page
@@ -91,8 +95,9 @@ A state-of-the-art personal developer portfolio website designed as an interacti
 │   │   ├── CommandPalette.tsx # Frost glass navigation overlay
 │   │   ├── CustomCursor.tsx # Cursor spotlight tracking layer
 │   │   ├── Loader.tsx      # Gating progress loader page
-│   │   ├── ProjectCarousel.tsx # Work slider with terminal capabilities
-│   │   ├── ResumeJourney.tsx # Grayscale magnifier card and high-speed CTAs
+│   │   ├── ProjectCarousel.tsx # Work slider with stacked translations
+│   │   ├── ResearchPaper.tsx # GraphRAG paper details & drive redirection
+│   │   ├── ResumeJourney.tsx # Grayscale magnifier card and page toggles
 │   │   ├── TechStack.tsx   # 3D interactive tech constellation & stats
 │   │   ├── VibeCoding.tsx  # 3D AI-platform constellation & stats
 │   │   ├── WhatIDo.tsx     # 3D hover services grid
