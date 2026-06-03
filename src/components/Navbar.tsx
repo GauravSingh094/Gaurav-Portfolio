@@ -12,6 +12,7 @@ export default function Navbar() {
     { label: 'ABOUT', id: 'about' },
     { label: 'SERVICES', id: 'what-i-do' },
     { label: 'WORK', id: 'work' },
+    { label: 'RESEARCH', id: 'research' },
     { label: 'EDUCATION', id: 'education' },
     { label: 'RESUME', id: 'resume' },
     { label: 'CONTACT', id: 'contact' },

@@ -23,6 +23,7 @@ import Contact from '@/components/Contact';
 import Loader from '@/components/Loader';
 import CommandPalette from '@/components/CommandPalette';
 import AIAssistant from '@/components/AIAssistant';
+import ResearchPaper from '@/components/ResearchPaper';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -116,6 +117,7 @@ export default function Home() {
                 <ProjectCarousel />
                 <TechStack />
                 <VibeCoding />
+                <ResearchPaper />
                 <Certifications />
                 <Achievements />
                 <Education />

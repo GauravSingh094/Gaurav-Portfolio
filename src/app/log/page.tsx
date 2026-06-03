@@ -42,7 +42,7 @@ export default function KnowledgeLogPage() {
       date: 'March 2026',
       description: 'Practical profiling tips to resolve mobile UI lag. Explains rasterization bounds, pixel stream caching, and avoiding CPU custom paint locks.',
       featured: false,
-      linkedProject: 'SoulSync'
+      linkedProject: 'Nyay-Mitra'
     },
     {
       id: 'fastapi-production-setup',

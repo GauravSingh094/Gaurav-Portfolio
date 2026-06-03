@@ -23,6 +23,7 @@ export default function ResumeJourney() {
 
   // Responsive device checks
   const [isMobile, setIsMobile] = useState(false);
+  const [activePage, setActivePage] = useState(1);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -58,7 +59,7 @@ export default function ResumeJourney() {
     setMagnifierPos({ x: mX, y: mY, bgX, bgY });
   };
 
-  const resumeUrl = "/Gaurav_Resume.pdf";
+  const resumeUrl = "https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link";
 
   // Floating career highlights tags list
   const highlights = [
@@ -242,6 +243,30 @@ export default function ResumeJourney() {
             {/* Ambient neon spot core behind the frame */}
             <div className="absolute w-[220px] h-[220px] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.06),transparent_70%)] blur-[25px] pointer-events-none -z-10" />
 
+            {/* Page Toggle Tabs (placed outside the interaction container so they are clickable) */}
+            <div className="flex gap-3 mb-6 z-20 self-center">
+              <button 
+                onClick={() => setActivePage(1)}
+                className={`px-4 py-2 rounded-xl text-[10px] font-mono tracking-widest uppercase transition-all duration-300 border cursor-pointer ${
+                  activePage === 1 
+                    ? 'bg-cyan-500/20 border-cyan-400/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.25)]' 
+                    : 'bg-neutral-900/60 border-white/5 text-neutral-400 hover:text-white'
+                }`}
+              >
+                Page 1
+              </button>
+              <button 
+                onClick={() => setActivePage(2)}
+                className={`px-4 py-2 rounded-xl text-[10px] font-mono tracking-widest uppercase transition-all duration-300 border cursor-pointer ${
+                  activePage === 2 
+                    ? 'bg-cyan-500/20 border-cyan-400/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.25)]' 
+                    : 'bg-neutral-900/60 border-white/5 text-neutral-400 hover:text-white'
+                }`}
+              >
+                Page 2
+              </button>
+            </div>
+
             {/* Desktop interaction frame container */}
             <div 
               ref={resumeRef}
@@ -273,12 +298,12 @@ export default function ResumeJourney() {
                 transition={{ type: "spring", damping: 30, stiffness: 200 }}
                 className="w-full aspect-[1/1.38] bg-[#0d0d12]/98 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_60px_rgba(6,182,212,0.15)] hover:border-cyan-500/20 transition-shadow duration-300"
               >
-                {/* Reflection specular layout overlay */}
+                {/* Specular layout overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.01] to-white/[0.04] pointer-events-none z-10" />
 
                 {/* Actual resume image loaded */}
                 <img 
-                  src="/images/resume-preview.png" 
+                  src={activePage === 1 ? "/images/resume-preview-page1.png" : "/images/resume-preview-page2.png"} 
                   alt="Gaurav Singh Resume Preview" 
                   className="w-full h-full object-cover grayscale select-none"
                   loading="lazy"
@@ -299,7 +324,7 @@ export default function ResumeJourney() {
                   style={{
                     left: `${magnifierPos.x - 88}px`,
                     top: `${magnifierPos.y - 88}px`,
-                    backgroundImage: "url('/images/resume-preview.png')",
+                    backgroundImage: activePage === 1 ? "url('/images/resume-preview-page1.png')" : "url('/images/resume-preview-page2.png')",
                     backgroundPosition: `${magnifierPos.bgX}% ${magnifierPos.bgY}%`,
                     backgroundSize: `${resumeDimensions.width * 2.2}px ${resumeDimensions.height * 2.2}px`,
                     backgroundRepeat: 'no-repeat',

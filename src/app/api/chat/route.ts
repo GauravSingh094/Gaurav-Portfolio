@@ -43,6 +43,16 @@ function retrieveContext(query: string): string {
     retrieved.push(`Education: ${JSON.stringify(portfolioContext.education)}`);
   }
 
+  // Research paper and publications context
+  if (q.includes('research') || q.includes('paper') || q.includes('publication') || q.includes('hrit') || q.includes('graphrag') || q.includes('nyaymitra')) {
+    retrieved.push(`Research & Publication: ${JSON.stringify((portfolioContext as any).researchPaper)}`);
+  }
+
+  // Certifications context
+  if (q.includes('certifications') || q.includes('certification') || q.includes('certificate') || q.includes('credentials') || q.includes('certified') || q.includes('infosys') || q.includes('ericsson')) {
+    retrieved.push(`Certifications Matrix: ${JSON.stringify((portfolioContext as any).certifications)}`);
+  }
+
   // If context is still empty, fallback to compact global context
   if (retrieved.length === 0) {
     retrieved.push(`Global Career Context: ${JSON.stringify(portfolioContext)}`);

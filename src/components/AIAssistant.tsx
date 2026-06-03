@@ -131,13 +131,13 @@ export default function AIAssistant() {
         live: "https://github.com/GauravSingh094"
       };
     }
-    if (q.includes('soulsync') || q.includes('music')) {
+    if (q.includes('nyay') || q.includes('mitra') || q.includes('legal') || q.includes('law')) {
       return {
-        name: "SoulSync",
-        tech: ["Flutter", "Dart", "MLKit Face Mesh", "Firebase"],
-        description: "On-device emotion expression analysis classifying facial sentiments to recommend customized audio tracks.",
-        github: "https://github.com/GauravSingh094",
-        live: "https://github.com/GauravSingh094"
+        name: "Nyay-Mitra",
+        tech: ["Next.js", "Spring Boot", "FastAPI", "Neo4j", "Milvus", "Redis", "D3.js"],
+        description: "A sovereign legal AI ecosystem designed to provide high-fidelity judicial telemetry, legal research automation, and statutory analysis.",
+        github: "https://github.com/JAIKEYSINGH913/Nyay-mitra",
+        live: "https://nyay-mitra-rho.vercel.app/"
       };
     }
     if (q.includes('mindrift') || q.includes('quiz')) {
@@ -274,7 +274,7 @@ export default function AIAssistant() {
     { label: "Show Flutter Projects", query: "Show me Flutter and mobile application projects" },
     { label: "Backend Experience", query: "Show me Gaurav's backend development experience" },
     { label: "Why hire Gaurav?", query: "Why should I hire Gaurav as a systems and full-stack developer?" },
-    { label: "Download Resume", query: "Can you provide the link to download Gaurav's resume?", action: () => window.open("/Gaurav_Resume.pdf", "_blank") },
+    { label: "Download Resume", query: "Can you provide the link to download Gaurav's resume?", action: () => window.open("https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link", "_blank") },
     { label: "Show Tech Stack", query: "What technical skills and backend technologies do you use?" }
   ];
 

@@ -22,6 +22,7 @@ export default function TerminalPage() {
       '  about      - Display Gaurav\'s structural summary',
       '  skills     - List certified core technical domains',
       '  projects   - Showcase active flagship engineering platforms',
+      '  research   - View legal GraphRAG research paper and publication',
       '  resume     - Open verified resume document parameters',
       '  contact    - Retrieve active dispatch communication nodes',
       '  github     - Redirect directly to GitHub code repository',
@@ -47,13 +48,23 @@ export default function TerminalPage() {
     projects: () => [
       'Active Showcase Initiatives:',
       '  - AI Debate Arena  : LangGraph multi-agent backend using memory and SSE triggers.',
-      '  - SoulSync         : On-device ML sentiment Flutter music recommendation engine.',
+      '  - Nyay-Mitra       : Sovereign legal AI ecosystem with knowledge graphs and voice analysis.',
       '  - Mindrift         : High-concurrency WebSocket multiplayer quiz platform.',
       '  - Spring PetClinic : Relational enterprise database service using JPA scopes.'
     ],
+    research: () => {
+      window.open('https://drive.google.com/file/d/1pjDSjjGYBP6ypI2n3-nnm3xEnQxiZxv_/view', '_blank');
+      return [
+        'Research & Publication System:',
+        '  Title: NyayMitra: A Proposed GraphRAG Architecture for IPC-BNS Transition',
+        '  Presented: National Level Conference, HRIT University, Apr 2026',
+        '  Link: https://drive.google.com/file/d/1pjDSjjGYBP6ypI2n3-nnm3xEnQxiZxv_/view',
+        'Redirecting to Research Paper drive link in new browser tab...'
+      ];
+    },
     resume: () => {
-      window.open('/Gaurav_Resume.pdf', '_blank');
-      return ['Retrieving verified secure resume archive...', 'Action executed successfully in background browser tab.'];
+      window.open('https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link', '_blank');
+      return ['Retrieving verified secure resume archive from Google Drive...', 'Action executed successfully in background browser tab.'];
     },
     contact: () => [
       'Direct Communication Channels:',

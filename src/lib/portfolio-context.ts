@@ -1,90 +1,97 @@
 export const portfolioContext = {
   profile: {
     name: "Gaurav Singh",
-    title: "Creative Systems & Client Engineer",
+    title: "Computer Science & Engineering Graduate",
     contact: {
+      phone: "+91 930526484",
       email: "gauravsinghx2510@gmail.com",
-      location: "New Delhi, India",
+      location: "Ghaziabad, India",
       github: "https://github.com/GauravSingh094",
       linkedin: "https://linkedin.com/in/gaurav-singh-276944292"
     },
-    bio: "Final-year Computer Science B.Tech student with hands-on experience in full-stack, backend microservices, and cross-platform mobile development. Specializes in custom WebGL interactive frontends and secure, isolated backend sandboxes."
+    bio: "Computer Science and Engineering graduate with experience in Full-Stack Development, Backend Engineering, and AI Systems. Proficient in designing scalable web applications, distributed microservices, GraphRAG solutions, and multi-agent AI platforms using FastAPI, Spring Boot, Next.js, React, and LangGraph."
   },
   skills: [
-    { category: "Client Frameworks", tools: ["React.js", "Next.js", "Flutter", "Framer Motion", "Three.js", "Tailwind CSS"] },
-    { category: "Backend & Systems", tools: ["Java", "Spring Boot", "Spring Data JPA", "Node.js", "FastAPI", "Docker", "WebSockets"] },
-    { category: "Databases & RAG", tools: ["MySQL", "MongoDB", "Redis caching", "ChromaDB vectors"] }
+    { category: "Languages", tools: ["Java", "Python", "JavaScript", "TypeScript", "Dart", "C"] },
+    { category: "Frontend", tools: ["React.js", "Next.js", "Flutter", "Tailwind CSS", "Framer Motion", "Three.js"] },
+    { category: "Backend & Systems", tools: ["FastAPI", "Spring Boot", "Node.js", "REST APIs", "SSE Streaming", "Redis", "RabbitMQ", "Apache Kafka", "Vercel"] },
+    { category: "Databases & RAG", tools: ["MySQL", "MongoDB", "Firebase", "Neo4j", "ChromaDB", "Milvus"] },
+    { category: "AI & Data", tools: ["LangGraph", "GraphRAG", "RAG", "Knowledge Graphs", "Legal-BERT", "Multi-Agent Systems", "Semantic Search", "Ollama"] }
   ],
   projects: [
     {
-      id: "ai_debate_arena",
-      name: "AI Debate Arena",
+      id: "syntax_showdown",
+      name: "Syntax Showdown – Multi-Agent AI Debate Platform",
       tagline: "Multi-Agent LangGraph Debate Platform",
-      tech: ["LangGraph", "FastAPI", "Redis", "ChromaDB", "SSE Streaming"],
-      description: "A real-time competitive LLM debate arena where multi-agent state graphs dictate conversation flow, rebuttals, and moderator scoreboards. Implements async token streaming and double-tier context caching.",
-      github: "https://github.com/GauravSingh094",
-      live: "https://github.com/GauravSingh094",
-      challenges: "Handling thread-safe session concurrency and high-frequency context vector retrieval latency under concurrent users.",
-      architecture: "LangGraph state flowcharts orchestrating Gemini/Claude, Redis short-term caching, ChromaDB long-term vector embeddings, and FastAPI Server-Sent Events."
+      tech: ["FastAPI", "LangGraph", "Next.js", "TypeScript", "ChromaDB", "Tailwind CSS"],
+      description: "Built a production-grade multi-agent AI platform leveraging autonomous agents, semantic memory, and real-time orchestration to simulate structured adversarial reasoning. Architected a LangGraph workflow coordinating 3 AI agents and 4 LLM providers with automated failover and fault-tolerant execution.",
+      github: "https://github.com/GauravSingh094/Syntax-Showdown",
+      live: "https://syntax-showdown-arena.vercel.app",
+      challenges: "Coordinating multi-agent logic gates and reducing AI inference latency to sub-100ms SSE updates.",
+      architecture: "LangGraph state machine orchestrating Gemini/Claude, ChromaDB long-term memory, FastAPI Server-Sent Events (SSE) streaming."
     },
     {
-      id: "soulsync",
-      name: "SoulSync",
-      tagline: "On-Device ML Sentiment Recommender",
-      tech: ["Flutter", "Dart", "MLKit Face Mesh", "Firebase", "YouTube API"],
-      description: "A cross-platform mobile ecosystem utilizing on-device computer vision to perform real-time facial expression analysis, feeding classified sentiment metrics into a custom recommendation algorithm that surfaces contextual audio tracks.",
-      github: "https://github.com/GauravSingh094",
-      live: "https://github.com/GauravSingh094",
-      challenges: "Maintaining a consistent 60fps rendering during computer vision camera tracking on lower-end smartphones.",
-      architecture: "BLoC state management, offline MLKit TensorFlow models, and native hardware camera frames pipelines."
+      id: "nyay_mitra",
+      name: "NyayMitra – Sovereign Legal AI Ecosystem",
+      tagline: "Sovereign Legal AI Ecosystem",
+      tech: ["Next.js", "Spring Boot", "FastAPI", "Neo4j", "GraphRAG", "Legal-BERT", "Redis", "RabbitMQ"],
+      description: "Built a legal intelligence platform leveraging GraphRAG and Knowledge Graphs for statutory analysis and judicial research automation. Engineered a GraphRAG retrieval pipeline using Neo4j and Legal-BERT, achieving sub-50ms multi-hop legal search.",
+      github: "https://github.com/JAIKEYSINGH913/Nyay-mitra",
+      live: "https://nyay-mitra-rho.vercel.app/",
+      challenges: "Developing hallucination-free verification and precedent ranking systems for IPC-to-BNS transition workflows.",
+      architecture: "Next.js frontend cockpit, Spring Boot core microservice, FastAPI NLP parser, Neo4j Knowledge Graph, RabbitMQ message brokers, and Redis caching."
     },
     {
       id: "mindrift",
-      name: "Mindrift",
+      name: "Mindrift – Real-Time Quiz Platform",
       tagline: "High-Concurrency Real-Time Quiz Engine",
-      tech: ["React.js", "Node.js", "Socket.io", "MongoDB"],
-      description: "A real-time multiplayer quiz engine featuring dynamically synchronized game rooms and instant live leaderboard updates under high-concurrency connection loops.",
+      tech: ["Next.js", "TypeScript", "Spring Boot", "PostgreSQL", "Redis", "Apache Kafka", "Clerk", "React Query", "Resilience4j", "Tailwind CSS"],
+      description: "Built a scalable real-time quiz platform supporting competitive multiplayer assessments with event-driven architecture and enterprise-grade reliability. Engineered real-time leaderboards using Redis and Apache Kafka, enabling low-latency score synchronization for concurrent quiz sessions.",
       github: "https://github.com/GauravSingh094",
-      live: "https://github.com/GauravSingh094",
-      challenges: "Sub-10ms state synchronizations and preventing database write locking under bursty socket streams.",
-      architecture: "Sub-10ms state reconciliation layers, Firebase JWT socket handshakes, and concurrent MongoDB memory indices."
+      live: "https://mindrift-quizz.vercel.app/",
+      challenges: "Handling high-frequency concurrent score synchronization and maintaining sub-10ms latency loops.",
+      architecture: "Spring Boot event stream controllers, PostgreSQL persistence layers, Resilience4j circuit breakers and retries, Redis cache states, Next.js frontend with Clerk auth."
     },
     {
       id: "kingsukh_guest_house",
-      name: "King Sukh Guest House",
+      name: "King Sukh Guest House Website",
       tagline: "Commercial Hospitality Business Portal",
-      tech: ["Next.js", "Tailwind CSS", "Framer Motion", "EmailJS"],
-      description: "A client-facing local hospitality business platform offering responsive room catalogs, visual high-res galleries, and asynchronous reservation inquiries.",
-      github: "https://github.com/GauravSingh094",
-      live: "https://github.com/GauravSingh094",
-      challenges: "Reaching sub-500ms Largest Contentful Paint (LCP) speeds and localized SEO indexing conversions.",
-      architecture: "Next.js App Router, layout Cumulative Layout Shift (CLS) optimizations, and localized semantic HTML5 SEO indices."
-    },
-    {
-      id: "spring_petclinic",
-      name: "Spring PetClinic",
-      tagline: "Enterprise Database Administration Service",
-      tech: ["Spring Boot", "Java", "Spring Data JPA", "MySQL"],
-      description: "An enterprise-grade administration portal implementing strict Spring Data JPA lazy fetching, custom query boundaries, and robust microservice transactional scopes.",
-      github: "https://github.com/GauravSingh094",
-      live: "https://github.com/GauravSingh094",
-      challenges: "Hibernate N+1 query execution bottlenecks and connection pool exhaustions under high database volumes.",
-      architecture: "Standard MVC layers (Controller-Service-Repository), custom lazy-load boundaries, and connection pooling settings."
+      tech: ["React.js", "TypeScript", "Tailwind CSS", "EmailJS", "Vercel", "Git", "GitHub"],
+      description: "Delivered a client-facing hospitality platform featuring WhatsApp booking workflows, Google Maps integration, and mobile-first responsive design. Managed end-to-end deployment and version control workflows using Vercel, Git, and GitHub.",
+      github: "https://github.com/GauravSingh094/kingsukh-guesthouse-website",
+      live: "https://kingsukh-guesthouse-website.vercel.app/",
+      challenges: "Optimizing Largest Contentful Paint (LCP) speeds and custom WhatsApp booking integrations.",
+      architecture: "React.js frontend pages, tailwind utilities, and automated EmailJS contact triggers."
     }
   ],
   experience: [
     {
       role: "Web Developer Intern",
-      company: "InnoByte Services",
-      duration: "2025",
+      company: "InnoByte Services Pvt. Ltd.",
+      duration: "Jul 2025 – Aug 2025",
       type: "Remote",
-      details: "Collaborated in structured developer squads to ship responsive web modules, refactor legacy layout parameters, and validate cross-device rendering fidelity."
+      details: "Developed and deployed responsive web applications using React.js, TypeScript, and Tailwind CSS, delivering production-ready user experiences across desktop and mobile platforms. Engineered reusable UI components and integrated REST APIs, improving code maintainability. Delivered the King Sukh Guest House Website."
     }
   ],
   education: {
-    degree: "B.Tech in Computer Science and Engineering",
-    institution: "NITRA Technical Campus (Affiliated with AKTU)",
+    degree: "Bachelor of Technology (B.Tech) in Computer Science and Engineering",
+    institution: "NITRA Technical Campus, Ghaziabad (Affiliated with AKTU)",
     duration: "2022 – 2026",
-    location: "Ghaziabad, UP, India"
+    location: "Ghaziabad, Uttar Pradesh, India"
+  },
+  certifications: [
+    { title: "Google Professional Cloud Developer: Google Cloud Compute Services", authority: "Infosys", status: "Completed" },
+    { title: "Python Web Development", authority: "Anudip Foundation", status: "Completed" },
+    { title: "Project Engineer – 5G Network", authority: "Ericsson", status: "Completed" }
+  ],
+  researchPaper: {
+    title: "NyayMitra: A Proposed GraphRAG Architecture for IPC-BNS Transition",
+    presentation: "Presented at National Level Conference, HRIT University, Apr 2026",
+    details: [
+      "Designed a hybrid GraphRAG architecture using Neo4j Knowledge Graphs and Legal-BERT embeddings to address statutory concept drift in IPC-to-BNS legal transition analysis.",
+      "Engineered a semantic retrieval pipeline achieving sub-50ms multi-hop query latency while improving contextual relevance across interconnected legal provisions.",
+      "Developed a deterministic verification framework with hallucination-free validation and a PageRank-based ranking algorithm for prioritizing landmark judicial precedents."
+    ],
+    link: "https://drive.google.com/file/d/1pjDSjjGYBP6ypI2n3-nnm3xEnQxiZxv_/view"
   }
 };

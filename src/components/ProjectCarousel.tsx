@@ -38,7 +38,7 @@ export default function ProjectCarousel() {
       badge: "rgba(6, 182, 212, 0.2)",
       textColor: "text-cyan-400",
       github: "https://github.com/GauravSingh094/Syntax-Showdown",
-      live: ""
+      live: "https://syntax-showdown-arena.vercel.app"
     },
     {
       title: "Kingsukh Guest House",
@@ -72,7 +72,7 @@ export default function ProjectCarousel() {
       badge: "rgba(20, 184, 166, 0.2)",
       textColor: "text-teal-400",
       github: "https://github.com/GauravSingh094",
-      live: ""
+      live: "https://mindrift-quizz.vercel.app/"
     },
     {
       title: "Spring PetClinic",
@@ -92,21 +92,21 @@ export default function ProjectCarousel() {
       live: ""
     },
     {
-      title: "SoulSync",
-      category: "AI-Powered Music App",
-      stack: "Flutter, Dart, Firebase, Machine Learning, YouTube API",
-      desc: "Emotion-based music player application that personalizes the listening experience by detecting the user’s mood and recommending songs accordingly.",
+      title: "Nyay-Mitra",
+      category: "Sovereign Legal AI Platform",
+      stack: "Next.js, Spring Boot, FastAPI, Neo4j, Milvus, Redis, D3.js",
+      desc: "A sovereign legal AI ecosystem designed to provide high-fidelity judicial telemetry, legal research automation, and statutory analysis. Features a Sovereign Cockpit industrial dashboard and automated microservice orchestration.",
       highlights: [
-        "Facial expression analysis for emotion detection models",
-        "Personalized music curation based on mood tracking matrices",
-        "Streaming integration with public YouTube audio APIs",
-        "Fluid cross-platform design offering responsive styling grids"
+        "Nyay-Graph: Interactive precedent mapping with PageRank and Louvain clustering",
+        "Nyay-Audit: Hallucination-free verification, Smart Redlining, and fake citation detection",
+        "Nyay-Bridge: IPC-to-BNS semantic mapping and punishment delta telemetry reports",
+        "Nyay-Vani: Bhashini-translated NLP voice queries and plain language legal summaries"
       ],
       glow: "rgba(99, 102, 241, 0.06)", // Indigo
       badge: "rgba(99, 102, 241, 0.2)",
       textColor: "text-indigo-400",
-      github: "https://github.com/GauravSingh094",
-      live: ""
+      github: "https://github.com/JAIKEYSINGH913/Nyay-mitra",
+      live: "https://nyay-mitra-rho.vercel.app/"
     }
   ];
 
