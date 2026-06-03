@@ -12,15 +12,15 @@ export default function KnowledgeLogPage() {
   // Initial Article Roadmap placeholders with complete metadata
   const articles = [
     {
-      id: 'ai-debate-arena-langgraph',
-      title: 'Building AI Debate Arena with LangGraph: A Deep Systems Dive',
+      id: 'syntax-showdown-langgraph',
+      title: 'Building Syntax Showdown with LangGraph: A Deep Systems Dive',
       category: 'AI Engineering',
       tags: ['LangGraph', 'Generative AI', 'State Machine'],
       readTime: '12 min',
       date: 'May 2026',
       description: 'An architectural analysis of constructing a multi-agent debate sandbox. Explains graph state transitions, agent handovers, and conditional turn moderation rules.',
       featured: true,
-      linkedProject: 'AI Debate Arena'
+      linkedProject: 'Syntax Showdown'
     },
     {
       id: 'multi-agent-architecture',
@@ -31,7 +31,7 @@ export default function KnowledgeLogPage() {
       date: 'April 2026',
       description: 'Evaluates orchestration models for concurrent LLM systems. Discusses thread routing, task division, and low-latency API handshakes.',
       featured: false,
-      linkedProject: 'AI Debate Arena'
+      linkedProject: 'Syntax Showdown'
     },
     {
       id: 'flutter-performance-lessons',
@@ -42,7 +42,7 @@ export default function KnowledgeLogPage() {
       date: 'March 2026',
       description: 'Practical profiling tips to resolve mobile UI lag. Explains rasterization bounds, pixel stream caching, and avoiding CPU custom paint locks.',
       featured: false,
-      linkedProject: 'Nyay-Mitra'
+      linkedProject: 'NyayMitra'
     },
     {
       id: 'fastapi-production-setup',
@@ -53,7 +53,7 @@ export default function KnowledgeLogPage() {
       date: 'Feb 2026',
       description: 'Configuring concurrent Python microservices. Details async event handlers, database connections scaling, and streaming chunks over Server-Sent Events.',
       featured: false,
-      linkedProject: 'AI Debate Arena'
+      linkedProject: 'Syntax Showdown'
     },
     {
       id: 'springboot-backend-architecture',
@@ -62,9 +62,9 @@ export default function KnowledgeLogPage() {
       tags: ['Spring Boot', 'Java', 'JPA'],
       readTime: '11 min',
       date: 'Jan 2026',
-      description: 'Deep architectural best practices for relational database portals. Solves N+1 hibernate fetch blocks, transaction isolation states, and pool sizing.',
+      description: 'Deep architectural best practices for relational database schemas in high-concurrency quiz platforms. Solves N+1 hibernate fetch blocks, transaction isolation states, and database pool sizing.',
       featured: false,
-      linkedProject: 'Spring PetClinic'
+      linkedProject: 'Mindrift'
     },
     {
       id: 'designing-ai-systems-memory',
@@ -75,7 +75,7 @@ export default function KnowledgeLogPage() {
       date: 'Dec 2025',
       description: 'How to manage double-tier memory caches for AI systems. Details Redis short-term token indexing and semantic long-term vectors ChromaDB integration.',
       featured: true,
-      linkedProject: 'AI Debate Arena'
+      linkedProject: 'Syntax Showdown'
     }
   ];
 
@@ -117,7 +117,7 @@ export default function KnowledgeLogPage() {
           </div>
           <div className="flex items-center gap-2 font-mono text-xs text-cyan-400">
             <Sparkles size={14} className="animate-spin" style={{ animationDuration: '3s' }} />
-            <span>AI DEBATE ARENA STUDY IN FOREGROUND ACTIVE</span>
+            <span>SYNTAX SHOWDOWN STUDY IN FOREGROUND ACTIVE</span>
           </div>
         </div>
 

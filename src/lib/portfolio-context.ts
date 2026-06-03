@@ -51,17 +51,6 @@ export const portfolioContext = {
       live: "https://mindrift-quizz.vercel.app/",
       challenges: "Handling high-frequency concurrent score synchronization and maintaining sub-10ms latency loops.",
       architecture: "Spring Boot event stream controllers, PostgreSQL persistence layers, Resilience4j circuit breakers and retries, Redis cache states, Next.js frontend with Clerk auth."
-    },
-    {
-      id: "kingsukh_guest_house",
-      name: "King Sukh Guest House Website",
-      tagline: "Commercial Hospitality Business Portal",
-      tech: ["React.js", "TypeScript", "Tailwind CSS", "EmailJS", "Vercel", "Git", "GitHub"],
-      description: "Delivered a client-facing hospitality platform featuring WhatsApp booking workflows, Google Maps integration, and mobile-first responsive design. Managed end-to-end deployment and version control workflows using Vercel, Git, and GitHub.",
-      github: "https://github.com/GauravSingh094/kingsukh-guesthouse-website",
-      live: "https://kingsukh-guesthouse-website.vercel.app/",
-      challenges: "Optimizing Largest Contentful Paint (LCP) speeds and custom WhatsApp booking integrations.",
-      architecture: "React.js frontend pages, tailwind utilities, and automated EmailJS contact triggers."
     }
   ],
   experience: [

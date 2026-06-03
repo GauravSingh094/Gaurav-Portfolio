@@ -8,15 +8,13 @@ export default function ProjectCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
 
-  // Storing tilt coordinates for interactive 3D effect
+  // Storing tilt coordinates for interactive 3D effect (3 projects)
   const [tilt1, setTilt1] = useState({ x: 0, y: 0 });
   const [tilt2, setTilt2] = useState({ x: 0, y: 0 });
   const [tilt3, setTilt3] = useState({ x: 0, y: 0 });
-  const [tilt4, setTilt4] = useState({ x: 0, y: 0 });
-  const [tilt5, setTilt5] = useState({ x: 0, y: 0 });
 
-  const tilts = [tilt1, tilt2, tilt3, tilt4, tilt5];
-  const setTilts = [setTilt1, setTilt2, setTilt3, setTilt4, setTilt5];
+  const tilts = [tilt1, tilt2, tilt3];
+  const setTilts = [setTilt1, setTilt2, setTilt3];
 
   useEffect(() => {
     setMounted(true);
@@ -25,14 +23,14 @@ export default function ProjectCarousel() {
   const projects = [
     {
       title: "Syntax Showdown",
-      category: "Real-Time Collaborative Coding Game",
-      stack: "Next.js, Node.js, WebSockets, Monaco Editor, Docker, TypeScript",
-      desc: "A real-time multiplayer code dueling platform where developers race to solve programmatic challenges. Built with Monaco Editor synchronization, sandboxed Docker compilation containers, dynamic matchmaking, and real-time Elo-based lobbies.",
+      category: "Multi-Agent AI Debate Platform",
+      stack: "FastAPI, LangGraph, Next.js, TypeScript, ChromaDB, Tailwind CSS",
+      desc: "Built a production-grade multi-agent AI platform leveraging autonomous agents, semantic memory, and real-time orchestration to simulate structured adversarial reasoning. Architected a LangGraph workflow coordinating 3 AI agents and 4 LLM providers with automated failover and fault-tolerant execution.",
       highlights: [
-        "Monaco Editor sync powered by integrated dual suites",
-        "Low-latency Room Sync using custom Socket.io protocols",
-        "Sandboxed Execution inside isolated Docker compile environments",
-        "Elo rating queues, live leaderboards, and instant spectator systems"
+        "Architected a LangGraph workflow coordinating 3 AI agents and 4 LLM providers",
+        "Automated failover controls with fully fault-tolerant model execution",
+        "Developed real-time FastAPI SSE streaming, achieving sub-100ms response updates",
+        "Implemented semantic memory and token analytics, reducing AI inference costs by 40%"
       ],
       glow: "rgba(6, 182, 212, 0.06)", // Cyan
       badge: "rgba(6, 182, 212, 0.2)",
@@ -41,72 +39,38 @@ export default function ProjectCarousel() {
       live: "https://syntax-showdown-arena.vercel.app"
     },
     {
-      title: "Kingsukh Guest House",
-      category: "Luxury Hotel Booking Platform",
-      stack: "React.js, JavaScript, Tailwind CSS, EmailJS, React Icons, Netlify, Vercel",
-      desc: "A premium hospitality booking web application designed for Kingsukh Guest House. It provides a fluid, responsive client-facing catalog, interactive map navigations, elegant room selectors, and automated EmailJS inquiry templates that drive reservations.",
+      title: "NyayMitra",
+      category: "Sovereign Legal AI Ecosystem",
+      stack: "Next.js, Spring Boot, FastAPI, Neo4j, GraphRAG, Legal-BERT, Redis, RabbitMQ",
+      desc: "Built a legal intelligence platform leveraging GraphRAG and Knowledge Graphs for statutory analysis and judicial research automation. Engineered a GraphRAG retrieval pipeline using Neo4j and Legal-BERT, achieving sub-50ms multi-hop legal search.",
       highlights: [
-        "Reservation inquires using secure EmailJS mailing APIs",
-        "Fluid cross-device composition optimizing visual hierarchy",
-        "Strategic local discoverability and metadata indexing systems",
-        "Visual room catalogs, map navigation, and direct social channels"
-      ],
-      glow: "rgba(245, 158, 11, 0.06)", // Amber
-      badge: "rgba(245, 158, 11, 0.2)",
-      textColor: "text-amber-400",
-      github: "https://github.com/GauravSingh094/kingsukh-guesthouse-website",
-      live: "https://kingsukh-guesthouse-website.vercel.app/"
-    },
-    {
-      title: "Mindrift",
-      category: "Real-Time Quiz Platform",
-      stack: "Next.js, Firebase, TypeScript, Tailwind CSS",
-      desc: "Scalable quiz platform designed for high participation, secure quiz flow, live leaderboard updates, and admin-level control.",
-      highlights: [
-        "High-performance architecture supporting concurrent participants",
-        "Real-time scoreboard syncing with Firebase database layers",
-        "Anti-cheat triggers and custom session validation hooks",
-        "Administrative controls for live question release pacing"
-      ],
-      glow: "rgba(20, 184, 166, 0.06)", // Teal
-      badge: "rgba(20, 184, 166, 0.2)",
-      textColor: "text-teal-400",
-      github: "https://github.com/GauravSingh094",
-      live: "https://mindrift-quizz.vercel.app/"
-    },
-    {
-      title: "Spring PetClinic",
-      category: "Full-Stack Java Application",
-      stack: "Spring Boot, Spring MVC, Spring Data JPA, Thymeleaf, MySQL, Maven",
-      desc: "Full-stack Java application for managing pet clinic workflows including owners, veterinarians, appointments, and data persistence.",
-      highlights: [
-        "Layered Enterprise MVC architecture separating clean scopes",
-        "JPA/Hibernate integration with high-efficiency SQL mappings",
-        "Structured server-side UI rendering with semantic elements",
-        "Extensive Maven dependencies setup with complete testing structures"
-      ],
-      glow: "rgba(16, 185, 129, 0.06)", // Emerald
-      badge: "rgba(16, 185, 129, 0.2)",
-      textColor: "text-emerald-400",
-      github: "https://github.com/GauravSingh094",
-      live: ""
-    },
-    {
-      title: "Nyay-Mitra",
-      category: "Sovereign Legal AI Platform",
-      stack: "Next.js, Spring Boot, FastAPI, Neo4j, Milvus, Redis, D3.js",
-      desc: "A sovereign legal AI ecosystem designed to provide high-fidelity judicial telemetry, legal research automation, and statutory analysis. Features a Sovereign Cockpit industrial dashboard and automated microservice orchestration.",
-      highlights: [
-        "Nyay-Graph: Interactive precedent mapping with PageRank and Louvain clustering",
-        "Nyay-Audit: Hallucination-free verification, Smart Redlining, and fake citation detection",
-        "Nyay-Bridge: IPC-to-BNS semantic mapping and punishment delta telemetry reports",
-        "Nyay-Vani: Bhashini-translated NLP voice queries and plain language legal summaries"
+        "Nyay-Graph: Precedent & Relationship Engine with PageRank and Louvain clustering",
+        "Nyay-Audit: Automatic fake citation detection, outdated law scanner, and smart redlining",
+        "Nyay-Bridge: Real-time IPC-to-BNS mapping and punishment delta telemetry reports",
+        "Nyay-Vani: Bhashini-integrated real-time voice translation into 14+ Indian regional languages"
       ],
       glow: "rgba(99, 102, 241, 0.06)", // Indigo
       badge: "rgba(99, 102, 241, 0.2)",
       textColor: "text-indigo-400",
       github: "https://github.com/JAIKEYSINGH913/Nyay-mitra",
       live: "https://nyay-mitra-rho.vercel.app/"
+    },
+    {
+      title: "Mindrift",
+      category: "Real-Time Quiz Platform",
+      stack: "Next.js, TypeScript, Spring Boot, PostgreSQL, Redis, Apache Kafka, Clerk, React Query, Resilience4j, Tailwind CSS",
+      desc: "Built a scalable real-time quiz platform supporting competitive multiplayer assessments with event-driven architecture and enterprise-grade reliability. Engineered real-time leaderboards using Redis and Apache Kafka, enabling low-latency score synchronization for concurrent quiz sessions.",
+      highlights: [
+        "Redis & Apache Kafka: Low-latency score synchronization for concurrent quiz sessions",
+        "Spring Boot & Resilience4j: Resilient workflows improving fault tolerance through circuit breakers",
+        "Next.js & Clerk: Modern client dashboard with secure authentication and React Query caching",
+        "PostgreSQL: Database persistence layers for robust and structured session storage"
+      ],
+      glow: "rgba(20, 184, 166, 0.06)", // Teal
+      badge: "rgba(20, 184, 166, 0.2)",
+      textColor: "text-teal-400",
+      github: "https://github.com/GauravSingh094",
+      live: "https://mindrift-quizz.vercel.app/"
     }
   ];
 
@@ -120,34 +84,23 @@ export default function ProjectCarousel() {
     setActiveIndex(idx);
   });
 
-  // Calculate distinct scroll-linked transforms for desktop stacked look statically at top-level to comply with Rules of Hooks
-  // We clamp all input ranges strictly within [0.0, 1.0] to prevent Web Animations API offset exceptions
-  const opacity0 = useTransform(scrollYProgress, [0.0, 0.02, 0.18, 0.2], [0, 1, 1, 0]);
-  const scale0 = useTransform(scrollYProgress, [0.0, 0.02, 0.18, 0.2], [0.92, 1, 1, 0.95]);
-  const y0 = useTransform(scrollYProgress, [0.0, 0.02, 0.18, 0.2], [150, 0, 0, -40]);
+  // Calculate distinct scroll-linked transforms for desktop stacked look (3 projects)
+  const opacity0 = useTransform(scrollYProgress, [0.0, 0.05, 0.28, 0.33], [0, 1, 1, 0]);
+  const scale0 = useTransform(scrollYProgress, [0.0, 0.05, 0.28, 0.33], [0.92, 1, 1, 0.95]);
+  const y0 = useTransform(scrollYProgress, [0.0, 0.05, 0.28, 0.33], [150, 0, 0, -40]);
 
-  const opacity1 = useTransform(scrollYProgress, [0.12, 0.2, 0.38, 0.4], [0, 1, 1, 0]);
-  const scale1 = useTransform(scrollYProgress, [0.12, 0.2, 0.38, 0.4], [0.92, 1, 1, 0.95]);
-  const y1 = useTransform(scrollYProgress, [0.12, 0.2, 0.38, 0.4], [150, 0, 0, -40]);
+  const opacity1 = useTransform(scrollYProgress, [0.25, 0.33, 0.61, 0.66], [0, 1, 1, 0]);
+  const scale1 = useTransform(scrollYProgress, [0.25, 0.33, 0.61, 0.66], [0.92, 1, 1, 0.95]);
+  const y1 = useTransform(scrollYProgress, [0.25, 0.33, 0.61, 0.66], [150, 0, 0, -40]);
 
-  const opacity2 = useTransform(scrollYProgress, [0.32, 0.4, 0.58, 0.6], [0, 1, 1, 0]);
-  const scale2 = useTransform(scrollYProgress, [0.32, 0.4, 0.58, 0.6], [0.92, 1, 1, 0.95]);
-  const y2 = useTransform(scrollYProgress, [0.32, 0.4, 0.58, 0.6], [150, 0, 0, -40]);
-
-  const opacity3 = useTransform(scrollYProgress, [0.52, 0.6, 0.78, 0.8], [0, 1, 1, 0]);
-  const scale3 = useTransform(scrollYProgress, [0.52, 0.6, 0.78, 0.8], [0.92, 1, 1, 0.95]);
-  const y3 = useTransform(scrollYProgress, [0.52, 0.6, 0.78, 0.8], [150, 0, 0, -40]);
-
-  const opacity4 = useTransform(scrollYProgress, [0.72, 0.8, 1.0, 1.0], [0, 1, 1, 1]);
-  const scale4 = useTransform(scrollYProgress, [0.72, 0.8, 1.0, 1.0], [0.92, 1, 1, 1]);
-  const y4 = useTransform(scrollYProgress, [0.72, 0.8, 1.0, 1.0], [150, 0, 0, 0]);
+  const opacity2 = useTransform(scrollYProgress, [0.58, 0.66, 1.0, 1.0], [0, 1, 1, 1]);
+  const scale2 = useTransform(scrollYProgress, [0.58, 0.66, 1.0, 1.0], [0.92, 1, 1, 1]);
+  const y2 = useTransform(scrollYProgress, [0.58, 0.66, 1.0, 1.0], [150, 0, 0, 0]);
 
   const cardAnimations = [
     { opacity: opacity0, scale: scale0, y: y0 },
     { opacity: opacity1, scale: scale1, y: y1 },
-    { opacity: opacity2, scale: scale2, y: y2 },
-    { opacity: opacity3, scale: scale3, y: y3 },
-    { opacity: opacity4, scale: scale4, y: y4 }
+    { opacity: opacity2, scale: scale2, y: y2 }
   ];
 
   const handleMouseMove = (index: number, e: React.MouseEvent<HTMLDivElement>) => {
@@ -169,7 +122,7 @@ export default function ProjectCarousel() {
     <section 
       id="work" 
       ref={containerRef}
-      className="relative z-20 bg-[#050507] w-full min-h-[500vh] overflow-visible border-t border-neutral-900 border-dashed"
+      className="relative z-20 bg-[#050507] w-full min-h-[300vh] overflow-visible border-t border-neutral-900 border-dashed"
     >
       {/* 1. Desktop Stacked Scroll Cinematic Experience */}
       {mounted && (
@@ -311,7 +264,7 @@ export default function ProjectCarousel() {
                             // CORE OPERATIONS
                           </h4>
                           <div className="space-y-3.5">
-                            {project.highlights.map((highlight, hIdx) => (
+                            {project.highlights.map((highlight: string, hIdx: number) => (
                               <div key={hIdx} className="flex items-start gap-3 group/item">
                                 <span className={`font-mono text-[10px] mt-1 select-none font-bold ${project.textColor}`}>
                                   [0{hIdx + 1}]
@@ -387,7 +340,7 @@ export default function ProjectCarousel() {
 
               {/* Mobile details capabilities */}
               <div className="space-y-2 mb-6 pl-2 border-l border-neutral-800">
-                {project.highlights.map((highlight, hIdx) => (
+                {project.highlights.map((highlight: string, hIdx: number) => (
                   <p key={hIdx} className="text-neutral-400 text-xs font-light">
                     • {highlight}
                   </p>

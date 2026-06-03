@@ -47,10 +47,9 @@ export default function TerminalPage() {
     ],
     projects: () => [
       'Active Showcase Initiatives:',
-      '  - AI Debate Arena  : LangGraph multi-agent backend using memory and SSE triggers.',
-      '  - Nyay-Mitra       : Sovereign legal AI ecosystem with knowledge graphs and voice analysis.',
-      '  - Mindrift         : High-concurrency WebSocket multiplayer quiz platform.',
-      '  - Spring PetClinic : Relational enterprise database service using JPA scopes.'
+      '  - Syntax Showdown : Multi-Agent LangGraph Debate Platform using FastAPI and ChromaDB.',
+      '  - NyayMitra       : Sovereign Legal AI Ecosystem leveraging GraphRAG, Neo4j, and Legal-BERT.',
+      '  - Mindrift        : High-Concurrency Real-Time Quiz Engine powered by Spring Boot, Redis, and Apache Kafka.'
     ],
     research: () => {
       window.open('https://drive.google.com/file/d/1pjDSjjGYBP6ypI2n3-nnm3xEnQxiZxv_/view', '_blank');

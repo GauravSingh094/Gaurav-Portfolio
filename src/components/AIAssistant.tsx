@@ -122,20 +122,20 @@ export default function AIAssistant() {
   // Check if response contains specific project names to render rich components
   const extractProjectCard = (text: string) => {
     const q = text.toLowerCase();
-    if (q.includes('debate') || q.includes('arena')) {
+    if (q.includes('debate') || q.includes('arena') || q.includes('syntax') || q.includes('showdown')) {
       return {
-        name: "AI Debate Arena",
-        tech: ["LangGraph", "FastAPI", "Redis", "ChromaDB", "SSE Streaming"],
-        description: "Real-time competitive LLM debate graph state machine featuring async Server-Sent Events token streamings.",
-        github: "https://github.com/GauravSingh094",
-        live: "https://github.com/GauravSingh094"
+        name: "Syntax Showdown",
+        tech: ["FastAPI", "LangGraph", "Next.js", "TypeScript", "ChromaDB", "Tailwind CSS"],
+        description: "Built a production-grade multi-agent AI platform leveraging autonomous agents, semantic memory, and real-time orchestration to simulate structured adversarial reasoning. Architected a LangGraph workflow coordinating 3 AI agents and 4 LLM providers with automated failover and fault-tolerant execution.",
+        github: "https://github.com/GauravSingh094/Syntax-Showdown",
+        live: "https://syntax-showdown-arena.vercel.app"
       };
     }
     if (q.includes('nyay') || q.includes('mitra') || q.includes('legal') || q.includes('law')) {
       return {
-        name: "Nyay-Mitra",
-        tech: ["Next.js", "Spring Boot", "FastAPI", "Neo4j", "Milvus", "Redis", "D3.js"],
-        description: "A sovereign legal AI ecosystem designed to provide high-fidelity judicial telemetry, legal research automation, and statutory analysis.",
+        name: "NyayMitra",
+        tech: ["Next.js", "Spring Boot", "FastAPI", "Neo4j", "GraphRAG", "Legal-BERT", "Redis", "RabbitMQ"],
+        description: "Built a legal intelligence platform leveraging GraphRAG and Knowledge Graphs for statutory analysis and judicial research automation. Engineered a GraphRAG retrieval pipeline using Neo4j and Legal-BERT, achieving sub-50ms multi-hop legal search.",
         github: "https://github.com/JAIKEYSINGH913/Nyay-mitra",
         live: "https://nyay-mitra-rho.vercel.app/"
       };
@@ -143,28 +143,19 @@ export default function AIAssistant() {
     if (q.includes('mindrift') || q.includes('quiz')) {
       return {
         name: "Mindrift",
-        tech: ["React.js", "Node.js", "Socket.io", "MongoDB"],
-        description: "Sub-10ms synchronized quiz game engine driving multiplayer game rooms under high connections.",
+        tech: ["Next.js", "TypeScript", "Spring Boot", "PostgreSQL", "Redis", "Apache Kafka", "Clerk", "React Query", "Resilience4j", "Tailwind CSS"],
+        description: "Built a scalable real-time quiz platform supporting competitive multiplayer assessments with event-driven architecture and enterprise-grade reliability. Engineered real-time leaderboards using Redis and Apache Kafka, enabling low-latency score synchronization for concurrent quiz sessions.",
         github: "https://github.com/GauravSingh094",
-        live: "https://github.com/GauravSingh094"
+        live: "https://mindrift-quizz.vercel.app/"
       };
     }
     if (q.includes('kingsukh') || q.includes('guest house') || q.includes('resort')) {
       return {
         name: "King Sukh Guest House",
-        tech: ["Next.js", "Tailwind CSS", "Framer Motion", "EmailJS"],
-        description: "Commercial responsive web catalog featuring localized SEO index configurations and static assets compile.",
-        github: "https://github.com/GauravSingh094",
-        live: "https://github.com/GauravSingh094"
-      };
-    }
-    if (q.includes('petclinic') || q.includes('spring')) {
-      return {
-        name: "Spring PetClinic",
-        tech: ["Spring Boot", "Java", "Spring Data JPA", "MySQL"],
-        description: "Enterprise administration portal implementing lazy fetching query boundaries and custom transaction scopes.",
-        github: "https://github.com/GauravSingh094",
-        live: "https://github.com/GauravSingh094"
+        tech: ["React.js", "TypeScript", "Tailwind CSS", "EmailJS", "Vercel", "Git", "GitHub"],
+        description: "Delivered a client-facing hospitality platform featuring WhatsApp booking workflows, Google Maps integration, and mobile-first responsive design. Managed end-to-end deployment and version control workflows using Vercel, Git, and GitHub.",
+        github: "https://github.com/GauravSingh094/kingsukh-guesthouse-website",
+        live: "https://kingsukh-guesthouse-website.vercel.app/"
       };
     }
     return null;
@@ -270,7 +261,7 @@ export default function AIAssistant() {
   };
 
   const suggestedPrompts = [
-    { label: "Tell me about AI Debate Arena", query: "Tell me about your flagship project AI Debate Arena" },
+    { label: "Tell me about Syntax Showdown", query: "Tell me about your flagship project Syntax Showdown" },
     { label: "Show Flutter Projects", query: "Show me Flutter and mobile application projects" },
     { label: "Backend Experience", query: "Show me Gaurav's backend development experience" },
     { label: "Why hire Gaurav?", query: "Why should I hire Gaurav as a systems and full-stack developer?" },
@@ -301,7 +292,7 @@ export default function AIAssistant() {
 
   const welcomeCategories = ["Projects", "Skills", "Experience", "Resume", "Education", "AI Engineering"];
   const emptyStateQuestions = [
-    { label: "Tell me about AI Debate Arena", query: "Tell me about your flagship project AI Debate Arena" },
+    { label: "Tell me about Syntax Showdown", query: "Tell me about your flagship project Syntax Showdown" },
     { label: "Show Flutter Projects", query: "Show me Flutter and mobile application projects" },
     { label: "What technologies does Gaurav use?", query: "What technical skills and backend technologies do you use?" },
     { label: "Why should I hire Gaurav?", query: "Why should I hire Gaurav as a systems and full-stack developer?" }
