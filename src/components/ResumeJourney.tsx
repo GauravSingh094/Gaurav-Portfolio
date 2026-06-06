@@ -59,7 +59,7 @@ export default function ResumeJourney() {
     setMagnifierPos({ x: mX, y: mY, bgX, bgY });
   };
 
-  const resumeUrl = "https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link";
+  const resumeUrl = "https://drive.google.com/file/d/1oF2tNQGojLN20D1zKeOYkf-FdVH9jdox/view?usp=drive_link";
 
   // Floating career highlights tags list
   const highlights = [

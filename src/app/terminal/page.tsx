@@ -62,7 +62,7 @@ export default function TerminalPage() {
       ];
     },
     resume: () => {
-      window.open('https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link', '_blank');
+      window.open('https://drive.google.com/file/d/1oF2tNQGojLN20D1zKeOYkf-FdVH9jdox/view?usp=drive_link', '_blank');
       return ['Retrieving verified secure resume archive from Google Drive...', 'Action executed successfully in background browser tab.'];
     },
     contact: () => [

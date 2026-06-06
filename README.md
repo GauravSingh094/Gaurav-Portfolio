@@ -24,7 +24,7 @@ A state-of-the-art personal developer portfolio website designed as an interacti
 ### 4. Optimized Resume Experience 2.0
 * **Interactive 3D Card**: An interactive 3D tilted card of Gaurav's resume with a responsive custom magnifier glass lens that follows cursor movements.
 * **Page 1 / Page 2 Toggle**: Integrated clickable page switching tabs located outside the interaction container to toggle between Page 1 and Page 2 of the resume preview seamlessly.
-* **Direct Google Drive Access**: Pinned glass CTA cards configured to open/download the verified resume archive from Google Drive: `https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link`.
+* **Direct Google Drive Access**: Pinned glass CTA cards configured to open/download the verified resume archive from Google Drive: `https://drive.google.com/file/d/1oF2tNQGojLN20D1zKeOYkf-FdVH9jdox/view?usp=drive_link`.
 
 ### 5. Sticky-Stacked Timeline Sections
 * **Selected Works Showcase (`#work`)**: A horizontal-stacked scroll storytelling viewport (`min-h-[500vh]`) tracking scroll depths to translate project cards.

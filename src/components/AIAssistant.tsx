@@ -265,7 +265,7 @@ export default function AIAssistant() {
     { label: "Show Flutter Projects", query: "Show me Flutter and mobile application projects" },
     { label: "Backend Experience", query: "Show me Gaurav's backend development experience" },
     { label: "Why hire Gaurav?", query: "Why should I hire Gaurav as a systems and full-stack developer?" },
-    { label: "Download Resume", query: "Can you provide the link to download Gaurav's resume?", action: () => window.open("https://drive.google.com/file/d/1hi-76hZb8VBDQjCF4gdeCgaUeMOlrOMj/view?usp=drive_link", "_blank") },
+    { label: "Download Resume", query: "Can you provide the link to download Gaurav's resume?", action: () => window.open("https://drive.google.com/file/d/1oF2tNQGojLN20D1zKeOYkf-FdVH9jdox/view?usp=drive_link", "_blank") },
     { label: "Show Tech Stack", query: "What technical skills and backend technologies do you use?" }
   ];
 
